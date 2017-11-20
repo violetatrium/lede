@@ -1,0 +1,73 @@
+#!/bin/bash
+
+MY_DIR=$(dirname "$0")
+cd "$MY_DIR"
+MY_DIR="$PWD"
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+  echo "Usage: $0 [-h|--help|TARGET_NAME]"
+  echo "TARGET_NAME - hardware type to build the image for"
+  echo "Available targets:"
+  ls -1 | sed -e 's/\.diffconfig//;tx;d;:x'
+  echo "You can set MINIM_DEFAULT_TARGET environment variable in the"
+  echo "shell to the name of the target you want the script to pick"
+  echo "automatically if nothing is specified on the command line."
+  exit 1
+fi
+
+BUILD_TARGET=${MINIM_DEFAULT_TARGET:-$1}
+if [ "$BUILD_TARGET" == "" ] || [ ! -e "$BUILD_TARGET.diffconfig" ]; then
+  echo "Invalid build target, use -h or run one of those:"
+  ls -1 | sed -e 's/\(.*\)\.diffconfig/export MINIM_DEFAULT_TARGET=\1/;tx;d;:x'
+  exit 2
+fi
+
+NUM_CORES=`grep -c ^processor /proc/cpuinfo`
+DATETIME=`date +"%y%m%d.%H%M.%S.0" | sed -E 's/\b0+([1-9][0-9]*)\b/\1/g'`
+export MINIM_VERSION_NUMBER=${MINIM_VERSION_NUMBER:-$DATETIME}
+export MINIM_DEFAULT_TARGET=$BUILD_TARGET
+export MINIM_VERSION_NICK="LEDE"
+export MINIM_VERSION_CODE=`git rev-parse --short HEAD`
+
+# From now on stop on any error
+set -e
+
+echo "Updating feeds"
+./scripts/feeds update -a
+./scripts/feeds install -a
+
+echo "Building the .config file..."
+if [ -e "$BUILD_TARGET.baseconfig" ]; then 
+  cp -f "$BUILD_TARGET.baseconfig" .config
+else
+  rm .config
+fi
+cat minim.baseconfig >> .config
+cat "$BUILD_TARGET.diffconfig" >> .config
+make defconfig
+
+echo "Cleaning up target folder..."
+eval `grep CONFIG_TARGET_BOARD= .config`
+eval `grep CONFIG_TARGET_SUBTARGET= .config`
+BOARD=$CONFIG_TARGET_BOARD
+SUBTARGET=${CONFIG_TARGET_SUBTARGET:-generic}
+if [ "$BOARD" == "" ] || [ "$SUBTARGET" == "" ]; then
+  echo "Unable to determine BOARD and SUBTARGET names for the build!"
+  exit 3
+else
+  FIRMWARE_DIR="$MY_DIR"/bin/targets/$BOARD/$SUBTARGET
+  echo "Firmware folder: $FIRMWARE_DIR"
+  rm -Rf "$FIRMWARE_DIR"/*
+fi
+
+echo "Building the firmware..."
+make -j$NUM_CORES V=s
+
+echo
+echo "Firmware file(s):"
+ls -l "$FIRMWARE_DIR"/*-sysupgrade*.bin
+
+echo "Upgrade AP from the shell by running:"
+echo "./upgrade.sh <AP_IP_ADDRESS> <AP_PASSWORD>"
+echo "Note: upgrade requres the build .config file!"
+
