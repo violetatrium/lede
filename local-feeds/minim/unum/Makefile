@@ -1,0 +1,138 @@
+#
+# Copyright (C) 2017 minim.co
+#
+
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=unum
+PKG_VERSION:=v2
+PKG_RELEASE:=1
+
+include $(INCLUDE_DIR)/package.mk
+
+define Package/unum
+  SECTION:=net
+  CATEGORY:=Network
+  TITLE:=Unum-v2 agent
+  URL:=http://www.minim.co
+  MAINTAINER:=minim.co <support@minim.co>
+  DEPENDS:=+libpthread +librt +libuci +jansson +libiwinfo \
+           +libcurl +libmbedtls
+  # Unable to enforce +@LIBCURL_MBEDTLS and have binary package dependencies
+  # at the same time (will have to figure out later). The conditional 
+  # dependencies like +!LIBCURL_MBEDTLS:libcurl aren't helping.
+  # Note: careful here, it fails without failing the build
+endef
+
+define Package/unum/description
+ Unum-v2 agent is a software component allowing a wireless router to be 
+ managed and continuously monitored by the Minim cloud. See http://www.minim.co
+ for more details.
+endef
+
+
+# We build from the local sources only, here are defines to 
+# replace if we decide to publish it and make a download tarball.
+AGENT_SOURCE_DIR=$(MINIM_UNUM_DIR)/src/unum
+AGENT_FILES_DIR=$(MINIM_UNUM_DIR)/files
+
+# Path where we store sources and file in the LEDE build tree (making it the
+# same as in our build system tree)
+PKG_BUILD_DIR_UNUM=$(PKG_BUILD_DIR)/src/unum
+PKG_BUILD_DIR_FILES=$(PKG_BUILD_DIR)/files
+
+# Subdir where the agent sources are (where to cd to run make)
+MAKE_PATH:=src/unum
+
+# Agent MODEL name for all the unum agent builds from LEDE w/ sources
+AGENT_MODEL_ID=lede_generic
+
+# Trusted CA list location on the target
+AGENT_TRUSTED_CA_LIST=/etc/ssl/certs/unum-ca-certificates.crt
+# Agent config folder on the target
+AGENT_ETC_DIR=/etc/unum
+# Agent system config on the target
+AGENT_SYSTEM_CONF=$(AGENT_ETC_DIR)/system.conf
+# Agent user config on the target
+AGENT_USER_CONF=$(AGENT_ETC_DIR)/user.conf
+# Agent SSH files folder
+AGENT_SSH_DIR=/etc/unum/.ssh
+# Agent support SSH authorized keys file on the target
+AGENT_SSH_AKEYS=$(AGENT_SSH_DIR)/authorized_keys
+# Agent support SSH RSA key file on the target
+AGENT_SSH_MYKEY=$(AGENT_SSH_DIR)/id_rsa
+# Agent known hosts file on the target
+AGENT_SSH_KNOWN=$(AGENT_SSH_DIR)/known_hosts
+
+# Agent hardware ID for this particular hardware target/subtarget/device
+ifeq ($(CONFIG_VERSION_HWREV),)
+  AGENT_HARDWARE_ID=$(patsubst "%",%,$(CONFIG_VERSION_PRODUCT))
+else
+  AGENT_HARDWARE_ID=$(patsubst "%",%,$(CONFIG_VERSION_PRODUCT))_$(patsubst "%",%,$(CONFIG_VERSION_HWREV))
+endif
+
+# Agent version. This is based on time if just the agent package is
+# built. The normal firmware build overrides this w/ its version number.
+ifeq ($(MINIM_VERSION_NUMBER),)
+  AGENT_VERSION_NUMBER=$(shell date +"%y%m%d.%H%M.%S.0" | sed -E 's/\b0+([1-9][0-9]*)\b/\1/g')
+else
+  AGENT_VERSION_NUMBER=$(MINIM_VERSION_NUMBER)
+endif
+
+# This is needed to prevent polluting the source tree w/ LEDE build artefacts.
+# If pulling sources from external tarball this step is not needed.
+define Build/Prepare
+	echo "Preparing: $(PKG_NAME)"
+	mkdir -p "$(PKG_BUILD_DIR_UNUM)"
+	cd "$(PKG_BUILD_DIR)/src/unum" && find -xtype l -exec rm -f {} \;
+	cd "$(AGENT_SOURCE_DIR)" && find * -type d -exec mkdir -p "$(PKG_BUILD_DIR_UNUM)/{}" \;
+	cd "$(AGENT_SOURCE_DIR)" && find * \( -type f -o -type l \) -exec ln -sf "$(AGENT_SOURCE_DIR)/{}" "$(PKG_BUILD_DIR_UNUM)/{}" \;
+	ln -s "$(AGENT_FILES_DIR)" "$(PKG_BUILD_DIR_FILES)"
+endef
+
+# We do not have configure (stop LEDE from even trying it)
+define Build/Configure
+endef
+
+define Build/Compile
+	$(call Build/Compile/Default,\
+	  AGENT_VERSION=$(patsubst "%",%,$(AGENT_VERSION_NUMBER))\
+	  MODEL=$(AGENT_MODEL_ID) HARDWARE=$(AGENT_HARDWARE_ID)\
+	  TARGET_OBJ="$(PKG_BUILD_DIR)/src")
+endef
+
+define Package/unum/install
+	# Agent executable
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_UNUM)/unum $(1)/usr/bin/
+	# Agent configuration folder
+	$(INSTALL_DIR) $(1)$(AGENT_ETC_DIR)
+	# Trusted certificates (install our own CA list)
+	$(INSTALL_DIR) $(1)/etc/ssl/certs
+	cat $(PKG_BUILD_DIR_FILES)/ca/*.pem > $(1)$(AGENT_TRUSTED_CA_LIST)
+	# SSH keys
+	$(INSTALL_DIR) $(1)$(AGENT_SSH_DIR)
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/ssh_keys/authorized_keys $(1)$(AGENT_SSH_AKEYS)
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/ssh_keys/id_rsa $(1)$(AGENT_SSH_MYKEY)
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/ssh_keys/known_hosts $(1)$(AGENT_SSH_KNOWN)
+	# Default agent config file
+	echo "export UNUM_CA_FILE=$(AGENT_TRUSTED_CA_LIST)" > $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_SSH_DIR=$(AGENT_SSH_DIR)" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_SSH_AKEYS=$(AGENT_SSH_AKEYS)" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_SSH_MYKEY=$(AGENT_SSH_MYKEY)" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_SSH_KNOWN=$(AGENT_SSH_KNOWN)" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_PID_FILE_PREFIX=/var/run/unum" >> $(1)$(AGENT_SYSTEM_CONF)
+	# Agent init files
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-updater.init $(1)/etc/init.d/unum-updater
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-support.init $(1)/etc/init.d/unum-support
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.init $(1)/etc/init.d/unum
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.common $(1)$(AGENT_ETC_DIR)/unum.common
+	# Agent files to keep through the firmware upgrade
+	$(INSTALL_DIR) $(1)/lib/upgrade/keep.d
+	echo "/etc/unum/unum.pem" > $(1)/lib/upgrade/keep.d/unum.upgrade
+	echo "/etc/unum/unum.key" >> $(1)/lib/upgrade/keep.d/unum.upgrade
+	echo "$(AGENT_USER_CONF)" >> $(1)/lib/upgrade/keep.d/unum.upgrade
+endef
+
+$(eval $(call BuildPackage,unum))
