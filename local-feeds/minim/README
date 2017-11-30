@@ -1,0 +1,15 @@
+# LEDE Minim agent feed
+
+## Description
+
+This is feed for including the minim agent
+
+## Usage
+
+This feed should be enabled by default in the Minim builds.
+
+The content here should be minimized to only serve the purpose
+of configuring the build environment and passing on the options
+necessary to build the agent. All the install files should come
+from the agent repo.
+

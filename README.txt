@@ -40,11 +40,12 @@ Adding hardware support
 4. Create <MINIM_HARDWARE_TYPE>.diffconfig file by copying any existent one 
    and editing the board selection options. Normally, you only need to 
    change the options in that file (i.e. the hardware base board type, 
-   subtype, device name etc...). 
+   subtype, device name etc...). Make sure the CONFIG_VERSION_HWREV
+   and CONFIG_VERSION_PRODUCT form the proper TARGET_NAME for the build.
 
 5. Use "git add" to add the new and/or changed files to git cache.
 
-6. Run the build and verifiy that the ne image works correctly.
+6. Run the build and verifiy that the new image works correctly.
 
 7. Use "git add" to add the new packages and/or feeds that were 
    downloaded for the new hardware type to the cache and commit 
@@ -74,5 +75,3 @@ Upgrading to a new release
 
 4. If there were updated feeds and/or packages downloaded commit them
    together with the merged files.
-
-

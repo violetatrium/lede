@@ -15,4 +15,5 @@ src-link packages ../local-feeds/packages
 src-link luci ../local-feeds/luci
 src-link routing ../local-feeds/routing
 src-link telephony ../local-feeds/telephony
+src-link minim ../local-feeds/minim
 
