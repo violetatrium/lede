@@ -58,9 +58,10 @@ if [ $? -ne 0 ]; then
   cd -
   exit 5
 fi
-echo "AP current firmvare version: $CURVER"
+echo "AP current firmvare version:\n$CURVER"
 
 echo "Uploading the firmware..."
+echo "Firmware file: $FIRMWARE_FILE"
 sshpass -p "$PASSWD" scp $SSHOPT "$FIRMWARE_FILE" root@$IP:/tmp/firmware.bin
 if [ $? -ne 0 ]; then
   echo "Error: failed to upload the firmware file to AP!"
@@ -69,3 +70,4 @@ fi
 echo "Sending command to flash the new firmware..."
 echo "sshpass -p \"$PASSWD\" ssh $SSHOPT root@$IP -C \"/sbin/sysupgrade $OPTIONS /tmp/firmware.bin\""
 sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "/sbin/sysupgrade $OPTIONS /tmp/firmware.bin"
+

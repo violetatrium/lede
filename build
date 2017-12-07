@@ -69,6 +69,9 @@ else
   rm -Rf "$FIRMWARE_DIR"/*
 fi
 
+echo "Clean our agent package before rebuild..."
+make V=s package/unum/clean
+
 echo "Building the firmware..."
 make -j$NUM_CORES V=s
 
