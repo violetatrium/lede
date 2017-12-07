@@ -17,10 +17,8 @@ define Package/unum
   URL:=http://www.minim.co
   MAINTAINER:=minim.co <support@minim.co>
   DEPENDS:=+libpthread +librt +libuci +jansson +libnl-tiny \
-           +@LIBCURL_MBEDTLS
-  # Unable to enforce LIBCURL_MBEDTLS and have binary package dependencies
-  # at the same time (will have to figure out later). The conditional 
-  # dependencies like +!LIBCURL_MBEDTLS:libcurl aren't helping.
+           +@LIBCURL_MBEDTLS +LIBCURL_MBEDTLS:libcurl \
+           +LIBCURL_MBEDTLS:libmbedtls
 endef
 
 define Package/unum/description
@@ -45,6 +43,23 @@ MAKE_PATH:=src/unum
 
 # Agent MODEL name for all the unum agent builds from LEDE w/ sources
 AGENT_MODEL_ID=lede_generic
+
+# Trusted CA list location on the target
+AGENT_TRUSTED_CA_LIST=/etc/ssl/certs/unum-ca-certificates.crt
+# Agent config folder on the target
+AGENT_ETC_DIR=/etc/unum
+# Agent system config on the target
+AGENT_SYSTEM_CONF=$(AGENT_ETC_DIR)/system.conf
+# Agent user config on the target
+AGENT_USER_CONF=$(AGENT_ETC_DIR)/user.conf
+# Agent SSH files folder
+AGENT_SSH_DIR=/etc/unum/.ssh
+# Agent support SSH authorized keys file on the target
+AGENT_SSH_AKEYS=$(AGENT_SSH_DIR)/authorized_keys
+# Agent support SSH RSA key file on the target
+AGENT_SSH_MYKEY=$(AGENT_SSH_DIR)/id_rsa
+# Agent known hosts file on the target
+AGENT_SSH_KNOWN=$(AGENT_SSH_DIR)/known_hosts
 
 # Agent hardware ID for this particular hardware target/subtarget/device
 ifeq ($(CONFIG_VERSION_HWREV),)
@@ -84,11 +99,37 @@ define Build/Compile
 endef
 
 define Package/unum/install
-	echo "Install step"
-	this is an error, stop !!!
-	#$(INSTALL_DIR) $(1)/usr/sbin
-	#$(INSTALL_BIN) $(PKG_BUILD_DIR)/ndppd $(1)/usr/sbin/
-	#$(INSTALL_CONF) $(PKG_BUILD_DIR)/ndppd.conf-dist $(1)/etc/ndppd.conf
+	# Agent executable
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_UNUM)/unum $(1)/usr/bin/
+	# Agent configuration folder
+	$(INSTALL_DIR) $(1)$(AGENT_ETC_DIR)
+	# Trusted certificates (install our own CA list)
+	$(INSTALL_DIR) $(1)/etc/ssl/certs
+	cat $(PKG_BUILD_DIR_FILES)/ca/*.pem > $(1)$(AGENT_TRUSTED_CA_LIST)
+	# SSH keys
+	$(INSTALL_DIR) $(1)$(AGENT_SSH_DIR)
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/ssh_keys/authorized_keys $(1)$(AGENT_SSH_AKEYS)
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/ssh_keys/id_rsa $(1)$(AGENT_SSH_MYKEY)
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/ssh_keys/known_hosts $(1)$(AGENT_SSH_KNOWN)
+	# Default agent config file
+	echo "export UNUM_CA_FILE=$(AGENT_TRUSTED_CA_LIST)" > $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_SSH_DIR=$(AGENT_SSH_DIR)" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_SSH_AKEYS=$(AGENT_SSH_AKEYS)" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_SSH_MYKEY=$(AGENT_SSH_MYKEY)" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_SSH_KNOWN=$(AGENT_SSH_KNOWN)" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_PID_FILE_PREFIX=/var/run/unum" >> $(1)$(AGENT_SYSTEM_CONF)
+	# Agent init files
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-updater.init $(1)/etc/init.d/unum-updater
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-support.init $(1)/etc/init.d/unum-support
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.init $(1)/etc/init.d/unum
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.common $(1)$(AGENT_ETC_DIR)/unum.common
+	# Agent files to keep through the firmware upgrade
+	$(INSTALL_DIR) $(1)/lib/upgrade/keep.d
+	echo "/etc/unum/unum.pem" > $(1)/lib/upgrade/keep.d/unum.upgrade
+	echo "/etc/unum/unum.key" >> $(1)/lib/upgrade/keep.d/unum.upgrade
+	echo "$(AGENT_USER_CONF)" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 endef
 
 $(eval $(call BuildPackage,unum))
