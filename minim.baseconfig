@@ -35,4 +35,5 @@ CONFIG_VERSION_SUPPORT_URL="https://www.minim.co"
 # CONFIG_PACKAGE_luci-proto-ipv6 is not set
 # CONFIG_SDK is not set
 # CONFIG_IB is not set
+CONFIG_PACKAGE_gdbserver=m
 
