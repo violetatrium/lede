@@ -13,6 +13,10 @@ FEEDS_AVAILABLE:=$(sort $(FEEDS_INSTALLED) $(shell $(SCRIPT_DIR)/feeds list -n))
 FEEDS_ENABLED:=$(foreach feed,$(FEEDS_AVAILABLE),$(if $(CONFIG_FEED_$(feed)),$(feed)))
 FEEDS_DISABLED:=$(filter-out $(FEEDS_ENABLED),$(FEEDS_AVAILABLE))
 
+# List feeds that shoud not be added to opkg & imagebuilder feed sources lists
+# The FeedSourcesAppend was modified to exclude these.
+FEEDS_NO_REMOTE:=minim
+
 PACKAGE_SUBDIRS=$(PACKAGE_DIR)
 ifneq ($(CONFIG_PER_FEED_REPO),)
   PACKAGE_SUBDIRS += $(OUTPUT_DIR)/packages/$(ARCH_PACKAGES)/base
@@ -49,8 +53,8 @@ define FeedSourcesAppend
 ( \
   echo "src/gz %n_core %U/targets/%S/packages"; \
   $(strip $(if $(CONFIG_PER_FEED_REPO), \
-	$(foreach feed,base $(FEEDS_ENABLED),echo "src/gz %n_$(feed) %U/packages/%A/$(feed)";) \
+	$(foreach feed,base $(filter-out $(FEEDS_NO_REMOTE),$(FEEDS_ENABLED)),echo "src/gz %n_$(feed) %U/packages/%A/$(feed)";) \
 	$(if $(CONFIG_PER_FEED_REPO_ADD_DISABLED), \
-		$(foreach feed,$(FEEDS_DISABLED),echo "$(if $(CONFIG_PER_FEED_REPO_ADD_COMMENTED),# )src/gz %n_$(feed) %U/packages/%A/$(feed)";)))) \
+		$(foreach feed,$(filter-out $(FEEDS_NO_REMOTE),$(FEEDS_DISABLED)),echo "$(if $(CONFIG_PER_FEED_REPO_ADD_COMMENTED),# )src/gz %n_$(feed) %U/packages/%A/$(feed)";)))) \
 ) >> $(1)
 endef
