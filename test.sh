@@ -47,7 +47,7 @@ fi
 echo "Testing firmware upgrade for AP at '$IP', password '$PASSWD'..."
 
 # Get the AP current firmware version
-CURVER=`sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_release | sed -n -e 's/FIRMWARE_VERSION=//p'"`
+CURVER=`sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_release | sed -n -e 's/DISTRIB_RELEASE=//p'"`
 if [ $? -ne 0 ]; then
   echo "Error: failed to get current firmware version from the AP!"
   cd -
@@ -88,7 +88,7 @@ UPGRADED=0
 echo "Waiting for AP to flash and reboot (up to ${TIMEOUT}sec)..."
 while [ $TIME -lt $TIMELIMIT ]; do 
   sleep 30
-  APVER=`sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_version | sed -n -e 's/FIRMWARE_VERSION=//p'"`
+  APVER=`sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_version | sed -n -e 's/DISTRIB_RELEASE=//p'"`
   if [ $? -eq 0 ] && [ "$APVER" = "$NEWVER" ]; then
     UPGRADED=1
     break;
@@ -112,7 +112,7 @@ UPGRADED=0
 echo "Waiting for AP to flash and reboot (up to ${TIMEOUT}sec)..."
 while [ $TIME -lt $TIMELIMIT ]; do 
   sleep 30
-  APVER=`sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_version | sed -n -e 's/FIRMWARE_VERSION=//p'"`
+  APVER=`sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_version | sed -n -e 's/DISTRIB_RELEASE=//p'"`
   if [ $? -eq 0 ] && [ "$APVER" = "$CLOUDVER" ]; then
     UPGRADED=1
     break;
