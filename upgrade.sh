@@ -24,7 +24,6 @@ done
 IP="$1"
 PASSWD="$2"
 
-FIRMWARE_FILE_DEF="$PWD/bin/ar71xx/openwrt-ar71xx-generic-archer-c7-v2-squashfs-factory.bin"
 if [ "$3" != "" ]; then
   FIRMWARE_FILE="$3"
 else
@@ -52,13 +51,13 @@ fi
 SSHOPT="-q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 # Get the AP current firmware version
-CURVER=`sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_release"`
+echo "AP current firmvare version:"
+sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_release"
 if [ $? -ne 0 ]; then
   echo "Error: failed to get current firmware version from the AP!"
   cd -
   exit 5
 fi
-echo "AP current firmvare version:\n$CURVER"
 
 echo "Uploading the firmware..."
 echo "Firmware file: $FIRMWARE_FILE"
