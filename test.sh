@@ -30,6 +30,10 @@ if [ "$HARDWARE_ID" == "archer_c7_v2" ]; then
   IP="192.168.1.1"
   PASSWD="admin"
   FLASHING_TIME=45
+if [ "$HARDWARE_ID" == "archer_c7_v4" ]; then
+  IP="192.168.11.1"
+  PASSWD="admin"
+  FLASHING_TIME=45
 else
   echo "No test setup for $HARDWARE_ID"
   cd -
