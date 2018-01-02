@@ -66,7 +66,7 @@ if [ "$CURVER" = "$NEWVER" ]; then
 fi
 
 # Get the cloud configured firmware version for the requested channel
-FIRMWARE_RELEASE_INFO_URL="https://releases.violetatrium.com/release_server/releases/${CHANNEL}/active/${HARDWARE_ID}_firmware"
+FIRMWARE_RELEASE_INFO_URL="https://releases.minim.co/release_server/releases/${CHANNEL}/active/${HARDWARE_ID}_firmware"
 STR=$(wget -q -O - "$FIRMWARE_RELEASE_INFO_URL")
 CLOUDVER=${STR%%$'\n'*}
 CLOUDVER=${CLOUDVER#v}
