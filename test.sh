@@ -30,7 +30,7 @@ if [ "$HARDWARE_ID" == "archer_c7_v2" ]; then
   IP="192.168.1.1"
   PASSWD="admin"
   FLASHING_TIME=45
-if [ "$HARDWARE_ID" == "archer_c7_v4" ]; then
+elif [ "$HARDWARE_ID" == "archer_c7_v4" ]; then
   IP="192.168.11.1"
   PASSWD="admin"
   FLASHING_TIME=45
@@ -136,3 +136,4 @@ fi
 echo "AP was restored to $CLOUDVER, success!"
 
 cd -
+
