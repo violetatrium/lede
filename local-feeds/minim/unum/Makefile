@@ -133,6 +133,8 @@ define Package/unum/install
 	echo "/etc/unum/unum.pem" > $(1)/lib/upgrade/keep.d/unum.upgrade
 	echo "/etc/unum/unum.key" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 	echo "$(AGENT_USER_CONF)" >> $(1)/lib/upgrade/keep.d/unum.upgrade
+	echo "/etc/unum/.credentials_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
+	echo "/etc/unum/.wifi_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 endef
 
 $(eval $(call BuildPackage,unum))
