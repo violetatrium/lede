@@ -5,9 +5,11 @@ cd "$MY_DIR"
 MY_DIR="$PWD"
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-  echo "Usage: $0 [-d|-h|--help|TARGET_NAME]"
+  echo "Usage: $0 [-d|-e|-D|-h|--help] [TARGET_NAME]"
   echo "TARGET_NAME - hardware type to build the image for"
   echo "-d - make debug build of the agent"
+  echo "-D - recompile the agent ibinary only, debug is ON, no new firmware"
+  echo "-e - buld with -j1 to see errors"
   echo "-h/--help - this help"
   echo "Available targets:"
   ls -1 | sed -e 's/\.diffconfig//;tx;d;:x'
@@ -20,11 +22,24 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   exit 1
 fi
 
-if [ "$1" == "-d" ]; then
+case $1 in
+  -d)
   echo "Turning debug ON"
   export UNUM_DEBUG=1
   shift
-fi
+  ;;
+  -D)
+  echo "Recompiling the agent binary"
+  export UNUM_DEBUG=1
+  AGENT_ONLY=1
+  shift
+  ;;
+  -e)
+  echo "Building with -j1"
+  NUM_CORES=1
+  shift
+  ;;
+esac
 
 BUILD_TARGET=${MINIM_DEFAULT_TARGET:-$1}
 if [ "$BUILD_TARGET" == "" ] || [ ! -e "$BUILD_TARGET.diffconfig" ]; then
@@ -33,7 +48,7 @@ if [ "$BUILD_TARGET" == "" ] || [ ! -e "$BUILD_TARGET.diffconfig" ]; then
   exit 2
 fi
 
-NUM_CORES=`grep -c ^processor /proc/cpuinfo`
+NUM_CORES=${NUM_CORES:-$(grep -c ^processor /proc/cpuinfo)}
 DATETIME=`date +"%y%m%d.%H%M.%S.0" | sed -E 's/\b0+([1-9][0-9]*)\b/\1/g'`
 export MINIM_VERSION_NUMBER=${MINIM_VERSION_NUMBER:-$DATETIME}
 export MINIM_UNUM_DIR=${MINIM_UNUM_DIR:-"$MY_DIR/../unum-v2"}
@@ -43,6 +58,11 @@ export MINIM_VERSION_CODE=`git rev-parse --short HEAD`
 
 # From now on stop on any error
 set -e
+
+if [ "$AGENT_ONLY" == "1" ]; then
+  make -j1 V=s package/unum/{clean,compile}
+  exit $?
+fi
 
 echo "Updating feeds"
 ./scripts/feeds update -a
