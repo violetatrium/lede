@@ -8,6 +8,8 @@ TARGET_NAME - hardware type to build the image for
 Available targets:
 archer_c7_v2
 archer_c7_v4
+linksys-wrt1900acs
+
 You can set MINIM_DEFAULT_TARGET environment variable in the
 shell to the name of the target you want the script to pick
 automatically if nothing is specified on the command line.
