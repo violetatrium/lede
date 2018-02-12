@@ -41,7 +41,7 @@ case $1 in
   ;;
 esac
 
-BUILD_TARGET=${MINIM_DEFAULT_TARGET:-$1}
+BUILD_TARGET=${1:-$MINIM_DEFAULT_TARGET}
 if [ "$BUILD_TARGET" == "" ] || [ ! -e "$BUILD_TARGET.diffconfig" ]; then
   echo "Invalid build target, use -h or run one of those:"
   ls -1 | sed -e 's/\(.*\)\.diffconfig/export MINIM_DEFAULT_TARGET=\1/;tx;d;:x'
@@ -63,6 +63,9 @@ if [ "$AGENT_ONLY" == "1" ]; then
   make -j1 V=s package/unum/{clean,compile}
   exit $?
 fi
+
+echo "Cleanup the ./tmp/info folder..."
+rm -f ./tmp/info/*
 
 echo "Updating feeds"
 ./scripts/feeds update -a
