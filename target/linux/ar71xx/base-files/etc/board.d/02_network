@@ -6,6 +6,9 @@
 . /lib/functions/system.sh
 . /lib/functions/uci-defaults.sh
 
+# MINIM include for DEVICE_REVISION
+. /etc/device_info
+
 ar71xx_setup_interfaces()
 {
 	local board="$1"
@@ -438,7 +441,16 @@ ar71xx_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0@eth1" "1:lan:4" "2:lan:1" "3:lan:2" "4:lan:3"
 		;;
-	archer-c7-v4|\
+	archer-c7-v4)
+		if [ "$DEVICE_REVISION" == "v4ap" ]; then
+    		ucidef_set_interface_lan "eth0.1" dhcp
+			ucidef_add_switch "switch0" \
+				"0@eth0" "2:lan:1" "3:lan:2" "4:lan:3" "5:lan:4" "1:lan:5"
+		else
+			ucidef_add_switch "switch0" \
+				"0@eth0" "2:lan:1" "3:lan:2" "4:lan:3" "5:lan:4" "1:wan"
+		fi
+		;;
 	tl-wdr4300|\
 	tl-wr1041n-v2)
 		ucidef_add_switch "switch0" \
