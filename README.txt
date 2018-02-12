@@ -3,15 +3,22 @@ Building
 
 Run the './build' script.
 
-Usage: ./build [-h|--help|TARGET_NAME]
+Usage: ./build [-d|-e|-D|-h|--help] [TARGET_NAME]
 TARGET_NAME - hardware type to build the image for
+-d - make debug build of the agent
+-D - recompile the agent ibinary only, debug is ON, no new firmware
+-e - buld with -j1 to see errors
+-h/--help - this help
 Available targets:
-  archer_c7_v2
-  linksys-wrt1900acs
+archer_c7_v2
+... (run ./build -h to see all)
 
 You can set MINIM_DEFAULT_TARGET environment variable in the
 shell to the name of the target you want the script to pick
 automatically if nothing is specified on the command line.
+The agent repository should be accessible under ../unum-v2
+or in the location pointed to by MINIM_UNUM_DIR environment
+variable.
 
 Example:
 export MINIM_DEFAULT_TARGET=archer_c7_v2
