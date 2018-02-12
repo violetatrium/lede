@@ -3,9 +3,10 @@
 MY_DIR=$(dirname "$0")
 cd "$MY_DIR"
 MY_DIR="$PWD"
+MY_NAME="$0"
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-  echo "Usage: $0 [-d|-e|-D|-h|--help] [TARGET_NAME]"
+  echo "Usage: $MY_NAME [-d|-e|-D|-h|--help] [TARGET_NAME]"
   echo "TARGET_NAME - hardware type to build the image for"
   echo "-d - make debug build of the agent"
   echo "-D - recompile the agent ibinary only, debug is ON, no new firmware"
@@ -22,6 +23,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   exit 1
 fi
 
+while [ ${1:0:1} == "-" ]; do
 case $1 in
   -d)
   echo "Turning debug ON"
@@ -39,7 +41,13 @@ case $1 in
   NUM_CORES=1
   shift
   ;;
+  *)
+  echo "Unrecognized option $1"
+  echo "See $MY_NAME -h output for help"
+  exit 2
+  ;;
 esac
+done
 
 BUILD_TARGET=${1:-$MINIM_DEFAULT_TARGET}
 if [ "$BUILD_TARGET" == "" ] || [ ! -e "$BUILD_TARGET.diffconfig" ]; then
