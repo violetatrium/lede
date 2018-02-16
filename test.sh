@@ -34,6 +34,10 @@ elif [ "$HARDWARE_ID" == "archer_c7_v4" ]; then
   IP="192.168.11.1"
   PASSWD="admin"
   FLASHING_TIME=45
+elif [ "$HARDWARE_ID" == "archer_c7_v4ap" ]; then
+  IP="10.4.0.64"
+  PASSWD="admin"
+  FLASHING_TIME=45
 else
   echo "No test setup for $HARDWARE_ID"
   cd -
