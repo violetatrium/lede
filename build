@@ -72,8 +72,8 @@ if [ "$AGENT_ONLY" == "1" ]; then
   exit $?
 fi
 
-echo "Cleanup the ./tmp/info folder..."
-rm -f ./tmp/info/*
+#echo "Cleanup the ./tmp/info folder..."
+#rm -f ./tmp/info/*
 
 echo "Updating feeds"
 ./scripts/feeds update -a
