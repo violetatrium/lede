@@ -23,7 +23,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   exit 1
 fi
 
-while [ ${1:0:1} == "-" ]; do
+while [ "${1:0:1}" == "-" ]; do
 case $1 in
   -d)
   echo "Turning debug ON"
