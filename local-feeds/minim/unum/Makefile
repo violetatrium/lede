@@ -65,7 +65,7 @@ AGENT_SSH_MYKEY=$(AGENT_SSH_DIR)/id_rsa
 AGENT_SSH_KNOWN=$(AGENT_SSH_DIR)/known_hosts
 
 # Agent hardware ID for this particular hardware target/subtarget/device
-ifeq ($(CONFIG_VERSION_HWREV),)
+ifeq ($(patsubst "%",%,$(CONFIG_VERSION_HWREV)),)
   AGENT_HARDWARE_ID=$(patsubst "%",%,$(CONFIG_VERSION_PRODUCT))
 else
   AGENT_HARDWARE_ID=$(patsubst "%",%,$(CONFIG_VERSION_PRODUCT))_$(patsubst "%",%,$(CONFIG_VERSION_HWREV))
