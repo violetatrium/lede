@@ -4,9 +4,6 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 msgid "Actions"
 msgstr ""
 
-msgid "Add Interface"
-msgstr ""
-
 msgid "Add Uplink"
 msgstr ""
 
@@ -32,6 +29,14 @@ msgstr ""
 msgid "Back to overview"
 msgstr ""
 
+msgid "Captive Portal Detection"
+msgstr ""
+
+msgid ""
+"Check the internet availability, log captive portal redirections and keep "
+"the uplink connection 'alive'."
+msgstr ""
+
 msgid "Cipher"
 msgstr ""
 
@@ -40,10 +45,15 @@ msgid ""
 "functionality."
 msgstr ""
 
+msgid ""
+"Connect your Android or iOS devices to your router's WiFi using the shown QR "
+"code."
+msgstr ""
+
 msgid "Connection Limit"
 msgstr ""
 
-msgid "Create Uplink Interface"
+msgid "Create Uplink interface"
 msgstr ""
 
 msgid ""
@@ -83,9 +93,6 @@ msgstr ""
 msgid "Edit this Uplink"
 msgstr ""
 
-msgid "Enable 'automatic' mode"
-msgstr ""
-
 msgid "Enable travelmate"
 msgstr ""
 
@@ -115,16 +122,20 @@ msgstr ""
 msgid "Force TKIP and CCMP (AES)"
 msgstr ""
 
-msgid "Force a manual uplink rescan / reconnect in 'trigger' mode."
+msgid ""
+"Here you'll find the QR codes from all of your configured Access Points. It "
+"allows you to connect your Android or iOS devices to your router's WiFi "
+"using the QR code shown below."
 msgstr ""
 
-msgid "How long should travelmate wait for a successful wlan interface reload."
-msgstr ""
-
-msgid "How many times should travelmate try to connect to an Uplink."
+msgid ""
+"How long should travelmate wait for a successful wlan uplink connection."
 msgstr ""
 
 msgid "Identity"
+msgstr ""
+
+msgid "Ignore BSSID"
 msgstr ""
 
 msgid "Input file not found, please check your configuration."
@@ -136,15 +147,12 @@ msgstr ""
 msgid "Interface Wizard"
 msgstr ""
 
-msgid ""
-"Keep travelmate in an active state. Check every n seconds the connection "
-"status, i.e. the uplink availability."
-msgstr ""
-
 msgid "Last rundate"
 msgstr ""
 
-msgid "Manual Rescan"
+msgid ""
+"Minimum signal quality threshold as percent for conditional uplink (dis-) "
+"connections."
 msgstr ""
 
 msgid "Move down"
@@ -156,9 +164,6 @@ msgstr ""
 msgid "Name of the used uplink interface."
 msgstr ""
 
-msgid "Online Status"
-msgstr ""
-
 msgid "Open"
 msgstr ""
 
@@ -167,6 +172,9 @@ msgid ""
 msgstr ""
 
 msgid "Overall Timeout"
+msgstr ""
+
+msgid "Overall retry timeout in seconds."
 msgstr ""
 
 msgid "Overview"
@@ -196,16 +204,19 @@ msgid ""
 "one. The currently used uplink is emphasized in blue."
 msgstr ""
 
+msgid "QR-Codes"
+msgstr ""
+
 msgid "Radio selection"
 msgstr ""
 
 msgid "Repeat scan"
 msgstr ""
 
-msgid "Rescan"
+msgid "Restrict travelmate to a dedicated radio, e.g. 'radio0'."
 msgstr ""
 
-msgid "Restrict travelmate to a dedicated radio, e.g. 'radio0'."
+msgid "Retry limit to connect to an uplink."
 msgstr ""
 
 msgid "Runtime Information"
@@ -223,6 +234,9 @@ msgstr ""
 msgid "Scan"
 msgstr ""
 
+msgid "Signal Quality Threshold"
+msgstr ""
+
 msgid "Signal strength"
 msgstr ""
 
@@ -233,6 +247,10 @@ msgid "Station Interface"
 msgstr ""
 
 msgid "Station Radio"
+msgstr ""
+
+msgid ""
+"The BSSID information '%s' is optional and only required for hidden networks"
 msgstr ""
 
 msgid ""
@@ -260,10 +278,7 @@ msgid ""
 "messages only."
 msgstr ""
 
-msgid "Timeout in seconds between retries in 'automatic' mode."
-msgstr ""
-
-msgid "To disable this feature set it to '0' which means unlimited retries."
+msgid "This step has only to be done once."
 msgstr ""
 
 msgid "Travelmate"
@@ -272,10 +287,13 @@ msgstr ""
 msgid "Travelmate Logfile"
 msgstr ""
 
-msgid "Travelmate version"
+msgid "Travelmate Status (Quality)"
 msgstr ""
 
-msgid "Trigger delay"
+msgid "Travelmate Version"
+msgstr ""
+
+msgid "Trigger Delay"
 msgstr ""
 
 msgid "Unknown"
@@ -290,7 +308,7 @@ msgstr ""
 msgid "Uplink SSID"
 msgstr ""
 
-msgid "Uplink interface"
+msgid "View AP QR-Codes"
 msgstr ""
 
 msgid "View Logfile"
@@ -320,18 +338,11 @@ msgstr ""
 msgid "Wireless Stations"
 msgstr ""
 
-msgid ""
-"add it to the wan zone of the firewall. This step has only to be done once."
-msgstr ""
-
-msgid "connected"
+msgid "add it to the wan zone of the firewall.<br />"
 msgstr ""
 
 msgid "hidden"
 msgstr ""
 
 msgid "n/a"
-msgstr ""
-
-msgid "not connected"
 msgstr ""

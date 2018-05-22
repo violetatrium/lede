@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009-2016 OpenWrt.org
+# Copyright (C) 2009-2018 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=git
-PKG_VERSION:=2.15.1
+PKG_VERSION:=2.16.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@KERNEL/software/scm/git/
-PKG_HASH:=999c90fd7d45066992cdb87dda35bdff6dfc1d01496118ea718dfb866da4045c
+PKG_HASH:=d65d99e9e5b081c1f14ea018973806e942a2eb7d0da2ebc01bd2525adee62d48
 
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
@@ -110,7 +110,10 @@ define Package/git/install
 	$(RM) $(PKG_INSTALL_DIR)/usr/bin/git-cvsserver
 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/git-* $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/usr/lib/git-core
-	$(LN) /usr/bin/git $(1)/usr/lib/git-core/git
+	ln $(1)/usr/bin/git $(1)/usr/lib/git-core/git
+	ln $(1)/usr/bin/git-shell $(1)/usr/lib/git-core/git-shell
+	ln $(1)/usr/bin/git-upload-pack $(1)/usr/lib/git-core/git-upload-pack
+	$(INSTALL_DIR) $(1)/usr/share/git-core/templates
 	( cd $(PKG_INSTALL_DIR); $(TAR) \
 		--exclude=usr/lib/git-core/git-http-backend \
 		--exclude=usr/lib/git-core/git-http-fetch \
@@ -118,10 +121,13 @@ define Package/git/install
 		--exclude=usr/lib/git-core/git-remote-ftps \
 		--exclude=usr/lib/git-core/git-remote-http \
 		--exclude=usr/lib/git-core/git-remote-https \
+		--exclude=usr/lib/git-core/git \
+		--exclude=usr/lib/git-core/git-shell \
+		--exclude=usr/lib/git-core/git-upload-pack \
 		-cf - \
 		usr/lib/git-core \
+		usr/share/git-core/templates \
 	) | ( cd $(1); $(TAR) -xf - )
-	$(INSTALL_DIR) $(1)/usr/share/git-core/templates
 endef
 
 define Package/git-http/install

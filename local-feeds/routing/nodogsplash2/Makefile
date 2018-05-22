@@ -7,15 +7,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nodogsplash2
 PKG_FIXUP:=autoreconf
-PKG_VERSION:=2.0.0
+PKG_VERSION:=2.1.1
 PKG_RELEASE:=1
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)/
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=git://github.com/nodogsplash/nodogsplash.git
-PKG_SOURCE_VERSION:=9d985d93f15db4052677dc34c37232bc958944bc
-PKG_MIRROR_HASH:=12f9ea4e19c76f438f54a2214b098af233645713db7f8893c968fe1cab98ab1b
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_URL:=https://codeload.github.com/nodogsplash/nodogsplash/tar.gz/v$(PKG_VERSION)?
+PKG_SOURCE:=nodogsplash-$(PKG_VERSION).tar.gz
+PKG_HASH:=86463a93259f34745a7427d643e0810e7776d37470b32f4f823a1e6019ba9246
+PKG_BUILD_DIR:=$(BUILD_DIR)/nodogsplash-$(PKG_VERSION)
+
 PKG_MAINTAINER:=Moritz Warning <moritzwarning@web.de>
 PKG_BUILD_PARALLEL:=1
 PKG_LICENSE:=GPL-2.0+
@@ -54,8 +53,14 @@ define Package/nodogsplash2/install
 	$(CP) $(PKG_BUILD_DIR)/resources/splash.jpg $(1)/etc/nodogsplash/htdocs/images/
 endef
 
+define Package/nodogsplash2/postrm
+#!/bin/sh
+uci delete firewall.nodogsplash2
+uci commit firewall
+endef
+
 define Package/nodogsplash2/conffiles
-/etc/nodogsplash/nodogsplash.conf
+/etc/config/nodogsplash
 endef
 
 $(eval $(call BuildPackage,nodogsplash2))

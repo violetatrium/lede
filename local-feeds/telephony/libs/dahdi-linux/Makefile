@@ -1,5 +1,5 @@
 # 
-# Copyright (C) 2014 OpenWrt.org
+# Copyright (C) 2014 - 2018 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -9,12 +9,19 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=dahdi-linux
-PKG_VERSION:=2.11.1
-PKG_RELEASE:=1
+PKG_VERSION:=2.11.1-20180111
+PKG_RELEASE:=2
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://downloads.asterisk.org/pub/telephony/dahdi-linux/releases
-PKG_HASH:=f59f382365118205e77d2874f1c0e1546e936247bcc45f07a43bc21778bee9df
+#PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+#PKG_SOURCE_URL:=https://downloads.asterisk.org/pub/telephony/dahdi-linux/releases
+#PKG_HASH:=f59f382365118205e77d2874f1c0e1546e936247bcc45f07a43bc21778bee9df
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+PKG_SOURCE_URL:=https://github.com/asterisk/dahdi-linux.git
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_VERSION:=26597a5cac2930c191ae540c03c7406745c03e36
+PKG_MIRROR_HASH:=0eaad3c3ed63efa61e6b807bd70e9b5287271f5dd63af9f41c026a5f979b81d3
 
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -81,8 +88,6 @@ endef
 define Build/Configure
 endef
 
-TARGET_CFLAGS += $(FPIC)
-
 define Build/Prepare
 	$(Build/Prepare/Default)
 	mkdir -p $(PKG_BUILD_DIR)/drivers/staging/echo/
@@ -94,15 +99,8 @@ define Build/Compile
 		ARCH="$(LINUX_KARCH)" \
 		$(TARGET_CONFIGURE_OPTS) \
 		CROSS_COMPILE="$(TARGET_CROSS)" \
-		KERNELVERSION="$(KERNEL)" \
-		KERNEL_VERSION="$(LINUX_VERSION)" \
-		KERNELDIR="$(LINUX_DIR)" \
-		KSRC:="$(LINUX_DIR)" \
-		KVERS:="$(LINUX_VERSION)" \
-		TOPDIR:="$(TOPDIR)" \
-		INCLUDE_DIR:="$(INCLUDE_DIR)" \
-		PWD:="$(PKG_BUILD_DIR)" \
-		MODULES_EXTRA:="$(DAHDI_MODULES_EXTRA)"
+		KSRC="$(LINUX_DIR)" \
+		MODULES_EXTRA="$(DAHDI_MODULES_EXTRA)"
 endef
 
 define Build/InstallDev

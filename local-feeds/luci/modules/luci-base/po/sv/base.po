@@ -212,9 +212,6 @@ msgstr ""
 msgid "Access Point"
 msgstr "Accesspunkt"
 
-msgid "Action"
-msgstr "Åtgärd"
-
 msgid "Actions"
 msgstr "Åtgärder"
 
@@ -286,6 +283,9 @@ msgstr "Tillåt <abbr title=\"Secure Shell\">SSH</abbr> lösenordsautentisering"
 
 msgid "Allow all except listed"
 msgstr "Tillåt alla utom listade"
+
+msgid "Allow legacy 802.11b rates"
+msgstr ""
 
 msgid "Allow listed only"
 msgstr "Tillåt enbart listade"
@@ -554,9 +554,6 @@ msgid ""
 "preserved in any sysupgrade."
 msgstr ""
 
-msgid "Buttons"
-msgstr "Knappar"
-
 msgid "CA certificate; if empty it will be saved after the first connection."
 msgstr ""
 "CA-certifikat; om tom så kommer den att sparas efter första anslutningen."
@@ -588,7 +585,7 @@ msgstr "Kanal"
 msgid "Check"
 msgstr "Kontrollera"
 
-msgid "Check fileystems before mount"
+msgid "Check filesystems before mount"
 msgstr "Kontrollera filsystemen innan de monteras"
 
 msgid "Check this option to delete the existing networks from this radio."
@@ -720,6 +717,11 @@ msgstr ""
 
 msgid "Custom feeds"
 msgstr "Anpassade flöden"
+
+msgid ""
+"Custom files (certificates, scripts) may remain on the system. To prevent "
+"this, perform a factory-reset first."
+msgstr ""
 
 msgid ""
 "Customizes the behaviour of the device <abbr title=\"Light Emitting Diode"
@@ -983,6 +985,11 @@ msgstr "Nödsituation"
 msgid "Enable"
 msgstr "Aktivera"
 
+msgid ""
+"Enable <abbr title=\"Internet Group Management Protocol\">IGMP</abbr> "
+"snooping"
+msgstr ""
+
 msgid "Enable <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 msgstr "Aktivera <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 
@@ -1039,6 +1046,9 @@ msgstr "Aktivera/Inaktivera"
 
 msgid "Enabled"
 msgstr "Aktiverad"
+
+msgid "Enables IGMP snooping on this bridge"
+msgstr ""
 
 msgid ""
 "Enables fast roaming among access points that belong to the same Mobility "
@@ -1219,6 +1229,9 @@ msgstr ""
 msgid "Forward broadcast traffic"
 msgstr ""
 
+msgid "Forward mesh peer traffic"
+msgstr ""
+
 msgid "Forwarding mode"
 msgstr "Vidarebefordringsläge"
 
@@ -1301,9 +1314,6 @@ msgstr "HE.net-användarnamn"
 
 msgid "HT mode (802.11n)"
 msgstr "HT-läge (802.11n)"
-
-msgid "Handler"
-msgstr ""
 
 msgid "Hang Up"
 msgstr "Lägg på"
@@ -1880,9 +1890,6 @@ msgstr ""
 msgid "Maximum amount of seconds to wait for the modem to become ready"
 msgstr ""
 
-msgid "Maximum hold time"
-msgstr ""
-
 msgid ""
 "Maximum length of the name is 15 characters including the automatic protocol/"
 "bridge prefix (br-, 6in4-, pppoe- etc.)"
@@ -1900,11 +1907,11 @@ msgstr "Minne"
 msgid "Memory usage (%)"
 msgstr "Minnesanvändning (%)"
 
+msgid "Mesh Id"
+msgstr ""
+
 msgid "Metric"
 msgstr "Metrisk"
-
-msgid "Minimum hold time"
-msgstr ""
 
 msgid "Mirror monitor port"
 msgstr ""
@@ -2109,6 +2116,9 @@ msgstr "Avisering"
 msgid "Nslookup"
 msgstr "Nslookup"
 
+msgid "Number of cached DNS entries (max is 10000, 0 is no caching)"
+msgstr ""
+
 msgid "OK"
 msgstr "OK"
 
@@ -2119,6 +2129,9 @@ msgid "Obfuscated Group Password"
 msgstr ""
 
 msgid "Obfuscated Password"
+msgstr ""
+
+msgid "Obtain IPv6-Address"
 msgstr ""
 
 msgid "Off-State Delay"
@@ -2341,9 +2354,6 @@ msgstr "Genväg till klient-certifikat"
 
 msgid "Path to Private Key"
 msgstr "Genväg till privat nyckel"
-
-msgid "Path to executable which handles the button event"
-msgstr ""
 
 msgid "Path to inner CA-Certificate"
 msgstr "Genväg till det inre CA-certifikatet"
@@ -2862,6 +2872,9 @@ msgstr "Storlek"
 msgid "Size (.ipk)"
 msgstr "Storlek (.ipk)"
 
+msgid "Size of DNS query cache"
+msgstr ""
+
 msgid "Skip"
 msgstr "Hoppa över"
 
@@ -2902,9 +2915,6 @@ msgid "Source"
 msgstr "Källa"
 
 msgid "Source routing"
-msgstr ""
-
-msgid "Specifies the button state to handle"
 msgstr ""
 
 msgid "Specifies the directory the device is attached to"
@@ -3004,6 +3014,9 @@ msgstr "Byt %q (%s)"
 
 msgid ""
 "Switch %q has an unknown topology - the VLAN settings might not be accurate."
+msgstr ""
+
+msgid "Switch Port Mask"
 msgstr ""
 
 msgid "Switch VLAN"
@@ -3224,7 +3237,7 @@ msgstr ""
 
 msgid ""
 "This is the local endpoint address assigned by the tunnel broker, it usually "
-"ends with <code>:2</code>"
+"ends with <code>...:2/64</code>"
 msgstr ""
 
 msgid ""
@@ -3249,9 +3262,6 @@ msgstr ""
 msgid ""
 "This list gives an overview over currently running system processes and "
 "their status."
-msgstr ""
-
-msgid "This page allows the configuration of custom button actions"
 msgstr ""
 
 msgid "This page gives an overview over currently active network connections."
@@ -3437,9 +3447,9 @@ msgstr ""
 
 msgid ""
 "Use the <em>Add</em> Button to add a new lease entry. The <em>MAC-Address</"
-"em> indentifies the host, the <em>IPv4-Address</em> specifies to the fixed "
-"address to use and the <em>Hostname</em> is assigned as symbolic name to the "
-"requesting host. The optional <em>Lease time</em> can be used to set non-"
+"em> identifies the host, the <em>IPv4-Address</em> specifies the fixed "
+"address to use, and the <em>Hostname</em> is assigned as a symbolic name to "
+"the requesting host. The optional <em>Lease time</em> can be used to set non-"
 "standard host-specific lease time, e.g. 12h, 3d or infinite."
 msgstr ""
 
@@ -3735,6 +3745,9 @@ msgstr "öppen"
 msgid "overlay"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "relay mode"
 msgstr "relä-läge"
 
@@ -3779,3 +3792,9 @@ msgstr "ja"
 
 msgid "« Back"
 msgstr "« Bakåt"
+
+#~ msgid "Action"
+#~ msgstr "Åtgärd"
+
+#~ msgid "Buttons"
+#~ msgstr "Knappar"

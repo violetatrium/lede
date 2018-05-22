@@ -214,9 +214,6 @@ msgstr "接入集線器"
 msgid "Access Point"
 msgstr "存取點 (AP)"
 
-msgid "Action"
-msgstr "動作"
-
 msgid "Actions"
 msgstr "動作"
 
@@ -287,6 +284,9 @@ msgstr "允許 <abbr title=\"Secure Shell\">SSH</abbr> 密碼驗證"
 
 msgid "Allow all except listed"
 msgstr "僅允許列表外"
+
+msgid "Allow legacy 802.11b rates"
+msgstr ""
 
 msgid "Allow listed only"
 msgstr "僅允許列表內"
@@ -555,9 +555,6 @@ msgid ""
 "preserved in any sysupgrade."
 msgstr ""
 
-msgid "Buttons"
-msgstr "按鈕"
-
 msgid "CA certificate; if empty it will be saved after the first connection."
 msgstr ""
 
@@ -588,7 +585,7 @@ msgstr "頻道"
 msgid "Check"
 msgstr "檢查"
 
-msgid "Check fileystems before mount"
+msgid "Check filesystems before mount"
 msgstr ""
 
 msgid "Check this option to delete the existing networks from this radio."
@@ -723,6 +720,11 @@ msgid ""
 msgstr ""
 
 msgid "Custom feeds"
+msgstr ""
+
+msgid ""
+"Custom files (certificates, scripts) may remain on the system. To prevent "
+"this, perform a factory-reset first."
 msgstr ""
 
 msgid ""
@@ -993,6 +995,11 @@ msgstr "緊急"
 msgid "Enable"
 msgstr "啟用"
 
+msgid ""
+"Enable <abbr title=\"Internet Group Management Protocol\">IGMP</abbr> "
+"snooping"
+msgstr ""
+
 msgid "Enable <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 msgstr "啟用 <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 
@@ -1049,6 +1056,9 @@ msgstr "啟用/關閉"
 
 msgid "Enabled"
 msgstr "啟用"
+
+msgid "Enables IGMP snooping on this bridge"
+msgstr ""
 
 msgid ""
 "Enables fast roaming among access points that belong to the same Mobility "
@@ -1230,6 +1240,9 @@ msgstr ""
 msgid "Forward broadcast traffic"
 msgstr "轉發廣播流量"
 
+msgid "Forward mesh peer traffic"
+msgstr ""
+
 msgid "Forwarding mode"
 msgstr "轉發模式"
 
@@ -1312,9 +1325,6 @@ msgstr ""
 
 msgid "HT mode (802.11n)"
 msgstr ""
-
-msgid "Handler"
-msgstr "多執行緒"
 
 msgid "Hang Up"
 msgstr "斷線"
@@ -1896,9 +1906,6 @@ msgstr "允許EDNS.0 協定的UDP封包最大數量"
 msgid "Maximum amount of seconds to wait for the modem to become ready"
 msgstr "等待數據機待命的最大秒數"
 
-msgid "Maximum hold time"
-msgstr "可持有最長時間"
-
 msgid ""
 "Maximum length of the name is 15 characters including the automatic protocol/"
 "bridge prefix (br-, 6in4-, pppoe- etc.)"
@@ -1916,11 +1923,11 @@ msgstr "記憶體"
 msgid "Memory usage (%)"
 msgstr "記憶體使用 (%)"
 
+msgid "Mesh Id"
+msgstr ""
+
 msgid "Metric"
 msgstr "公測單位"
-
-msgid "Minimum hold time"
-msgstr "可持有的最低時間"
 
 msgid "Mirror monitor port"
 msgstr ""
@@ -2125,6 +2132,9 @@ msgstr "通知"
 msgid "Nslookup"
 msgstr "DNS偵錯Nslookup"
 
+msgid "Number of cached DNS entries (max is 10000, 0 is no caching)"
+msgstr ""
+
 msgid "OK"
 msgstr "行"
 
@@ -2135,6 +2145,9 @@ msgid "Obfuscated Group Password"
 msgstr ""
 
 msgid "Obfuscated Password"
+msgstr ""
+
+msgid "Obtain IPv6-Address"
 msgstr ""
 
 msgid "Off-State Delay"
@@ -2361,9 +2374,6 @@ msgstr "用戶端-證書的路徑"
 
 msgid "Path to Private Key"
 msgstr "私人金鑰的路徑"
-
-msgid "Path to executable which handles the button event"
-msgstr "處理按鍵效果可執行檔路徑"
 
 msgid "Path to inner CA-Certificate"
 msgstr ""
@@ -2892,6 +2902,9 @@ msgstr "大小"
 msgid "Size (.ipk)"
 msgstr ""
 
+msgid "Size of DNS query cache"
+msgstr ""
+
 msgid "Skip"
 msgstr "跳過"
 
@@ -2935,9 +2948,6 @@ msgstr "來源"
 
 msgid "Source routing"
 msgstr ""
-
-msgid "Specifies the button state to handle"
-msgstr "指定這個按鈕狀態以便操作"
 
 msgid "Specifies the directory the device is attached to"
 msgstr "指定這個設備被附掛到那個目錄"
@@ -3038,6 +3048,9 @@ msgstr "交換器 %q (%s)"
 
 msgid ""
 "Switch %q has an unknown topology - the VLAN settings might not be accurate."
+msgstr ""
+
+msgid "Switch Port Mask"
 msgstr ""
 
 msgid "Switch VLAN"
@@ -3284,8 +3297,8 @@ msgstr ""
 
 msgid ""
 "This is the local endpoint address assigned by the tunnel broker, it usually "
-"ends with <code>:2</code>"
-msgstr "這是由通道代理人指定的本地終端位址, 通常用 <code>:2</code>結尾."
+"ends with <code>...:2/64</code>"
+msgstr "這是由通道代理人指定的本地終端位址, 通常用 <code>...:2/64</code>結尾."
 
 msgid ""
 "This is the only <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</"
@@ -3312,9 +3325,6 @@ msgid ""
 "This list gives an overview over currently running system processes and "
 "their status."
 msgstr "這清單提供目前正在執行的系統的執行緒和狀態的預覽."
-
-msgid "This page allows the configuration of custom button actions"
-msgstr "這一頁允許客製化按鍵動作的設定"
 
 msgid "This page gives an overview over currently active network connections."
 msgstr "這一頁提供目前正在活動中網路連線的預覽."
@@ -3499,9 +3509,9 @@ msgstr "使用路由表"
 
 msgid ""
 "Use the <em>Add</em> Button to add a new lease entry. The <em>MAC-Address</"
-"em> indentifies the host, the <em>IPv4-Address</em> specifies to the fixed "
-"address to use and the <em>Hostname</em> is assigned as symbolic name to the "
-"requesting host. The optional <em>Lease time</em> can be used to set non-"
+"em> identifies the host, the <em>IPv4-Address</em> specifies the fixed "
+"address to use, and the <em>Hostname</em> is assigned as a symbolic name to "
+"the requesting host. The optional <em>Lease time</em> can be used to set non-"
 "standard host-specific lease time, e.g. 12h, 3d or infinite."
 msgstr ""
 "使用 <em>Add</em> 鍵以便新增一個租賃的項目. 這個 <em>MAC-Address</em> 標誌這"
@@ -3800,6 +3810,9 @@ msgstr "打開"
 msgid "overlay"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "relay mode"
 msgstr ""
 
@@ -3844,6 +3857,30 @@ msgstr "是的"
 
 msgid "« Back"
 msgstr "« 倒退"
+
+#~ msgid "Action"
+#~ msgstr "動作"
+
+#~ msgid "Buttons"
+#~ msgstr "按鈕"
+
+#~ msgid "Handler"
+#~ msgstr "多執行緒"
+
+#~ msgid "Maximum hold time"
+#~ msgstr "可持有最長時間"
+
+#~ msgid "Minimum hold time"
+#~ msgstr "可持有的最低時間"
+
+#~ msgid "Path to executable which handles the button event"
+#~ msgstr "處理按鍵效果可執行檔路徑"
+
+#~ msgid "Specifies the button state to handle"
+#~ msgstr "指定這個按鈕狀態以便操作"
+
+#~ msgid "This page allows the configuration of custom button actions"
+#~ msgstr "這一頁允許客製化按鍵動作的設定"
 
 #~ msgid "Leasetime"
 #~ msgstr "租賃時間"

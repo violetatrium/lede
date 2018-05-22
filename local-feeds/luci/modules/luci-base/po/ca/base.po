@@ -222,9 +222,6 @@ msgstr "Concentrador d'accés"
 msgid "Access Point"
 msgstr "Punt d'accés"
 
-msgid "Action"
-msgstr "Acció"
-
 msgid "Actions"
 msgstr "Accions"
 
@@ -298,6 +295,9 @@ msgstr ""
 
 msgid "Allow all except listed"
 msgstr "Permet-les totes menys les llistades"
+
+msgid "Allow legacy 802.11b rates"
+msgstr ""
 
 msgid "Allow listed only"
 msgstr "Permet només les llistades"
@@ -572,9 +572,6 @@ msgstr ""
 "Repositoris específics de la distribució/compilació. Aquest fitxer NO es "
 "preservarà durant les actualitzacions del microprogramari del sistema."
 
-msgid "Buttons"
-msgstr "Botons"
-
 msgid "CA certificate; if empty it will be saved after the first connection."
 msgstr ""
 
@@ -605,7 +602,7 @@ msgstr "Canal"
 msgid "Check"
 msgstr "Comprovació"
 
-msgid "Check fileystems before mount"
+msgid "Check filesystems before mount"
 msgstr ""
 
 msgid "Check this option to delete the existing networks from this radio."
@@ -744,6 +741,11 @@ msgid ""
 msgstr ""
 
 msgid "Custom feeds"
+msgstr ""
+
+msgid ""
+"Custom files (certificates, scripts) may remain on the system. To prevent "
+"this, perform a factory-reset first."
 msgstr ""
 
 msgid ""
@@ -1015,6 +1017,11 @@ msgstr "Emergència"
 msgid "Enable"
 msgstr "Habilita"
 
+msgid ""
+"Enable <abbr title=\"Internet Group Management Protocol\">IGMP</abbr> "
+"snooping"
+msgstr ""
+
 msgid "Enable <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 msgstr "Habilita l'<abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 
@@ -1071,6 +1078,9 @@ msgstr "Activa/Desactiva"
 
 msgid "Enabled"
 msgstr "Habilitat"
+
+msgid "Enables IGMP snooping on this bridge"
+msgstr ""
 
 msgid ""
 "Enables fast roaming among access points that belong to the same Mobility "
@@ -1251,6 +1261,9 @@ msgstr ""
 msgid "Forward broadcast traffic"
 msgstr "Reenvia el trànsit difós"
 
+msgid "Forward mesh peer traffic"
+msgstr ""
+
 msgid "Forwarding mode"
 msgstr "Mode de reenviament"
 
@@ -1334,9 +1347,6 @@ msgid "HE.net username"
 msgstr ""
 
 msgid "HT mode (802.11n)"
-msgstr ""
-
-msgid "Handler"
 msgstr ""
 
 msgid "Hang Up"
@@ -1929,9 +1939,6 @@ msgstr ""
 msgid "Maximum amount of seconds to wait for the modem to become ready"
 msgstr ""
 
-msgid "Maximum hold time"
-msgstr ""
-
 msgid ""
 "Maximum length of the name is 15 characters including the automatic protocol/"
 "bridge prefix (br-, 6in4-, pppoe- etc.)"
@@ -1949,11 +1956,11 @@ msgstr "Memòria"
 msgid "Memory usage (%)"
 msgstr "Ús de Memòria (%)"
 
+msgid "Mesh Id"
+msgstr ""
+
 msgid "Metric"
 msgstr "Mètrica"
-
-msgid "Minimum hold time"
-msgstr ""
 
 msgid "Mirror monitor port"
 msgstr ""
@@ -2160,6 +2167,9 @@ msgstr "Avís"
 msgid "Nslookup"
 msgstr "Nslookup"
 
+msgid "Number of cached DNS entries (max is 10000, 0 is no caching)"
+msgstr ""
+
 msgid "OK"
 msgstr "D'acord"
 
@@ -2170,6 +2180,9 @@ msgid "Obfuscated Group Password"
 msgstr ""
 
 msgid "Obfuscated Password"
+msgstr ""
+
+msgid "Obtain IPv6-Address"
 msgstr ""
 
 msgid "Off-State Delay"
@@ -2398,9 +2411,6 @@ msgstr ""
 
 msgid "Path to Private Key"
 msgstr "Ruta a la clau privada"
-
-msgid "Path to executable which handles the button event"
-msgstr ""
 
 msgid "Path to inner CA-Certificate"
 msgstr ""
@@ -2922,6 +2932,9 @@ msgstr "Mida"
 msgid "Size (.ipk)"
 msgstr "Mida (.ipk)"
 
+msgid "Size of DNS query cache"
+msgstr ""
+
 msgid "Skip"
 msgstr "Salta"
 
@@ -2962,9 +2975,6 @@ msgid "Source"
 msgstr "Origen"
 
 msgid "Source routing"
-msgstr ""
-
-msgid "Specifies the button state to handle"
 msgstr ""
 
 msgid "Specifies the directory the device is attached to"
@@ -3064,6 +3074,9 @@ msgstr "Commutador %q (%s)"
 
 msgid ""
 "Switch %q has an unknown topology - the VLAN settings might not be accurate."
+msgstr ""
+
+msgid "Switch Port Mask"
 msgstr ""
 
 msgid "Switch VLAN"
@@ -3314,7 +3327,7 @@ msgstr ""
 
 msgid ""
 "This is the local endpoint address assigned by the tunnel broker, it usually "
-"ends with <code>:2</code>"
+"ends with <code>...:2/64</code>"
 msgstr ""
 
 msgid ""
@@ -3346,9 +3359,6 @@ msgid ""
 msgstr ""
 "Aquesta llista mostra una vista general sobre els processos corrent al "
 "sistema actualment i el seu estat."
-
-msgid "This page allows the configuration of custom button actions"
-msgstr ""
 
 msgid "This page gives an overview over currently active network connections."
 msgstr ""
@@ -3538,9 +3548,9 @@ msgstr ""
 
 msgid ""
 "Use the <em>Add</em> Button to add a new lease entry. The <em>MAC-Address</"
-"em> indentifies the host, the <em>IPv4-Address</em> specifies to the fixed "
-"address to use and the <em>Hostname</em> is assigned as symbolic name to the "
-"requesting host. The optional <em>Lease time</em> can be used to set non-"
+"em> identifies the host, the <em>IPv4-Address</em> specifies the fixed "
+"address to use, and the <em>Hostname</em> is assigned as a symbolic name to "
+"the requesting host. The optional <em>Lease time</em> can be used to set non-"
 "standard host-specific lease time, e.g. 12h, 3d or infinite."
 msgstr ""
 
@@ -3840,6 +3850,9 @@ msgstr "obert"
 msgid "overlay"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "relay mode"
 msgstr ""
 
@@ -3884,6 +3897,12 @@ msgstr "sí"
 
 msgid "« Back"
 msgstr "« Enrere"
+
+#~ msgid "Action"
+#~ msgstr "Acció"
+
+#~ msgid "Buttons"
+#~ msgstr "Botons"
 
 #~ msgid "Leasetime"
 #~ msgstr "Duració d'arrendament"

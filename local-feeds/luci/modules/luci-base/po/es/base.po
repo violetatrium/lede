@@ -222,9 +222,6 @@ msgstr "Concentrador de acceso"
 msgid "Access Point"
 msgstr "Punto de Acceso"
 
-msgid "Action"
-msgstr "Acción"
-
 msgid "Actions"
 msgstr "Acciones"
 
@@ -299,6 +296,9 @@ msgstr ""
 
 msgid "Allow all except listed"
 msgstr "Permitir a todos excepto a los de la lista"
+
+msgid "Allow legacy 802.11b rates"
+msgstr ""
 
 msgid "Allow listed only"
 msgstr "Permitir a los pertenecientes en la lista"
@@ -570,9 +570,6 @@ msgid ""
 "preserved in any sysupgrade."
 msgstr ""
 
-msgid "Buttons"
-msgstr "Botones"
-
 msgid "CA certificate; if empty it will be saved after the first connection."
 msgstr ""
 
@@ -603,7 +600,7 @@ msgstr "Canal"
 msgid "Check"
 msgstr "Comprobar"
 
-msgid "Check fileystems before mount"
+msgid "Check filesystems before mount"
 msgstr ""
 
 msgid "Check this option to delete the existing networks from this radio."
@@ -743,6 +740,11 @@ msgid ""
 msgstr ""
 
 msgid "Custom feeds"
+msgstr ""
+
+msgid ""
+"Custom files (certificates, scripts) may remain on the system. To prevent "
+"this, perform a factory-reset first."
 msgstr ""
 
 msgid ""
@@ -1021,6 +1023,11 @@ msgstr "Emergencia"
 msgid "Enable"
 msgstr "Activar"
 
+msgid ""
+"Enable <abbr title=\"Internet Group Management Protocol\">IGMP</abbr> "
+"snooping"
+msgstr ""
+
 msgid "Enable <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 msgstr "Activar <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 
@@ -1077,6 +1084,9 @@ msgstr "Activar/Desactivar"
 
 msgid "Enabled"
 msgstr "Activado"
+
+msgid "Enables IGMP snooping on this bridge"
+msgstr ""
 
 msgid ""
 "Enables fast roaming among access points that belong to the same Mobility "
@@ -1260,6 +1270,9 @@ msgstr ""
 msgid "Forward broadcast traffic"
 msgstr "Retransmitir tráfico de propagación"
 
+msgid "Forward mesh peer traffic"
+msgstr ""
+
 msgid "Forwarding mode"
 msgstr "Modo de retransmisión"
 
@@ -1345,9 +1358,6 @@ msgstr ""
 
 msgid "HT mode (802.11n)"
 msgstr ""
-
-msgid "Handler"
-msgstr "Manejador"
 
 msgid "Hang Up"
 msgstr "Suspender"
@@ -1951,9 +1961,6 @@ msgstr "Tamaño máximo de paquetes EDNS.0 paquetes UDP"
 msgid "Maximum amount of seconds to wait for the modem to become ready"
 msgstr "Segundos máximos de espera a que el módem esté activo"
 
-msgid "Maximum hold time"
-msgstr "Pausa máxima de transmisión"
-
 msgid ""
 "Maximum length of the name is 15 characters including the automatic protocol/"
 "bridge prefix (br-, 6in4-, pppoe- etc.)"
@@ -1971,11 +1978,11 @@ msgstr "Memoria"
 msgid "Memory usage (%)"
 msgstr "Uso de memoria (%)"
 
+msgid "Mesh Id"
+msgstr ""
+
 msgid "Metric"
 msgstr "Métrica"
-
-msgid "Minimum hold time"
-msgstr "Pausa mínima de espera"
 
 msgid "Mirror monitor port"
 msgstr ""
@@ -2182,6 +2189,9 @@ msgstr "Aviso"
 msgid "Nslookup"
 msgstr "NSLookup"
 
+msgid "Number of cached DNS entries (max is 10000, 0 is no caching)"
+msgstr ""
+
 msgid "OK"
 msgstr "Aceptar"
 
@@ -2192,6 +2202,9 @@ msgid "Obfuscated Group Password"
 msgstr ""
 
 msgid "Obfuscated Password"
+msgstr ""
+
+msgid "Obtain IPv6-Address"
 msgstr ""
 
 msgid "Off-State Delay"
@@ -2421,9 +2434,6 @@ msgstr "Camino al certificado de cliente"
 
 msgid "Path to Private Key"
 msgstr "Ruta a la Clave Privada"
-
-msgid "Path to executable which handles the button event"
-msgstr "Ruta al ejecutable que maneja el evento button"
 
 msgid "Path to inner CA-Certificate"
 msgstr ""
@@ -2961,6 +2971,9 @@ msgstr "Tamaño"
 msgid "Size (.ipk)"
 msgstr ""
 
+msgid "Size of DNS query cache"
+msgstr ""
+
 msgid "Skip"
 msgstr "Saltar"
 
@@ -3005,9 +3018,6 @@ msgstr "Origen"
 
 msgid "Source routing"
 msgstr ""
-
-msgid "Specifies the button state to handle"
-msgstr "Especifica el estado de botón a manejar"
 
 msgid "Specifies the directory the device is attached to"
 msgstr "Especifica el directorio al que está enlazado el dispositivo"
@@ -3115,6 +3125,9 @@ msgstr "Switch %q (%s)"
 
 msgid ""
 "Switch %q has an unknown topology - the VLAN settings might not be accurate."
+msgstr ""
+
+msgid "Switch Port Mask"
 msgstr ""
 
 msgid "Switch VLAN"
@@ -3381,10 +3394,10 @@ msgstr ""
 
 msgid ""
 "This is the local endpoint address assigned by the tunnel broker, it usually "
-"ends with <code>:2</code>"
+"ends with <code>...:2/64</code>"
 msgstr ""
 "Esta es la dirección de punto final asignada por el broker del túnel, suele "
-"terminar con <code>:2</code>"
+"terminar con <code>...:2/64</code>"
 
 msgid ""
 "This is the only <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</"
@@ -3413,9 +3426,6 @@ msgid ""
 "This list gives an overview over currently running system processes and "
 "their status."
 msgstr "Procesos de sistema que se están ejecutando actualmente y su estado."
-
-msgid "This page allows the configuration of custom button actions"
-msgstr "Configuración de acciones personalizadas para los botones"
 
 msgid "This page gives an overview over currently active network connections."
 msgstr "Conexiones de red activas."
@@ -3603,9 +3613,9 @@ msgstr "Usar tabla de rutas"
 
 msgid ""
 "Use the <em>Add</em> Button to add a new lease entry. The <em>MAC-Address</"
-"em> indentifies the host, the <em>IPv4-Address</em> specifies to the fixed "
-"address to use and the <em>Hostname</em> is assigned as symbolic name to the "
-"requesting host. The optional <em>Lease time</em> can be used to set non-"
+"em> identifies the host, the <em>IPv4-Address</em> specifies the fixed "
+"address to use, and the <em>Hostname</em> is assigned as a symbolic name to "
+"the requesting host. The optional <em>Lease time</em> can be used to set non-"
 "standard host-specific lease time, e.g. 12h, 3d or infinite."
 msgstr ""
 "Pulse el botón <em>Añadir</em> para insertar una nueva cesión. <em>Dirección "
@@ -3908,6 +3918,9 @@ msgstr "abierto"
 msgid "overlay"
 msgstr ""
 
+msgid "random"
+msgstr ""
+
 msgid "relay mode"
 msgstr ""
 
@@ -3952,6 +3965,30 @@ msgstr "sí"
 
 msgid "« Back"
 msgstr "« Volver"
+
+#~ msgid "Action"
+#~ msgstr "Acción"
+
+#~ msgid "Buttons"
+#~ msgstr "Botones"
+
+#~ msgid "Handler"
+#~ msgstr "Manejador"
+
+#~ msgid "Maximum hold time"
+#~ msgstr "Pausa máxima de transmisión"
+
+#~ msgid "Minimum hold time"
+#~ msgstr "Pausa mínima de espera"
+
+#~ msgid "Path to executable which handles the button event"
+#~ msgstr "Ruta al ejecutable que maneja el evento button"
+
+#~ msgid "Specifies the button state to handle"
+#~ msgstr "Especifica el estado de botón a manejar"
+
+#~ msgid "This page allows the configuration of custom button actions"
+#~ msgstr "Configuración de acciones personalizadas para los botones"
 
 #~ msgid "Leasetime"
 #~ msgstr "Tiempo de cesión"

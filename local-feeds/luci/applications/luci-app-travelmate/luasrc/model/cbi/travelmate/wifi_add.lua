@@ -1,10 +1,10 @@
--- Copyright 2017 Dirk Brenken (dev@brenken.org)
+-- Copyright 2017-2018 Dirk Brenken (dev@brenken.org)
 -- This is free software, licensed under the Apache License, Version 2.0
 
 local fs       = require("nixio.fs")
 local uci      = require("luci.model.uci").cursor()
 local http     = require("luci.http")
-local trmiface = uci.get("travelmate", "global", "trm_iface") or "trm_wwan"
+local trmiface = uci:get("travelmate", "global", "trm_iface") or "trm_wwan"
 local encr_psk = {"psk", "psk2", "psk-mixed"}
 local encr_wpa = {"wpa", "wpa2", "wpa-mixed"}
 
@@ -26,15 +26,24 @@ m.hidden = {
 	wpa_version = http.formvalue("wpa_version")
 }
 
-if m.hidden.ssid ~= "" then
-	wssid = m:field(Value, "ssid", translate("SSID"))
-	wssid.datatype = "rangelength(1,32)"
-	wssid.default = m.hidden.ssid or ""
-else
+if m.hidden.ssid == "" then
 	wssid = m:field(Value, "ssid", translate("SSID (hidden)"))
+else
+	wssid = m:field(Value, "ssid", translate("SSID"))
+end
+wssid.datatype = "rangelength(1,32)"
+wssid.default = m.hidden.ssid or ""
+
+nobssid = m:field(Flag, "no_bssid", translate("Ignore BSSID"))
+if m.hidden.ssid == "" then
+	nobssid.default = nobssid.disabled
+else
+	nobssid.default = nobssid.enabled
 end
 
-bssid = m:field(Value, "bssid", translate("BSSID"))
+bssid = m:field(Value, "bssid", translate("BSSID"),
+	translatef("The BSSID information '%s' is optional and only required for hidden networks", m.hidden.bssid or ""))
+bssid:depends("no_bssid", 0)
 bssid.datatype = "macaddr"
 bssid.default = m.hidden.bssid or ""
 
@@ -97,6 +106,8 @@ elseif (tonumber(m.hidden.wpa_version) or 0) > 0 then
 		authentication:value("EAP-MD5")
 		authentication:value("EAP-MSCHAPV2")
 		authentication:value("EAP-TLS")
+		authentication:value("auth=PAP")
+		authentication:value("auth=MSCHAPV2")
 		authentication.default = "EAP-MSCHAPV2"
 
 		ident = m:field(Value, "identity", translate("Identity"))
@@ -165,6 +176,7 @@ function wssid.write(self, section, value)
 	end
 	uci:save("wireless")
 	uci:commit("wireless")
+	luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>&1")
 	http.redirect(luci.dispatcher.build_url("admin/services/travelmate/stations"))
 end
 

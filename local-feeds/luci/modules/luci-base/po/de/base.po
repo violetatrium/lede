@@ -3,21 +3,21 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-26 17:57+0200\n"
-"PO-Revision-Date: 2017-10-17 22:46+0200\n"
+"PO-Revision-Date: 2018-01-09 08:01+0100\n"
 "Last-Translator: JoeSemler <josef.semler@gmail.com>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 1.8.11\n"
 "Language-Team: \n"
 
 msgid "%.1f dB"
 msgstr ""
 
 msgid "%s is untagged in multiple VLANs!"
-msgstr ""
+msgstr "%s darf nicht ohne VLAN-Tag in mehreren VLAN-Gruppen vorkommen!"
 
 msgid "(%d minute window, %d second interval)"
 msgstr "(%d Minuten Abschnitt, %d Sekunden Intervall)"
@@ -68,7 +68,7 @@ msgid "6-octet identifier as a hex string - no colons"
 msgstr "sechstellige hexadezimale ID (ohne Doppelpunkte)"
 
 msgid "802.11r Fast Transition"
-msgstr ""
+msgstr "802.11r: Schnelle Client-Übergabe"
 
 msgid "802.11w Association SA Query maximum timeout"
 msgstr "Maximales Timeout für Quelladressprüfungen (SA Query)"
@@ -160,6 +160,8 @@ msgid ""
 "<br/>Note: you need to manually restart the cron service if the crontab file "
 "was empty before editing."
 msgstr ""
+"<br/>Hinweis: Der Cron-Dienst muss manuell neu gestartet werden wenn die "
+"Crontab-Datei vor der Bearbeitung leer war."
 
 msgid "A43C + J43 + A43"
 msgstr ""
@@ -218,9 +220,6 @@ msgstr "Access Concentrator"
 msgid "Access Point"
 msgstr "Access Point"
 
-msgid "Action"
-msgstr "Aktion"
-
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -258,7 +257,7 @@ msgid "Additional Hosts files"
 msgstr "Zusätzliche Hosts-Dateien"
 
 msgid "Additional servers file"
-msgstr ""
+msgstr "Zusätzliche Nameserver-Datei"
 
 msgid "Address"
 msgstr "Adresse"
@@ -273,7 +272,7 @@ msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
 msgid "Aggregate Transmit Power(ACTATP)"
-msgstr ""
+msgstr "Vollständige Sendeleistung (ACTATP)"
 
 msgid "Alert"
 msgstr "Alarm"
@@ -293,6 +292,9 @@ msgstr "Erlaube Anmeldung per Passwort"
 
 msgid "Allow all except listed"
 msgstr "Alle außer gelistete erlauben"
+
+msgid "Allow legacy 802.11b rates"
+msgstr "Veraltete 802.11b Raten erlauben"
 
 msgid "Allow listed only"
 msgstr "Nur gelistete erlauben"
@@ -324,6 +326,8 @@ msgid ""
 "Also see <a href=\"https://www.sixxs.net/faq/connectivity/?faq=comparison"
 "\">Tunneling Comparison</a> on SIXXS"
 msgstr ""
+"Siehe auch <a href=\"https://www.sixxs.net/faq/connectivity/?faq=comparison"
+"\">Tunneling Comparison</a> bei SIXXS."
 
 msgid "Always announce default router"
 msgstr "Immer Defaultrouter ankündigen"
@@ -577,9 +581,6 @@ msgstr ""
 "Konfiguriert die distributionsspezifischen Paket-Repositories. Diese "
 "Konfiguration wird bei Upgrades NICHT gesichert."
 
-msgid "Buttons"
-msgstr "Knöpfe"
-
 msgid "CA certificate; if empty it will be saved after the first connection."
 msgstr ""
 "CA-Zertifikat (wird beim ersten Verbindungsaufbau automatisch gespeichert "
@@ -612,7 +613,7 @@ msgstr "Kanal"
 msgid "Check"
 msgstr "Prüfen"
 
-msgid "Check fileystems before mount"
+msgid "Check filesystems before mount"
 msgstr "Dateisysteme prüfen"
 
 msgid "Check this option to delete the existing networks from this radio."
@@ -763,6 +764,11 @@ msgid "Custom feeds"
 msgstr "Eigene Repositories"
 
 msgid ""
+"Custom files (certificates, scripts) may remain on the system. To prevent "
+"this, perform a factory-reset first."
+msgstr ""
+
+msgid ""
 "Customizes the behaviour of the device <abbr title=\"Light Emitting Diode"
 "\">LED</abbr>s if possible."
 msgstr "Passt das Verhalten der Geräte-LEDs an - wenn dies möglich ist."
@@ -789,10 +795,10 @@ msgid "DHCPv6 client"
 msgstr "DHCPv6 Client"
 
 msgid "DHCPv6-Mode"
-msgstr ""
+msgstr "DHCPv6-Modus"
 
 msgid "DHCPv6-Service"
-msgstr ""
+msgstr "DHCPv6-Dienst"
 
 msgid "DNS"
 msgstr "DNS"
@@ -909,7 +915,7 @@ msgid "Disable DNS setup"
 msgstr "DNS-Verarbeitung deaktivieren"
 
 msgid "Disable Encryption"
-msgstr ""
+msgstr "Verschlüsselung deaktivieren"
 
 msgid "Disabled"
 msgstr "Deaktiviert"
@@ -1037,6 +1043,11 @@ msgstr "Notfall"
 msgid "Enable"
 msgstr "Aktivieren"
 
+msgid ""
+"Enable <abbr title=\"Internet Group Management Protocol\">IGMP</abbr> "
+"snooping"
+msgstr ""
+
 msgid "Enable <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 msgstr "<abbr title=\"Spanning Tree Protocol\">STP</abbr> aktivieren"
 
@@ -1094,6 +1105,9 @@ msgstr "Aktivieren/Deaktivieren"
 
 msgid "Enabled"
 msgstr "Aktiviert"
+
+msgid "Enables IGMP snooping on this bridge"
+msgstr ""
 
 msgid ""
 "Enables fast roaming among access points that belong to the same Mobility "
@@ -1284,6 +1298,9 @@ msgstr "Fehlerkorrektursekunden (FECS)"
 msgid "Forward broadcast traffic"
 msgstr "Broadcasts weiterleiten"
 
+msgid "Forward mesh peer traffic"
+msgstr "Mesh-Nachbar-Traffic weiterleiten"
+
 msgid "Forwarding mode"
 msgstr "Weiterleitungstyp"
 
@@ -1331,7 +1348,7 @@ msgid "Generate Config"
 msgstr "Konfiguration generieren"
 
 msgid "Generate PMK locally"
-msgstr ""
+msgstr "PMK lokal generieren"
 
 msgid "Generate archive"
 msgstr "Sicherung erstellen"
@@ -1370,9 +1387,6 @@ msgstr "HE.net Benutzername"
 
 msgid "HT mode (802.11n)"
 msgstr "HT-Modus (802.11n)"
-
-msgid "Handler"
-msgstr "Handler"
 
 msgid "Hang Up"
 msgstr "Auflegen"
@@ -1820,6 +1834,12 @@ msgid ""
 "from the R0KH that the STA used during the Initial Mobility Domain "
 "Association."
 msgstr ""
+"Liste von R0KH-Bezeichnern innerhalb der selben Mobilitätsdomäne. <br /"
+">Format: MAC-Adresse,NAS-Identifier,128 Bit Schlüssel in Hex-Notation. <br /"
+">Diese Liste wird verwendet um R0KH-Bezeichner (NAS Identifier) einer Ziel-"
+"MAC-Adresse zuzuordnen damit ein PMK-R1-Schlüssel von der R0KH angefordert "
+"werden kann, mit der sich der Client wärend der anfänglichen "
+"Mobilitätsdomänen-Assoziation verbunden hat."
 
 msgid ""
 "List of R1KHs in the same Mobility Domain. <br />Format: MAC-address,R1KH-ID "
@@ -1828,6 +1848,12 @@ msgid ""
 "R0KH. This is also the list of authorized R1KHs in the MD that can request "
 "PMK-R1 keys."
 msgstr ""
+"Liste von R1KH-Bezeichnern innerhalb der selben Mobilitätsdomäne. <br /"
+">Format: MAC-Adresse,R1KH-ID im MAC-Adress-Format,128 Bit Schlüssel in Hex-"
+"Notation. <br />Diese Liste wird benutzt um einer R1KH-ID eine Ziel-MAC-"
+"Adresse zuzuordnen wenn ein PMK-R1-Schlüssel von einer R0KH-Station "
+"versendet wird. Die Liste dient auch zur Authorisierung von R1KH-IDs, welche "
+"innerhalb der Mobilitätsdomain PMK-R1-Schlüssel anfordern dürfen."
 
 msgid "List of SSH key files for auth"
 msgstr "Liste der SSH Schlüssel zur Authentifikation"
@@ -1983,9 +2009,6 @@ msgstr "Maximal zulässige Größe von EDNS.0 UDP Paketen"
 msgid "Maximum amount of seconds to wait for the modem to become ready"
 msgstr "Maximale Zeit die gewartet wird bis das Modem bereit ist (in Sekunden)"
 
-msgid "Maximum hold time"
-msgstr "Maximalzeit zum Halten der Verbindung"
-
 msgid ""
 "Maximum length of the name is 15 characters including the automatic protocol/"
 "bridge prefix (br-, 6in4-, pppoe- etc.)"
@@ -2006,11 +2029,11 @@ msgstr "Hauptspeicher"
 msgid "Memory usage (%)"
 msgstr "Speichernutzung (%)"
 
+msgid "Mesh Id"
+msgstr "Mesh-ID"
+
 msgid "Metric"
 msgstr "Metrik"
-
-msgid "Minimum hold time"
-msgstr "Minimalzeit zum Halten der Verbindung"
 
 msgid "Mirror monitor port"
 msgstr "Spiegel-Monitor-Port"
@@ -2062,7 +2085,7 @@ msgstr ""
 "Laufwerke und Speicher zur Verwendung eingebunden werden."
 
 msgid "Mount filesystems not specifically configured"
-msgstr ""
+msgstr "Nicht explizit konfigurierte Dateisysteme einhängen"
 
 msgid "Mount options"
 msgstr "Mount-Optionen"
@@ -2218,6 +2241,9 @@ msgstr "Notiz"
 msgid "Nslookup"
 msgstr "DNS-Auflösung"
 
+msgid "Number of cached DNS entries (max is 10000, 0 is no caching)"
+msgstr ""
+
 msgid "OK"
 msgstr "OK"
 
@@ -2229,6 +2255,9 @@ msgstr "Chiffriertes Gruppenpasswort"
 
 msgid "Obfuscated Password"
 msgstr "Chiffriertes Passwort"
+
+msgid "Obtain IPv6-Address"
+msgstr ""
 
 msgid "Off-State Delay"
 msgstr "Verzögerung für Ausschalt-Zustand"
@@ -2475,9 +2504,6 @@ msgstr "Pfad zu Client-Zertifikat"
 msgid "Path to Private Key"
 msgstr "Pfad zum Privaten Schlüssel"
 
-msgid "Path to executable which handles the button event"
-msgstr "Ausführbare Datei welche das Schalter-Ereignis verarbeitet"
-
 msgid "Path to inner CA-Certificate"
 msgstr "Pfad zum inneren CA-Zertifikat"
 
@@ -2617,10 +2643,10 @@ msgid "Quality"
 msgstr "Qualität"
 
 msgid "R0 Key Lifetime"
-msgstr ""
+msgstr "R0-Schlüsselgültigkeit"
 
 msgid "R1 Key Holder"
-msgstr ""
+msgstr "R1-Schlüsselinhaber"
 
 msgid "RFC3947 NAT-T mode"
 msgstr ""
@@ -3032,6 +3058,9 @@ msgstr "Größe"
 msgid "Size (.ipk)"
 msgstr "Größe (.ipk)"
 
+msgid "Size of DNS query cache"
+msgstr ""
+
 msgid "Skip"
 msgstr "Überspringen"
 
@@ -3077,9 +3106,6 @@ msgstr "Quelle"
 
 msgid "Source routing"
 msgstr "Quell-Routing"
-
-msgid "Specifies the button state to handle"
-msgstr "Gibt den zu behandelnden Tastenstatus an"
 
 msgid "Specifies the directory the device is attached to"
 msgstr "Nennt das Verzeichnis, an welches das Gerät angebunden ist"
@@ -3195,6 +3221,9 @@ msgstr ""
 "Der Switch %q hat eine unbekannte Struktur, die VLAN Settings könnten "
 "unpassend sein."
 
+msgid "Switch Port Mask"
+msgstr ""
+
 msgid "Switch VLAN"
 msgstr ""
 
@@ -3242,7 +3271,7 @@ msgid "Target"
 msgstr "Ziel"
 
 msgid "Target network"
-msgstr ""
+msgstr "Zielnetzwerk"
 
 msgid "Terminate"
 msgstr "Beenden"
@@ -3468,15 +3497,15 @@ msgid ""
 "This is the content of /etc/rc.local. Insert your own commands here (in "
 "front of 'exit 0') to execute them at the end of the boot process."
 msgstr ""
-"Dies ist der Inhalt von /etc.rc.local. Hier kann man eigene Befehle einfügen "
+"Dies ist der Inhalt von /etc/rc.local. Hier kann man eigene Befehle einfügen "
 "(vor 'exit 0'), die dann am Ende des Bootvorgangs ausgeführt werden."
 
 msgid ""
 "This is the local endpoint address assigned by the tunnel broker, it usually "
-"ends with <code>:2</code>"
+"ends with <code>...:2/64</code>"
 msgstr ""
 "Dies ist die lokale, vom Broker zugewiesene IPv6-Adresse, sie endet "
-"üblicherweise mit <code>:2</code>"
+"üblicherweise mit <code>...:2/64</code>"
 
 msgid ""
 "This is the only <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</"
@@ -3508,10 +3537,6 @@ msgid ""
 msgstr ""
 "Diese Tabelle gibt eine Übersicht über aktuell laufende Systemprozesse und "
 "deren Status."
-
-msgid "This page allows the configuration of custom button actions"
-msgstr ""
-"Diese Seite ermöglicht die Konfiguration benutzerdefinierter Tastenaktionen"
 
 msgid "This page gives an overview over currently active network connections."
 msgstr "Diese Seite gibt eine Übersicht über aktive Netzwerkverbindungen."
@@ -3700,9 +3725,9 @@ msgstr "Benutze Routing-Tabelle"
 
 msgid ""
 "Use the <em>Add</em> Button to add a new lease entry. The <em>MAC-Address</"
-"em> indentifies the host, the <em>IPv4-Address</em> specifies to the fixed "
-"address to use and the <em>Hostname</em> is assigned as symbolic name to the "
-"requesting host. The optional <em>Lease time</em> can be used to set non-"
+"em> identifies the host, the <em>IPv4-Address</em> specifies the fixed "
+"address to use, and the <em>Hostname</em> is assigned as a symbolic name to "
+"the requesting host. The optional <em>Lease time</em> can be used to set non-"
 "standard host-specific lease time, e.g. 12h, 3d or infinite."
 msgstr ""
 "Die <em>Hinzufügen</em> Schaltfläche fügt einen neuen Lease-Eintrag hinzu. "
@@ -3832,6 +3857,8 @@ msgid ""
 "When using a PSK, the PMK can be generated locally without inter AP "
 "communications"
 msgstr ""
+"Wenn PSK in Verwendung ist, können PMK-Schlüssel lokal ohne Inter-Access-"
+"Point-Kommunikation erzeugt werden."
 
 msgid "Whether to create an IPv6 default route over the tunnel"
 msgstr ""
@@ -4011,6 +4038,9 @@ msgstr "offen"
 msgid "overlay"
 msgstr "Overlay"
 
+msgid "random"
+msgstr ""
+
 msgid "relay mode"
 msgstr "Relay-Modus"
 
@@ -4055,6 +4085,32 @@ msgstr "ja"
 
 msgid "« Back"
 msgstr "« Zurück"
+
+#~ msgid "Action"
+#~ msgstr "Aktion"
+
+#~ msgid "Buttons"
+#~ msgstr "Knöpfe"
+
+#~ msgid "Handler"
+#~ msgstr "Handler"
+
+#~ msgid "Maximum hold time"
+#~ msgstr "Maximalzeit zum Halten der Verbindung"
+
+#~ msgid "Minimum hold time"
+#~ msgstr "Minimalzeit zum Halten der Verbindung"
+
+#~ msgid "Path to executable which handles the button event"
+#~ msgstr "Ausführbare Datei welche das Schalter-Ereignis verarbeitet"
+
+#~ msgid "Specifies the button state to handle"
+#~ msgstr "Gibt den zu behandelnden Tastenstatus an"
+
+#~ msgid "This page allows the configuration of custom button actions"
+#~ msgstr ""
+#~ "Diese Seite ermöglicht die Konfiguration benutzerdefinierter "
+#~ "Tastenaktionen"
 
 #~ msgid "Leasetime"
 #~ msgstr "Laufzeit"

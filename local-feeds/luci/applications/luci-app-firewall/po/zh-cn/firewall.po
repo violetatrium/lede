@@ -30,13 +30,19 @@ msgid "(Unnamed SNAT)"
 msgstr "（未命名 SNAT）"
 
 msgid "<var>%d</var> pkts. per <var>%s</var>"
-msgstr "<var>%d</var> 数据包。每 <var>%s</var>"
+msgstr "<var>%d</var> 数据包/<var>%s</var>"
 
 msgid "<var>%d</var> pkts. per <var>%s</var>, burst <var>%d</var> pkts."
-msgstr "<var>%d</var> 数据包。每 <var>%s</var>，突发 <var>%d</var> 数据包。"
+msgstr "<var>%d</var> 数据包/<var>%s</var>，突发 <var>%d</var> 数据包。"
 
 msgid "<var>%s</var> and limit to %s"
 msgstr "<var>%s</var> 并限制到 %s"
+
+msgid "Accept forward"
+msgstr "接受转发"
+
+msgid "Accept input"
+msgstr "接受入站"
 
 msgid "Action"
 msgstr "动作"
@@ -85,8 +91,23 @@ msgstr "目标端口"
 msgid "Destination zone"
 msgstr "目标区域"
 
+msgid "Disable"
+msgstr "禁用"
+
+msgid "Discard forward"
+msgstr "丢弃转发"
+
+msgid "Discard input"
+msgstr "丢弃入站"
+
 msgid "Do not rewrite"
 msgstr "不重写"
+
+msgid "Do not track forward"
+msgstr "不跟踪转发"
+
+msgid "Do not track input"
+msgstr "不跟踪入站"
 
 msgid "Drop invalid packets"
 msgstr "丢弃无效数据包"
@@ -154,6 +175,15 @@ msgstr "来自 %s 位于 %s 源端口 %s 源 MAC %s"
 msgid "General Settings"
 msgstr "基本设置"
 
+msgid "IP"
+msgstr "IP"
+
+msgid "IP range"
+msgstr "IP 范围"
+
+msgid "IPs"
+msgstr "IP"
+
 msgid "IPv4"
 msgstr "IPv4"
 
@@ -186,6 +216,12 @@ msgstr "内部区域"
 
 msgid "Limit log messages"
 msgstr "限制日志信息"
+
+msgid "MAC"
+msgstr "MAC"
+
+msgid "MACs"
+msgstr "MAC"
 
 msgid "MSS clamping"
 msgstr "MSS 钳制"
@@ -281,6 +317,12 @@ msgstr "重定向匹配的入站流量到内部主机的端口"
 msgid "Redirect matched incoming traffic to the specified internal host"
 msgstr "重定向匹配的入站流量到指定的内部主机"
 
+msgid "Refuse forward"
+msgstr "拒绝转发"
+
+msgid "Refuse input"
+msgstr "拒绝入站"
+
 msgid "Restart Firewall"
 msgstr "重启防火墙"
 
@@ -306,6 +348,12 @@ msgstr "源地址改写成 %s"
 
 msgid "Rewrite to source %s, %s"
 msgstr "源地址改写成 %s, %s"
+
+msgid "Rule is disabled"
+msgstr "规则已禁用"
+
+msgid "Rule is enabled"
+msgstr "规则已启用"
 
 msgid "SNAT IP address"
 msgstr "SNAT IP 地址"
@@ -475,14 +523,41 @@ msgstr "所有路由 IP"
 msgid "any zone"
 msgstr "所有区域"
 
+msgid "day"
+msgstr "日"
+
 msgid "don't track"
 msgstr "不跟踪"
 
 msgid "drop"
 msgstr "丢弃"
 
+msgid "hour"
+msgstr "小时"
+
+msgid "minute"
+msgstr "分钟"
+
+msgid "not"
+msgstr ""
+
+msgid "port"
+msgstr "端口"
+
+msgid "ports"
+msgstr "端口"
+
 msgid "reject"
 msgstr "拒绝"
 
+msgid "second"
+msgstr "秒"
+
 msgid "traffic"
 msgstr "通信"
+
+msgid "type"
+msgstr "类型"
+
+msgid "types"
+msgstr "类型"

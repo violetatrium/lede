@@ -8,29 +8,27 @@
 include $(TOPDIR)/rules.mk
 
 # The file included below defines PYTHON_VERSION
-include ./files/python3-version.mk
+include ../python3-version.mk
 
 PYTHON_VERSION:=$(PYTHON3_VERSION)
 PYTHON_VERSION_MICRO:=$(PYTHON3_VERSION_MICRO)
 
 PKG_NAME:=python3
-# XXX: reset PKG_RELEASE to 1 only if Python's pip & setuptools versions have also bumped;
-#      otherwise, keep bumping PKG_RELEASE
-PKG_RELEASE:=11
+PKG_RELEASE:=1
 PKG_VERSION:=$(PYTHON_VERSION).$(PYTHON_VERSION_MICRO)
 
 PKG_SOURCE:=Python-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://www.python.org/ftp/python/$(PKG_VERSION)
-PKG_HASH:=cda7d967c9a4bfa52337cdf551bcc5cff026b6ac50a8834e568ce4a794ca81da
+PKG_HASH:=f434053ba1b5c8a5cc597e966ead3c5143012af827fd3f0697d21450bb8d87a6
 
 PKG_LICENSE:=PSF
 PKG_LICENSE_FILES:=LICENSE Modules/_ctypes/libffi_msvc/LICENSE Modules/_ctypes/darwin/LICENSE Modules/_ctypes/libffi/LICENSE Modules/_ctypes/libffi_osx/LICENSE Tools/pybench/LICENSE
 
 # This file provides the necsessary host build variables
-include ./files/python3-host.mk
+include ../python3-host.mk
 
 # For Py3Package
-include ./files/python3-package.mk
+include ../python3-package.mk
 
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
@@ -196,16 +194,6 @@ define Build/Compile
 	$(call Build/Compile/python3-pip)
 endef
 
-define Build/InstallMkFiles
-	$(INSTALL_DIR) $(STAGING_DIR)/mk/
-	$(INSTALL_DATA) \
-		./files/python3-package.mk \
-		./files/python3-host.mk \
-		./files/python3-version.mk \
-		./files/python3-package-install.sh \
-		$(STAGING_DIR)/mk/
-endef
-
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include/ $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/usr/lib/python$(PYTHON_VERSION)/
@@ -219,7 +207,6 @@ define Build/InstallDev
 	$(CP) \
 		$(PKG_INSTALL_DIR)/usr/lib/python$(PYTHON_VERSION)/config-$(PYTHON_VERSION) \
 		$(1)/usr/lib/python$(PYTHON_VERSION)/
-	$(call Build/InstallMkFiles)
 endef
 
 PYTHON3_BASE_LIB_FILES:= \
@@ -277,8 +264,12 @@ define Py3Package/python3/filespec
 endef
 
 HOST_LDFLAGS += \
-	-Wl,--no-as-needed -lrt \
 	$$$$(pkg-config --static --libs libcrypto libssl)
+
+ifeq ($(HOST_OS),Linux)
+HOST_LDFLAGS += \
+	-Wl,--no-as-needed -lrt
+endif
 
 HOST_CONFIGURE_ARGS+= \
 	--without-cxx-main \
@@ -287,7 +278,6 @@ HOST_CONFIGURE_ARGS+= \
 	--prefix=$(HOST_PYTHON3_DIR) \
 	--exec-prefix=$(HOST_PYTHON3_DIR) \
 	--with-system-expat=$(STAGING_DIR_HOSTPKG) \
-	--with-system-ffi=no \
 	--with-ensurepip=install \
 	CONFIG_SITE=
 
@@ -297,7 +287,6 @@ define Host/Compile
 endef
 
 define Host/Install
-	$(call Build/InstallMkFiles)
 	$(MAKE) -C $(HOST_BUILD_DIR) install
 	$(INSTALL_DIR) $(HOST_PYTHON3_DIR)/bin/
 	$(INSTALL_BIN) $(HOST_BUILD_DIR)/Parser/pgen $(HOST_PYTHON3_DIR)/bin/pgen3
@@ -321,4 +310,3 @@ $(eval $(call BuildPackage,python3))
 
 $(eval $(call BuildPackage,python3-base-src))
 $(eval $(call BuildPackage,python3-light-src))
-$(eval $(call BuildPackage,python3-src))

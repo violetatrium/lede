@@ -1,4 +1,4 @@
--- Copyright 2017 Dirk Brenken (dev@brenken.org)
+-- Copyright 2017-2018 Dirk Brenken (dev@brenken.org)
 -- This is free software, licensed under the Apache License, Version 2.0
 
 local fs       = require("nixio.fs")
@@ -7,25 +7,16 @@ local sys      = require("luci.sys")
 local util     = require("luci.util")
 local dump     = util.ubus("network.interface", "dump", {})
 local json     = require("luci.jsonc")
-local adbinput = uci.get("adblock", "global", "adb_rtfile") or "/tmp/adb_runtime.json"
-
-if not uci:get("adblock", "extra") then
-	m = SimpleForm("", nil, translate("Please update your adblock config file to use this package.<br />")
-	.. translatef("During opkg package installation use the '--force-maintainer' option to overwrite the pre-existing config file or download a fresh default config from "
-	.. "<a href=\"%s\" target=\"_blank\">"
-	.. "here</a>", "https://raw.githubusercontent.com/openwrt/packages/master/net/adblock/files/adblock.conf"))
-	m.submit = false
-	m.reset = false
-	return m
-end
+local adbinput = uci:get("adblock", "global", "adb_rtfile") or "/tmp/adb_runtime.json"
 
 m = Map("adblock", translate("Adblock"),
 	translate("Configuration of the adblock package to block ad/abuse domains by using DNS. ")
 	.. translatef("For further information "
 	.. "<a href=\"%s\" target=\"_blank\">"
 	.. "check the online documentation</a>", "https://github.com/openwrt/packages/blob/master/net/adblock/files/README.md"))
+m.apply_on_parse = true
 
-function m.on_after_commit(self)
+function m.on_apply(self)
 	luci.sys.call("/etc/init.d/adblock reload >/dev/null 2>&1")
 	luci.http.redirect(luci.dispatcher.build_url("admin", "services", "adblock"))
 end
@@ -74,27 +65,39 @@ end
 o2 = s:option(ListValue, "adb_dns", translate("DNS Backend (DNS Directory)"),
 	translate("List of supported DNS backends with their default list export directory.<br />")
 	.. translate("To overwrite the default path use the 'DNS Directory' option in the extra section below."))
-o2:value("dnsmasq", "dnsmasq (/tmp/dnsmasq.d)")
+o2:value("dnsmasq", "dnsmasq (/tmp)")
 o2:value("unbound", "unbound (/var/lib/unbound)")
 o2:value("named", "named (/var/lib/bind)")
 o2:value("kresd", "kresd (/etc/kresd)")
 o2:value("dnscrypt-proxy","dnscrypt-proxy (/tmp)")
+o2.default = "dnsmasq (/tmp)"
 o2.rmempty = false
 
-o3 = s:option(ListValue, "adb_trigger", translate("Startup Trigger"),
+o3 = s:option(ListValue, "adb_fetchutil", translate("Download Utility"),
+translate("List of supported and fully pre-configured download utilities."))
+o3:value("uclient-fetch")
+o3:value("wget")
+o3:value("curl")
+o3:value("aria2c")
+o3:value("wget-nossl", "wget-nossl (noSSL)")
+o3:value("busybox", "wget-busybox (noSSL)")
+o3.default = "uclient-fetch"
+o3.rmempty = false
+
+o4 = s:option(ListValue, "adb_trigger", translate("Startup Trigger"),
 	translate("List of available network interfaces. Usually the startup will be triggered by the 'wan' interface.<br />")
 	.. translate("Choose 'none' to disable automatic startups, 'timed' to use a classic timeout (default 30 sec.) or select another trigger interface."))
-o3:value("none")
-o3:value("timed")
+o4:value("none")
+o4:value("timed")
 if dump then
 	local i, v
 	for i, v in ipairs(dump.interface) do
 		if v.interface ~= "loopback" then
-			o3:value(v.interface)
+			o4:value(v.interface)
 		end
 	end
 end
-o3.rmempty = false
+o4.rmempty = false
 
 -- Runtime information
 
@@ -111,6 +114,8 @@ else
 		dv1.value = translate("disabled")
 	elseif status == "paused" then
 		dv1.value = translate("paused")
+	elseif status == "running" then
+		dv1.value = translate("running")
 	else
 		dv1.value = translate("enabled")
 	end
@@ -125,7 +130,7 @@ else
 end
 
 dv3 = ds:option(DummyValue, "", translate("Download Utility (SSL Library)"),
-	translate("For SSL protected blocklist sources you need a suitable SSL library, e.g. 'libustream-ssl' or the wget 'built-in'."))
+	translate("For SSL protected blocklist sources you need a suitable SSL library, e.g. 'libustream-ssl' or 'built-in'."))
 dv3.template = "adblock/runtime"
 if parse == nil then
 	dv3.value = translate("n/a")
@@ -160,10 +165,8 @@ end
 -- Blocklist table
 
 bl = m:section(TypedSection, "source", translate("Blocklist Sources"),
-	translate("Available blocklist sources. ")
-	.. translate("List URLs and Shallalist category selections are configurable in the 'Advanced' section.<br />")
-	.. translate("Caution: To prevent OOM exceptions on low memory devices with less than 64 MB free RAM, please do not select too many lists - 5-6 should be sufficient!"))
-bl.template = "cbi/tblsection"
+	translate("<b>Caution:</b> To prevent OOM exceptions on low memory devices with less than 64 MB free RAM, please only select a few of them!"))
+bl.template = "adblock/blocklist"
 
 name = bl:option(Flag, "enabled", translate("Enabled"))
 name.rmempty = false
@@ -177,7 +180,12 @@ function ssl.cfgvalue(self, section)
 		return translate("No")
 	end
 end
+
 des = bl:option(DummyValue, "adb_src_desc", translate("Description"))
+
+cat = bl:option(DynamicList, "adb_src_cat", translate("Categories"))
+cat.datatype = "uciname"
+cat.optional = true
 
 -- Extra options
 
@@ -217,25 +225,51 @@ e6:depends("adb_backup", 1)
 e6.default = e6.disabled
 e6.rmempty = true
 
-e7 = e:option(Flag, "adb_whitelist_mode", translate("Whitelist Mode"),
-	translate("Block access to all domains except those explicitly listed in the whitelist file."))
-e7.default = e7.disabled
-e7.rmempty = true
+e7 = e:option(Value, "adb_maxqueue", translate("Max. Download Queue"),
+	translate("Size of the download queue to handle downloads &amp; list processing in parallel (default '4').<br />")
+	.. translate("For further performance improvements you can raise this value, e.g. '8' or '16' should be safe."))
+e7.default = 4
+e7.datatype = "range(1,32)"
+e7.rmempty = false
 
-e8 = e:option(Value, "adb_dnsdir", translate("DNS Directory"),
+e8 = e:option(Flag, "adb_jail", translate("'Jail' Blocklist Creation"),
+	translate("Builds an additional 'Jail' list (/tmp/adb_list.jail) to block access to all domains except those listed in the whitelist file.<br />")
+	.. translate("You can use this restrictive blocklist manually e.g. for guest wifi or kidsafe configurations."))
+e8.default = e8.disabled
+e8.rmempty = true
+
+e9 = e:option(Flag, "adb_dnsflush", translate("Flush DNS Cache"),
+	translate("Flush DNS Cache after adblock processing."))
+e9.default = e9.disabled
+e9.rmempty = true
+
+e10 = e:option(Flag, "adb_notify", translate("Email Notification"),
+	translate("Send notification emails in case of a processing error or if domain count is &le; 0.<br />")
+	.. translate("Please note: this needs additional 'msmtp' package installation and setup."))
+e10.default = e10.disabled
+e10.rmempty = true
+
+e11 = e:option(Value, "adb_notifycnt", translate("Email Notification Count"),
+	translate("Raise the minimum email notification count, to get emails if the overall count is less or equal to the given limit (default 0),<br />")
+	.. translate("e.g. to receive an email notification with every adblock update set this value to 150000."))
+e11.default = 0
+e11.datatype = "min(0)"
+e11.optional = true
+
+e12 = e:option(Value, "adb_dnsdir", translate("DNS Directory"),
 	translate("Target directory for the generated blocklist 'adb_list.overall'."))
-e8.datatype = "directory"
-e8.optional = true
+e12.datatype = "directory"
+e12.optional = true
 
-e9 = e:option(Value, "adb_whitelist", translate("Whitelist File"),
+e13 = e:option(Value, "adb_whitelist", translate("Whitelist File"),
 	translate("Full path to the whitelist file."))
-e9.datatype = "file"
-e9.default = "/etc/adblock/adblock.whitelist"
-e9.optional = true
+e13.datatype = "file"
+e13.default = "/etc/adblock/adblock.whitelist"
+e13.optional = true
 
-e10 = e:option(Value, "adb_triggerdelay", translate("Trigger Delay"),
+e14 = e:option(Value, "adb_triggerdelay", translate("Trigger Delay"),
 	translate("Additional trigger delay in seconds before adblock processing begins."))
-e10.datatype = "range(1,60)"
-e10.optional = true
+e14.datatype = "range(1,60)"
+e14.optional = true
 
 return m

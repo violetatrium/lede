@@ -3,18 +3,18 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-10 03:40+0200\n"
-"PO-Revision-Date: 2017-10-20 13:54+0900\n"
+"PO-Revision-Date: 2018-05-03 00:23+0900\n"
 "Last-Translator: INAGAKI Hiroshi <musashino.open@gmail.com>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.7\n"
 "Language-Team: \n"
 
 msgid "%.1f dB"
-msgstr ""
+msgstr "%.1f dB"
 
 msgid "%s is untagged in multiple VLANs!"
 msgstr "%s は複数のVLANにUntaggedしています!"
@@ -137,7 +137,7 @@ msgid "<abbr title=\"Media Access Control\">MAC</abbr>-Address"
 msgstr "<abbr title=\"Media Access Control\">MAC</abbr>-アドレス"
 
 msgid "<abbr title=\"The DHCP Unique Identifier\">DUID</abbr>"
-msgstr ""
+msgstr "<abbr title=\"The DHCP Unique Identifier\">DUID</abbr>"
 
 msgid ""
 "<abbr title=\"maximal\">Max.</abbr> <abbr title=\"Dynamic Host Configuration "
@@ -220,9 +220,6 @@ msgstr "Access Concentrator"
 msgid "Access Point"
 msgstr "アクセスポイント"
 
-msgid "Action"
-msgstr "動作"
-
 msgid "Actions"
 msgstr "動作"
 
@@ -254,6 +251,8 @@ msgstr "追加"
 
 msgid "Add local domain suffix to names served from hosts files"
 msgstr ""
+"hosts ファイルにより解決される名前にローカルドメイン サフィックスを付加しま"
+"す。"
 
 msgid "Add new interface..."
 msgstr "インターフェースの新規作成..."
@@ -295,6 +294,9 @@ msgstr "<abbr title=\"Secure Shell\">SSH</abbr> パスワード認証を許可�
 
 msgid "Allow all except listed"
 msgstr "リスト内の端末からのアクセスを禁止"
+
+msgid "Allow legacy 802.11b rates"
+msgstr ""
 
 msgid "Allow listed only"
 msgstr "リスト内の端末からのアクセスを許可"
@@ -570,9 +572,6 @@ msgstr ""
 "ビルド / ディストリビューション固有のフィード定義です。このファイルは"
 "sysupgradeの際に引き継がれません。"
 
-msgid "Buttons"
-msgstr "ボタン"
-
 msgid "CA certificate; if empty it will be saved after the first connection."
 msgstr "CA証明書（空白の場合、初回の接続後に保存されます。）"
 
@@ -603,7 +602,7 @@ msgstr "チャネル"
 msgid "Check"
 msgstr "チェック"
 
-msgid "Check fileystems before mount"
+msgid "Check filesystems before mount"
 msgstr "マウント前にファイルシステムをチェックする"
 
 msgid "Check this option to delete the existing networks from this radio."
@@ -752,6 +751,13 @@ msgstr ""
 
 msgid "Custom feeds"
 msgstr "カスタム フィード"
+
+msgid ""
+"Custom files (certificates, scripts) may remain on the system. To prevent "
+"this, perform a factory-reset first."
+msgstr ""
+"カスタム ファイル（証明書, スクリプト）がシステムに残るかもしれません。これを"
+"防ぐには、まず最初に factory-reset を行います。"
 
 msgid ""
 "Customizes the behaviour of the device <abbr title=\"Light Emitting Diode"
@@ -956,7 +962,7 @@ msgid "Domain whitelist"
 msgstr "ドメイン ホワイトリスト"
 
 msgid "Don't Fragment"
-msgstr ""
+msgstr "非フラグメント化"
 
 msgid ""
 "Don't forward <abbr title=\"Domain Name System\">DNS</abbr>-Requests without "
@@ -1027,6 +1033,13 @@ msgstr "緊急"
 msgid "Enable"
 msgstr "有効"
 
+msgid ""
+"Enable <abbr title=\"Internet Group Management Protocol\">IGMP</abbr> "
+"snooping"
+msgstr ""
+"<abbr title=\"Internet Group Management Protocol\">IGMP</abbr> スヌーピングの"
+"有効化"
+
 msgid "Enable <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 msgstr "<abbr title=\"Spanning Tree Protocol\">STP</abbr>を有効にする"
 
@@ -1070,7 +1083,7 @@ msgid "Enable mirroring of outgoing packets"
 msgstr "送信パケットのミラーリングを有効化"
 
 msgid "Enable the DF (Don't Fragment) flag of the encapsulating packets."
-msgstr ""
+msgstr "カプセル化されたパケットの DF (Don't Fragment) フラグを有効にします。"
 
 msgid "Enable this mount"
 msgstr "マウント設定を有効にする"
@@ -1083,6 +1096,9 @@ msgstr "有効/無効"
 
 msgid "Enabled"
 msgstr "有効"
+
+msgid "Enables IGMP snooping on this bridge"
+msgstr "ブリッジの IGMP スヌーピングを有効にします"
 
 msgid ""
 "Enables fast roaming among access points that belong to the same Mobility "
@@ -1257,7 +1273,7 @@ msgid "Force use of NAT-T"
 msgstr "NAT-Tの強制使用"
 
 msgid "Form token mismatch"
-msgstr ""
+msgstr "フォーム トークンの不一致"
 
 msgid "Forward DHCP traffic"
 msgstr "DHCPトラフィックを転送する"
@@ -1267,6 +1283,9 @@ msgstr ""
 
 msgid "Forward broadcast traffic"
 msgstr "ブロードキャスト トラフィックを転送する"
+
+msgid "Forward mesh peer traffic"
+msgstr ""
 
 msgid "Forwarding mode"
 msgstr "転送モード"
@@ -1352,9 +1371,6 @@ msgstr "HE.net ユーザー名"
 
 msgid "HT mode (802.11n)"
 msgstr "HT モード (802.11n)"
-
-msgid "Handler"
-msgstr "ハンドラ"
 
 msgid "Hang Up"
 msgstr "再起動"
@@ -1601,6 +1617,8 @@ msgstr "インストール"
 
 msgid "Install iputils-traceroute6 for IPv6 traceroute"
 msgstr ""
+"IPv6 の traceroute を使用するには、 iputils-traceroute6 をインストールしま"
+"す。"
 
 msgid "Install package %q"
 msgstr "%q パッケージをインストールします"
@@ -1664,7 +1682,7 @@ msgstr ""
 "ユーザー名かパスワード、もしくは両方が不正です！もう一度入力してください。"
 
 msgid "Isolate Clients"
-msgstr ""
+msgstr "クライアント間の分離"
 
 msgid ""
 "It appears that you are trying to flash an image that does not fit into the "
@@ -1759,6 +1777,8 @@ msgstr "割り当て数"
 
 msgid "Limit DNS service to subnets interfaces on which we are serving DNS."
 msgstr ""
+"DNS サービスを、現在 DNS を提供しているサブネットのインターフェースに限定しま"
+"す。"
 
 msgid "Limit listening to these interfaces, and loopback."
 msgstr "待ち受けをこれらのインターフェースとループバックに制限します。"
@@ -1843,7 +1863,7 @@ msgid "Local IPv6 address"
 msgstr "ローカル IPv6 アドレス"
 
 msgid "Local Service Only"
-msgstr ""
+msgstr "ローカルサービスのみ"
 
 msgid "Local Startup"
 msgstr "ローカル スタートアップ"
@@ -1858,6 +1878,8 @@ msgid ""
 "Local domain specification. Names matching this domain are never forwarded "
 "and are resolved from DHCP or hosts files only"
 msgstr ""
+"ローカル ドメインの定義です。このドメインに一致する名前は転送が行われず、 "
+"DHCP または hosts ファイルのみにより解決されます。"
 
 msgid "Local domain suffix appended to DHCP names and hosts file entries"
 msgstr ""
@@ -1951,9 +1973,6 @@ msgstr "EDNS.0 UDP パケットサイズの許可される最大数"
 msgid "Maximum amount of seconds to wait for the modem to become ready"
 msgstr "モデムが準備完了状態になるまでの最大待ち時間"
 
-msgid "Maximum hold time"
-msgstr "最大保持時間"
-
 msgid ""
 "Maximum length of the name is 15 characters including the automatic protocol/"
 "bridge prefix (br-, 6in4-, pppoe- etc.)"
@@ -1973,11 +1992,11 @@ msgstr "メモリー"
 msgid "Memory usage (%)"
 msgstr "メモリ使用率 (%)"
 
+msgid "Mesh Id"
+msgstr ""
+
 msgid "Metric"
 msgstr "メトリック"
-
-msgid "Minimum hold time"
-msgstr "最短保持時間"
 
 msgid "Mirror monitor port"
 msgstr "ミラー監視ポート"
@@ -2184,6 +2203,11 @@ msgstr "注意"
 msgid "Nslookup"
 msgstr "Nslookup"
 
+msgid "Number of cached DNS entries (max is 10000, 0 is no caching)"
+msgstr ""
+"キャッシュされる DNS エントリーの数です。（最大 10000 件。 0の場合はキャッ"
+"シュしません）"
+
 msgid "OK"
 msgstr "OK"
 
@@ -2194,6 +2218,9 @@ msgid "Obfuscated Group Password"
 msgstr ""
 
 msgid "Obfuscated Password"
+msgstr ""
+
+msgid "Obtain IPv6-Address"
 msgstr ""
 
 msgid "Off-State Delay"
@@ -2400,7 +2427,7 @@ msgid "Packets"
 msgstr "パケット"
 
 msgid "Part of zone %q"
-msgstr "ゾーン %qの一部"
+msgstr "ゾーン %q の一部"
 
 msgid "Password"
 msgstr "パスワード"
@@ -2428,9 +2455,6 @@ msgstr "クライアント証明書のパス"
 
 msgid "Path to Private Key"
 msgstr "秘密鍵のパス"
-
-msgid "Path to executable which handles the button event"
-msgstr "ボタンイベントをハンドルする実行ファイルのパス"
 
 msgid "Path to inner CA-Certificate"
 msgstr "CA 証明書のパス"
@@ -2971,6 +2995,9 @@ msgstr "サイズ"
 msgid "Size (.ipk)"
 msgstr "サイズ (.ipk)"
 
+msgid "Size of DNS query cache"
+msgstr "DNS クエリ キャッシュのサイズ"
+
 msgid "Skip"
 msgstr "スキップ"
 
@@ -3014,9 +3041,6 @@ msgid "Source"
 msgstr "送信元"
 
 msgid "Source routing"
-msgstr ""
-
-msgid "Specifies the button state to handle"
 msgstr ""
 
 msgid "Specifies the directory the device is attached to"
@@ -3097,10 +3121,10 @@ msgid "Submit"
 msgstr "送信"
 
 msgid "Suppress logging"
-msgstr ""
+msgstr "ログの抑制"
 
 msgid "Suppress logging of the routine operation of these protocols"
-msgstr ""
+msgstr "これらのプロトコルのルーチン的操作についてのログを抑制します。"
 
 msgid "Swap"
 msgstr "スワップ"
@@ -3120,6 +3144,9 @@ msgstr "スイッチ %q (%s)"
 msgid ""
 "Switch %q has an unknown topology - the VLAN settings might not be accurate."
 msgstr ""
+
+msgid "Switch Port Mask"
+msgstr "スイッチポート マスク"
 
 msgid "Switch VLAN"
 msgstr ""
@@ -3347,13 +3374,16 @@ msgstr ""
 "サービスを有効にするために、管理者パスワードを設定してください。"
 
 msgid "This IPv4 address of the relay"
-msgstr ""
+msgstr "リレーの IPv4 アドレス"
 
 msgid ""
 "This file may contain lines like 'server=/domain/1.2.3.4' or "
 "'server=1.2.3.4' fordomain-specific or full upstream <abbr title=\"Domain "
 "Name System\">DNS</abbr> servers."
 msgstr ""
+"このファイルは、特定ドメイン用、または上位 <abbr title=\"Domain Name System"
+"\">DNS</abbr> サーバーのための 'server=/domain/1.2.3.4' や 'server=1.2.3.4' "
+"というような行を含めることができます。"
 
 msgid ""
 "This is a list of shell glob patterns for matching files and directories to "
@@ -3378,17 +3408,17 @@ msgstr ""
 
 msgid ""
 "This is the local endpoint address assigned by the tunnel broker, it usually "
-"ends with <code>:2</code>"
+"ends with <code>...:2/64</code>"
 msgstr ""
 "プロバイダからアサインされた、ローカルのエンドポイント アドレスです。通常、"
-"<code>:2</code>が終端に設定されます。"
+"<code>...:2/64</code>が終端に設定されます。"
 
 msgid ""
 "This is the only <abbr title=\"Dynamic Host Configuration Protocol\">DHCP</"
 "abbr> in the local network"
 msgstr ""
-"ローカル ネットワーク内のみの <abbr title=\"Dynamic Host Configuration "
-"Protocol\">DHCP</abbr>として使用する"
+"これはローカル ネットワーク内のみの <abbr title=\"Dynamic Host Configuration "
+"Protocol\">DHCP</abbr> です。"
 
 msgid "This is the plain username for logging into the account"
 msgstr ""
@@ -3412,9 +3442,6 @@ msgid ""
 msgstr ""
 "このリストは現在システムで動作しているプロセスとそのステータスを表示していま"
 "す。"
-
-msgid "This page allows the configuration of custom button actions"
-msgstr "このページでは、ボタンの動作を変更することができます。"
 
 msgid "This page gives an overview over currently active network connections."
 msgstr "このページでは、現在アクティブなネットワーク接続を表示します。"
@@ -3603,9 +3630,9 @@ msgstr "ルーティング テーブルの使用"
 
 msgid ""
 "Use the <em>Add</em> Button to add a new lease entry. The <em>MAC-Address</"
-"em> indentifies the host, the <em>IPv4-Address</em> specifies to the fixed "
-"address to use and the <em>Hostname</em> is assigned as symbolic name to the "
-"requesting host. The optional <em>Lease time</em> can be used to set non-"
+"em> identifies the host, the <em>IPv4-Address</em> specifies the fixed "
+"address to use, and the <em>Hostname</em> is assigned as a symbolic name to "
+"the requesting host. The optional <em>Lease time</em> can be used to set non-"
 "standard host-specific lease time, e.g. 12h, 3d or infinite."
 msgstr ""
 "<em>追加</em> ボタンを押して、新しくエントリーを作成してください。<em>MAC-ア"
@@ -3910,6 +3937,9 @@ msgstr "オープン"
 
 msgid "overlay"
 msgstr "オーバーレイ"
+
+msgid "random"
+msgstr ""
 
 msgid "relay mode"
 msgstr "リレー モード"

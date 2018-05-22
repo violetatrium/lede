@@ -10,19 +10,18 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=freeswitch-stable-mod-bcg729
 
 PKG_VERSION:=20170629
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_MAINTAINER:=Sebastian Kemper <sebastian_ml@gmx.net>
 
 PKG_LICENSE:=MPL-1.1
 PKG_LICENSE_FILES:=LICENSE
-
-PRG_URL:=https://github.com/xadhoom/mod_bcg729
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://github.com/xadhoom/mod_bcg729.git
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=686eb06d4a395d94c364efff4b63579af76ebec7
+PKG_MIRROR_HASH:=adfdce835bad865b966ed3384a17f48279b422e63b0f49f3eb892258994cb62d
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -48,7 +47,7 @@ define Package/$(PKG_NAME)
   SUBMENU:=Telephony
   SECTION:=net
   CATEGORY:=Network
-  URL:=https://www.freeswitch.org
+  URL:=https://github.com/xadhoom/mod_bcg729
   DEPENDS:=freeswitch-stable +bcg729
 endef
 

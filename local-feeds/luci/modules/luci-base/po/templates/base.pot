@@ -197,9 +197,6 @@ msgstr ""
 msgid "Access Point"
 msgstr ""
 
-msgid "Action"
-msgstr ""
-
 msgid "Actions"
 msgstr ""
 
@@ -269,6 +266,9 @@ msgid "Allow <abbr title=\"Secure Shell\">SSH</abbr> password authentication"
 msgstr ""
 
 msgid "Allow all except listed"
+msgstr ""
+
+msgid "Allow legacy 802.11b rates"
 msgstr ""
 
 msgid "Allow listed only"
@@ -536,9 +536,6 @@ msgid ""
 "preserved in any sysupgrade."
 msgstr ""
 
-msgid "Buttons"
-msgstr ""
-
 msgid "CA certificate; if empty it will be saved after the first connection."
 msgstr ""
 
@@ -569,7 +566,7 @@ msgstr ""
 msgid "Check"
 msgstr ""
 
-msgid "Check fileystems before mount"
+msgid "Check filesystems before mount"
 msgstr ""
 
 msgid "Check this option to delete the existing networks from this radio."
@@ -698,6 +695,11 @@ msgid ""
 msgstr ""
 
 msgid "Custom feeds"
+msgstr ""
+
+msgid ""
+"Custom files (certificates, scripts) may remain on the system. To prevent "
+"this, perform a factory-reset first."
 msgstr ""
 
 msgid ""
@@ -956,6 +958,11 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
+msgid ""
+"Enable <abbr title=\"Internet Group Management Protocol\">IGMP</abbr> "
+"snooping"
+msgstr ""
+
 msgid "Enable <abbr title=\"Spanning Tree Protocol\">STP</abbr>"
 msgstr ""
 
@@ -1011,6 +1018,9 @@ msgid "Enable/Disable"
 msgstr ""
 
 msgid "Enabled"
+msgstr ""
+
+msgid "Enables IGMP snooping on this bridge"
 msgstr ""
 
 msgid ""
@@ -1192,6 +1202,9 @@ msgstr ""
 msgid "Forward broadcast traffic"
 msgstr ""
 
+msgid "Forward mesh peer traffic"
+msgstr ""
+
 msgid "Forwarding mode"
 msgstr ""
 
@@ -1273,9 +1286,6 @@ msgid "HE.net username"
 msgstr ""
 
 msgid "HT mode (802.11n)"
-msgstr ""
-
-msgid "Handler"
 msgstr ""
 
 msgid "Hang Up"
@@ -1852,9 +1862,6 @@ msgstr ""
 msgid "Maximum amount of seconds to wait for the modem to become ready"
 msgstr ""
 
-msgid "Maximum hold time"
-msgstr ""
-
 msgid ""
 "Maximum length of the name is 15 characters including the automatic protocol/"
 "bridge prefix (br-, 6in4-, pppoe- etc.)"
@@ -1872,10 +1879,10 @@ msgstr ""
 msgid "Memory usage (%)"
 msgstr ""
 
-msgid "Metric"
+msgid "Mesh Id"
 msgstr ""
 
-msgid "Minimum hold time"
+msgid "Metric"
 msgstr ""
 
 msgid "Mirror monitor port"
@@ -2081,6 +2088,9 @@ msgstr ""
 msgid "Nslookup"
 msgstr ""
 
+msgid "Number of cached DNS entries (max is 10000, 0 is no caching)"
+msgstr ""
+
 msgid "OK"
 msgstr ""
 
@@ -2091,6 +2101,9 @@ msgid "Obfuscated Group Password"
 msgstr ""
 
 msgid "Obfuscated Password"
+msgstr ""
+
+msgid "Obtain IPv6-Address"
 msgstr ""
 
 msgid "Off-State Delay"
@@ -2312,9 +2325,6 @@ msgid "Path to Client-Certificate"
 msgstr ""
 
 msgid "Path to Private Key"
-msgstr ""
-
-msgid "Path to executable which handles the button event"
 msgstr ""
 
 msgid "Path to inner CA-Certificate"
@@ -2832,6 +2842,9 @@ msgstr ""
 msgid "Size (.ipk)"
 msgstr ""
 
+msgid "Size of DNS query cache"
+msgstr ""
+
 msgid "Skip"
 msgstr ""
 
@@ -2872,9 +2885,6 @@ msgid "Source"
 msgstr ""
 
 msgid "Source routing"
-msgstr ""
-
-msgid "Specifies the button state to handle"
 msgstr ""
 
 msgid "Specifies the directory the device is attached to"
@@ -2974,6 +2984,9 @@ msgstr ""
 
 msgid ""
 "Switch %q has an unknown topology - the VLAN settings might not be accurate."
+msgstr ""
+
+msgid "Switch Port Mask"
 msgstr ""
 
 msgid "Switch VLAN"
@@ -3192,7 +3205,7 @@ msgstr ""
 
 msgid ""
 "This is the local endpoint address assigned by the tunnel broker, it usually "
-"ends with <code>:2</code>"
+"ends with <code>...:2/64</code>"
 msgstr ""
 
 msgid ""
@@ -3217,9 +3230,6 @@ msgstr ""
 msgid ""
 "This list gives an overview over currently running system processes and "
 "their status."
-msgstr ""
-
-msgid "This page allows the configuration of custom button actions"
 msgstr ""
 
 msgid "This page gives an overview over currently active network connections."
@@ -3403,9 +3413,9 @@ msgstr ""
 
 msgid ""
 "Use the <em>Add</em> Button to add a new lease entry. The <em>MAC-Address</"
-"em> indentifies the host, the <em>IPv4-Address</em> specifies to the fixed "
-"address to use and the <em>Hostname</em> is assigned as symbolic name to the "
-"requesting host. The optional <em>Lease time</em> can be used to set non-"
+"em> identifies the host, the <em>IPv4-Address</em> specifies the fixed "
+"address to use, and the <em>Hostname</em> is assigned as a symbolic name to "
+"the requesting host. The optional <em>Lease time</em> can be used to set non-"
 "standard host-specific lease time, e.g. 12h, 3d or infinite."
 msgstr ""
 
@@ -3693,6 +3703,9 @@ msgid "open"
 msgstr ""
 
 msgid "overlay"
+msgstr ""
+
+msgid "random"
 msgstr ""
 
 msgid "relay mode"

@@ -55,6 +55,7 @@ define KernelPackage/bluetooth
 	CONFIG_BT_HCIUART_BCM=n \
 	CONFIG_BT_HCIUART_INTEL=n \
 	CONFIG_BT_HCIUART_H4 \
+	CONFIG_BT_HCIUART_NOKIA=n \
 	CONFIG_BT_HIDP \
 	CONFIG_HID_SUPPORT=y
   $(call AddDepends/rfkill)
@@ -226,7 +227,7 @@ $(eval $(call KernelPackage,gpio-dev))
 define KernelPackage/gpio-mcp23s08
   SUBMENU:=$(OTHER_MENU)
   TITLE:=Microchip MCP23xxx I/O expander
-  DEPENDS:=@GPIO_SUPPORT +PACKAGE_kmod-i2c-core:kmod-i2c-core
+  DEPENDS:=@GPIO_SUPPORT +kmod-i2c-core
   KCONFIG:=CONFIG_GPIO_MCP23S08
   FILES:=$(LINUX_DIR)/drivers/gpio/gpio-mcp23s08.ko
   AUTOLOAD:=$(call AutoLoad,40,gpio-mcp23s08)
@@ -242,9 +243,9 @@ $(eval $(call KernelPackage,gpio-mcp23s08))
 define KernelPackage/gpio-nxp-74hc164
   SUBMENU:=$(OTHER_MENU)
   TITLE:=NXP 74HC164 GPIO expander support
-  KCONFIG:=CONFIG_GPIO_NXP_74HC164
-  FILES:=$(LINUX_DIR)/drivers/gpio/nxp_74hc164.ko
-  AUTOLOAD:=$(call AutoProbe,nxp_74hc164)
+  KCONFIG:=CONFIG_GPIO_74X164
+  FILES:=$(LINUX_DIR)/drivers/gpio/gpio-74x164.ko
+  AUTOLOAD:=$(call AutoProbe,gpio-74x164)
 endef
 
 define KernelPackage/gpio-nxp-74hc164/description
@@ -285,18 +286,53 @@ endef
 $(eval $(call KernelPackage,gpio-pcf857x))
 
 
-define KernelPackage/lp
+define KernelPackage/ppdev
   SUBMENU:=$(OTHER_MENU)
-  TITLE:=Parallel port and line printer support
+  TITLE:=Parallel port support
   KCONFIG:= \
 	CONFIG_PARPORT \
-	CONFIG_PRINTER \
 	CONFIG_PPDEV
   FILES:= \
 	$(LINUX_DIR)/drivers/parport/parport.ko \
-	$(LINUX_DIR)/drivers/char/lp.ko \
 	$(LINUX_DIR)/drivers/char/ppdev.ko
-  AUTOLOAD:=$(call AutoLoad,50,parport lp ppdev)
+  AUTOLOAD:=$(call AutoLoad,50,parport ppdev)
+endef
+
+$(eval $(call KernelPackage,ppdev))
+
+
+define KernelPackage/parport-pc
+  SUBMENU:=$(OTHER_MENU)
+  TITLE:=Parallel port interface (PC-style) support
+  DEPENDS:=+kmod-ppdev
+  KCONFIG:= \
+	CONFIG_KS0108=n \
+	CONFIG_PARPORT_PC \
+	CONFIG_PARPORT_1284=y \
+	CONFIG_PARPORT_PC_FIFO=y \
+	CONFIG_PARPORT_PC_PCMCIA=n \
+	CONFIG_PARPORT_PC_SUPERIO=y \
+	CONFIG_PARPORT_SERIAL=n \
+	CONFIG_PARIDE=n \
+	CONFIG_SCSI_IMM=n \
+	CONFIG_SCSI_PPA=n
+  FILES:= \
+	$(LINUX_DIR)/drivers/parport/parport_pc.ko
+  AUTOLOAD:=$(call AutoLoad,51,parport_pc)
+endef
+
+$(eval $(call KernelPackage,parport-pc))
+
+
+define KernelPackage/lp
+  SUBMENU:=$(OTHER_MENU)
+  TITLE:=Parallel port line printer device support
+  DEPENDS:=+kmod-ppdev
+  KCONFIG:= \
+	CONFIG_PRINTER
+  FILES:= \
+	$(LINUX_DIR)/drivers/char/lp.ko
+  AUTOLOAD:=$(call AutoLoad,52,lp)
 endef
 
 $(eval $(call KernelPackage,lp))
@@ -619,6 +655,22 @@ endef
 $(eval $(call KernelPackage,mtdoops))
 
 
+define KernelPackage/mtdram
+  SUBMENU:=$(OTHER_MENU)
+  TITLE:=Test MTD driver using RAM
+  KCONFIG:=CONFIG_MTD_MTDRAM \
+    CONFIG_MTDRAM_TOTAL_SIZE=4096 \
+    CONFIG_MTDRAM_ERASE_SIZE=128
+  FILES:=$(LINUX_DIR)/drivers/mtd/devices/mtdram.ko
+endef
+
+define KernelPackage/mtdram/description
+  Test MTD driver using RAM
+endef
+
+$(eval $(call KernelPackage,mtdram))
+
+
 define KernelPackage/serial-8250
   SUBMENU:=$(OTHER_MENU)
   TITLE:=8250 UARTs
@@ -655,11 +707,15 @@ define KernelPackage/regmap
 	   CONFIG_REGMAP_I2C \
 	   CONFIG_SPI=y
   FILES:= \
-	$(LINUX_DIR)/drivers/base/regmap/regmap-core.ko \
 	$(LINUX_DIR)/drivers/base/regmap/regmap-i2c.ko \
 	$(LINUX_DIR)/drivers/base/regmap/regmap-mmio.ko \
 	$(if $(CONFIG_SPI),$(LINUX_DIR)/drivers/base/regmap/regmap-spi.ko)
   AUTOLOAD:=$(call AutoLoad,21,regmap-core regmap-i2c regmap-mmio regmap-spi)
+  ifeq ($(strip $(CONFIG_EXTERNAL_KERNEL_TREE)),"")
+   ifeq ($(strip $(CONFIG_KERNEL_GIT_CLONE_URI)),"")
+    FILES += $(LINUX_DIR)/drivers/base/regmap/regmap-core.ko
+   endif
+  endif
 endef
 
 define KernelPackage/regmap/description

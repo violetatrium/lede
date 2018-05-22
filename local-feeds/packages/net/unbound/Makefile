@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=unbound
-PKG_VERSION:=1.6.7
+PKG_VERSION:=1.7.1
 PKG_RELEASE:=1
 
 PKG_LICENSE:=BSD-3-Clause
@@ -17,9 +17,8 @@ PKG_MAINTAINER:=Eric Luehrsen <ericluehrsen@hotmail.com>
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.unbound.net/downloads
-PKG_HASH:=4e7bd43d827004c6d51bef73adf941798e4588bdb40de5e79d89034d69751c9f
+PKG_HASH:=56e085ef582c5372a20207de179d0edb4e541e59f87be7d4ee1d00d12008628d
 
-PKG_BUILD_DEPENDS:=libexpat
 PKG_BUILD_PARALLEL:=1
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
@@ -153,10 +152,11 @@ define Package/unbound/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN)  ./files/unbound.init $(1)/etc/init.d/unbound
 	$(INSTALL_DIR) $(1)/usr/lib/unbound
-	$(INSTALL_BIN)  ./files/odhcpd.sh $(1)/usr/lib/unbound/odhcpd.sh
-	$(INSTALL_DATA) ./files/odhcpd.awk $(1)/usr/lib/unbound/odhcpd.awk
+	$(INSTALL_DATA) ./files/defaults.sh $(1)/usr/lib/unbound/defaults.sh
 	$(INSTALL_DATA) ./files/dnsmasq.sh $(1)/usr/lib/unbound/dnsmasq.sh
 	$(INSTALL_DATA) ./files/iptools.sh $(1)/usr/lib/unbound/iptools.sh
+	$(INSTALL_BIN)  ./files/odhcpd.sh $(1)/usr/lib/unbound/odhcpd.sh
+	$(INSTALL_DATA) ./files/odhcpd.awk $(1)/usr/lib/unbound/odhcpd.awk
 	$(INSTALL_DATA) ./files/rootzone.sh $(1)/usr/lib/unbound/rootzone.sh
 	$(INSTALL_DATA) ./files/unbound.sh $(1)/usr/lib/unbound/unbound.sh
 endef
