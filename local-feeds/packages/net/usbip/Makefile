@@ -52,7 +52,7 @@ endef
 define Package/usbip
   $(call Package/usbip/Default)
   TITLE+= (common)
-  DEPENDS+= +libwrap +kmod-usbip +libudev-fbsd
+  DEPENDS+= +libwrap +kmod-usbip +libudev-fbsd +USE_GLIBC:libbsd
 endef
 
 define Package/usbip-client
@@ -70,13 +70,16 @@ endef
 CONFIGURE_PATH:=.
 MAKE_PATH:=.
 LIBTOOL_PATHS:=.
-MAKE_FLAGS+=CFLAGS="-Wno-implicit-function-declaration"
+MAKE_FLAGS+=CFLAGS='-Dudev_device_get_devpath\(x\)=udev_device_get_syspath\(x\)+strlen\(\"/sys\"\) \
+	-DSIGCLD=SIGCHLD'
+CONFIGURE_ARGS+= --disable-silent-rules
 
 define Build/Configure
 	(cd $(PKG_BUILD_DIR); ./autogen.sh );
 	$(call Build/Configure/Default)
 endef
 
+CONFIGURE_VARS+= $(if $(CONFIG_USE_GLIBC),LIBS='-lbsd -lpthread')
 CFLAGS+="$(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include"
 
 USB_IDS_REV:=0a6be488b4c1485d30c9efee1cc895af5d4a1383
