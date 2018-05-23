@@ -3,7 +3,7 @@
 # See ../feeds.conf.default to make sure the commands here
 # still match to the location of the feeds needed.
 
-BRANCH=master
+BRANCH=openwrt-18.06
 
 rm -Rf ./packages ./luci ./routing ./telephony
 git clone -b $BRANCH --depth 1 https://git.lede-project.org/feed/packages.git

@@ -28,3 +28,4 @@ git-src
 project.txt
 .project
 .cproject
+downloads/*
