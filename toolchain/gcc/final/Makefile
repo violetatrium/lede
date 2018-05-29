@@ -7,9 +7,11 @@ GCC_CONFIGURE += \
 	--disable-libsanitizer \
 	--enable-languages=$(TARGET_LANGUAGES) \
 	--enable-shared \
-	--enable-threads \
+	--enable-threads=posix \
 	--with-slibdir=$(TOOLCHAIN_DIR)/lib \
 	--enable-lto \
+	--enable-libstdcxx-threads \
+	--disable-nls --with-mips-plt \
 	--with-libelf=$(TOPDIR)/staging_dir/host
 
 ifdef CONFIG_USE_MUSL

@@ -39,7 +39,7 @@ all: conf mconf
 
 conf: $(conf-objs)
 mconf: $(mconf-objs) $(lxdialog-objs)
-	$(CC) -o $@ $^ $(call check_lxdialog,ldflags $(CC))
+	$(CC) -o $@ $^ $(LIBS) -ltinfo $(call check_lxdialog,ldflags $(CC))
 qconf: $(qconf-cxxobjs) $(qconf-objs)
 ifneq ($(DISTRO-PKG-CONFIG),)
 	$(CXX) $(HOSTLOADLIBES_qconf) -o $@ $^

@@ -176,7 +176,7 @@ struct ag71xx {
 	 */
 	void __iomem		*mac_base;
 
-	struct ag71xx_desc	*stop_desc;
+	struct ag71xx_desc	*stop_desc __attribute__((aligned(4)));
 	dma_addr_t		stop_desc_dma;
 
 	struct mii_bus		*mii_bus;
