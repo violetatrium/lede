@@ -122,6 +122,7 @@ define Package/unum/install
 	echo "export UNUM_SSH_MYKEY=$(AGENT_SSH_MYKEY)" >> $(1)$(AGENT_SYSTEM_CONF)
 	echo "export UNUM_SSH_KNOWN=$(AGENT_SSH_KNOWN)" >> $(1)$(AGENT_SYSTEM_CONF)
 	echo "export UNUM_PID_FILE_PREFIX=/var/run/unum" >> $(1)$(AGENT_SYSTEM_CONF)
+	echo "export UNUM_NICENESS=13" >> $(1)$(AGENT_SYSTEM_CONF)
 	# Agent init files
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-updater.init $(1)/etc/init.d/unum-updater
