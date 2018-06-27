@@ -83,6 +83,13 @@ define Device/ArcherMR200
 endef
 TARGET_DEVICES += ArcherMR200
 
+define Device/bocco
+  DTS := BOCCO
+  DEVICE_TITLE := YUKAI Engineering BOCCO
+  DEVICE_PACKAGES := kmod-sound-core kmod-sound-mt7620 kmod-i2c-ralink
+endef
+TARGET_DEVICES += bocco
+
 define Device/c108
   DTS := C108
   IMAGE_SIZE := 16777216
@@ -423,6 +430,14 @@ define Device/psg1218b
   SUPPORTED_DEVICES += psg1218
 endef
 TARGET_DEVICES += psg1218b
+
+define Device/phicomm_k2g
+  DTS := K2G
+  IMAGE_SIZE := 7552k
+  DEVICE_TITLE := Phicomm K2G
+  DEVICE_PACKAGES := kmod-mt76x2
+endef
+TARGET_DEVICES += phicomm_k2g
 
 define Device/rp-n53
   DTS := RP-N53

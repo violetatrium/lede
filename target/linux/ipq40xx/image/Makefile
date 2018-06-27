@@ -80,7 +80,10 @@ define Device/avm_fritzbox-4040
 	BOARD_NAME := fritz4040
 	DEVICE_TITLE := AVM Fritz!Box 4040
 	IMAGE_SIZE := 29753344
-	IMAGES = sysupgrade.bin
+	UBOOT_PATH := $$(BIN_DIR)/u-boot-fritz4040/uboot-fritz4040.bin
+	UBOOT_PARTITION_SIZE := 524288
+	IMAGES = eva.bin sysupgrade.bin
+	IMAGE/eva.bin := append-uboot | pad-to $$$$(UBOOT_PARTITION_SIZE) | append-kernel | append-rootfs | pad-rootfs
 	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
 	DEVICE_PACKAGES := fritz-tffs fritz-caldata u-boot-fritz4040
 endef
@@ -201,5 +204,16 @@ define Device/qcom_ap-dk04.1-c1
 	DEVICE_TITLE := QCA AP-DK04.1-C1
 endef
 TARGET_DEVICES += qcom_ap-dk04.1-c1
+
+define Device/zyxel_wre6606
+	$(call Device/FitImage)
+	DEVICE_TITLE := ZyXEL WRE6606
+	DEVICE_DTS_CONFIG := config@4
+	DEVICE_DTS := qcom-ipq4018-wre6606
+	DEVICE_PACKAGES := ipq-wifi-zyxel_wre6606
+	IMAGES := sysupgrade.bin
+	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+endef
+TARGET_DEVICES += zyxel_wre6606
 
 $(eval $(call BuildImage))

@@ -212,6 +212,7 @@ platform_check_image() {
 	archer-c60-v1|\
 	archer-c60-v2|\
 	archer-c7-v4|\
+	archer-c7-v5|\
 	bullet-m|\
 	c-55|\
 	carambola2|\
@@ -483,6 +484,7 @@ platform_check_image() {
 	tl-wr941nd|\
 	tl-wr941nd-v5|\
 	tl-wr941nd-v6|\
+	ts-d084|\
 	wifi-pineapple-nano)
 		local magic_ver="0100"
 
@@ -687,6 +689,8 @@ platform_check_image() {
 	# these boards use metadata images
 	fritz300e|\
 	fritz4020|\
+	fritz450e|\
+	koala|\
 	rb-750-r2|\
 	rb-750p-pbr2|\
 	rb-750up-r2|\

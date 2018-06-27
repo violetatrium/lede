@@ -52,6 +52,7 @@ enum ath79_mach_type {
 	ATH79_MACH_ARCHER_C7,			/* TP-LINK Archer C7 board */
 	ATH79_MACH_ARCHER_C7_V2,		/* TP-LINK Archer C7 V2 board */
 	ATH79_MACH_ARCHER_C7_V4,		/* TP-LINK Archer C7 V4 board */
+	ATH79_MACH_ARCHER_C7_V5,		/* TP-LINK Archer C7 V5 board */
 	ATH79_MACH_ARDUINO_YUN,			/* Yun */
 	ATH79_MACH_AW_NR580,			/* AzureWave AW-NR580 */
 	ATH79_MACH_BHR_4GRV2,			/* Buffalo BHR-4GRV2 */
@@ -121,6 +122,7 @@ enum ath79_mach_type {
 	ATH79_MACH_F9K1115V2,			/* Belkin AC1750DB */
 	ATH79_MACH_FRITZ300E,			/* AVM FRITZ!WLAN Repeater 300E */
 	ATH79_MACH_FRITZ4020,			/* AVM FRITZ!Box 4020 */
+	ATH79_MACH_FRITZ450E,			/* AVM FRITZ!WLAN Repeater 450E */
 	ATH79_MACH_GL_AR150,			/* GL-AR150 support */
 	ATH79_MACH_GL_AR300,			/* GL-AR300 */
 	ATH79_MACH_GL_AR300M,			/* GL-AR300M */
@@ -140,6 +142,7 @@ enum ath79_mach_type {
 	ATH79_MACH_JA76PF2,			/* jjPlus JA76PF2 */
 	ATH79_MACH_JWAP003,			/* jjPlus JWAP003 */
 	ATH79_MACH_JWAP230,			/* jjPlus JWAP230 */
+	ATH79_MACH_KOALA,			/* OCEDO Koala */
 	ATH79_MACH_LAN_TURTLE,			/* Hak5 LAN Turtle */
 	ATH79_MACH_LIMA,			/* 8devices Lima */
 	ATH79_MACH_MC_MAC1200R,			/* MERCURY MAC1200R */
@@ -302,6 +305,7 @@ enum ath79_mach_type {
 	ATH79_MACH_TL_WR940N_V4,		/* TP-LINK TL-WR940N v4 */
 	ATH79_MACH_TL_WR940N_V6,		/* TP-LINK TL-WR940N v6 */
 	ATH79_MACH_TL_WR942N_V1,		/* TP-LINK TL-WR942N v1 */
+	ATH79_MACH_TS_D084,			/* PISEN TS-D084 */
 	ATH79_MACH_TUBE2H,			/* Alfa Network Tube2H */
 	ATH79_MACH_UBNT_AIRGW,			/* Ubiquiti AirGateway */
 	ATH79_MACH_UBNT_AIRGWP,			/* Ubiquiti AirGateway Pro */

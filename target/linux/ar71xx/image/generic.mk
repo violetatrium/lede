@@ -36,7 +36,7 @@ define Build/mkdapimg2
 	$(STAGING_DIR_HOST)/bin/mkdapimg2 \
 		-i $@ -o $@.new \
 		-s $(DAP_SIGNATURE) \
-		-v $(VERSION_DIST)-$(firstword $(subst -, ,$(REVISION))) \
+		-v $(VERSION_DIST)-$(firstword $(subst +, ,$(firstword $(subst -, ,$(REVISION))))) \
 		-r Default \
 		$(if $(1),-k $(1))
 	mv $@.new $@
@@ -998,6 +998,17 @@ define Device/tellstick-znet-lite
 endef
 TARGET_DEVICES += tellstick-znet-lite
 
+define Device/ts-d084
+  $(Device/tplink-8mlzma)
+  DEVICE_TITLE := PISEN TS-D084
+  DEVICE_PACKAGES := kmod-usb-core kmod-usb2
+  BOARDNAME := TS-D084
+  DEVICE_PROFILE := TSD084
+  TPLINK_HWID := 0x07030101
+  CONSOLE := ttyATH0,115200
+endef
+TARGET_DEVICES += ts-d084
+
 define Device/n5q
   DEVICE_TITLE := ALFA Network N5Q
   DEVICE_PACKAGES := rssileds -swconfig
@@ -1294,7 +1305,7 @@ endef
 define Device/fritz300e
   $(call Device/AVM)
   DEVICE_TITLE := AVM FRITZ!WLAN Repeater 300E
-  DEVICE_PACKAGES := rssileds -swconfig
+  DEVICE_PACKAGES += rssileds -swconfig
   BOARDNAME := FRITZ300E
   SUPPORTED_DEVICES := fritz300e
   IMAGE_SIZE := 15232k
@@ -1304,9 +1315,19 @@ TARGET_DEVICES += fritz300e
 define Device/fritz4020
   $(call Device/AVM)
   DEVICE_TITLE := AVM FRITZ!Box 4020
-  DEVICE_PACKAGES := kmod-usb-core kmod-usb2 kmod-usb-storage
+  DEVICE_PACKAGES += kmod-usb-core kmod-usb2 kmod-usb-storage
   BOARDNAME := FRITZ4020
   SUPPORTED_DEVICES := fritz4020
   IMAGE_SIZE := 15232k
 endef
 TARGET_DEVICES += fritz4020
+
+define Device/fritz450e
+  $(call Device/AVM)
+  DEVICE_TITLE := AVM FRITZ!WLAN Repeater 450E
+  DEVICE_PACKAGES += -swconfig
+  BOARDNAME := FRITZ450E
+  SUPPORTED_DEVICES := fritz450e
+  IMAGE_SIZE := 15232k
+endef
+TARGET_DEVICES += fritz450e
