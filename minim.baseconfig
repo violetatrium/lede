@@ -37,4 +37,7 @@ CONFIG_VERSION_SUPPORT_URL="https://www.minim.co"
 # CONFIG_SDK is not set
 # CONFIG_IB is not set
 CONFIG_PACKAGE_gdbserver=m
+# CONFIG_PACKAGE_wpad is not set
+# CONFIG_PACKAGE_wpad-mini is not set
+CONFIG_PACKAGE_wpad-mesh=y
 
