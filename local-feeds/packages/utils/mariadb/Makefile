@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mariadb
-PKG_VERSION:=10.1.33
+PKG_VERSION:=10.1.35
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -18,7 +18,7 @@ PKG_SOURCE_URL := \
 	https://ftp.yz.yamagata-u.ac.jp/pub/dbms/mariadb/$(PKG_NAME)-$(PKG_VERSION)/source \
 	https://downloads.mariadb.org/interstitial/$(PKG_NAME)-$(PKG_VERSION)/source
 
-PKG_HASH:=94312c519f2c0c25e1964c64e22aff0036fb22dfb2685638f43a6b2211395d2d
+PKG_HASH:=9e91d985ed4f662126e3e5791fe91ec8a2f44ec811113c2b6fbc72fa14553c4d
 PKG_MAINTAINER:=Sebastian Kemper <sebastian_ml@gmx.net>
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=COPYING
@@ -61,6 +61,8 @@ MARIADB_SERVER_PLUGINS := \
 	ha_federated \
 	ha_federatedx \
 	ha_innodb \
+	ha_sequence \
+	ha_sphinx \
 	ha_spider \
 	ha_test_sql_discovery \
 	handlersocket \
@@ -103,6 +105,8 @@ plugin-ha_example               := PLUGIN_EXAMPLE
 plugin-ha_federated             := PLUGIN_FEDERATED
 plugin-ha_federatedx            := PLUGIN_FEDERATEDX
 plugin-ha_innodb                := PLUGIN_INNOBASE
+plugin-ha_sequence              := PLUGIN_SEQUENCE
+plugin-ha_sphinx                := PLUGIN_SPHINX
 plugin-ha_spider                := PLUGIN_SPIDER
 plugin-ha_test_sql_discovery    := PLUGIN_TEST_SQL_DISCOVERY
 plugin-handlersocket            := PLUGIN_HANDLERSOCKET
@@ -171,6 +175,10 @@ MARIADB_SERVER_EXTRA := \
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/cmake.mk
+
+# Pass CPPFLAGS in the CFLAGS as otherwise the build system will
+# ignore them.
+TARGET_CFLAGS+=$(TARGET_CPPFLAGS)
 
 define Package/mariadb/install/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/$(2) $(1)/usr/bin
@@ -264,6 +272,7 @@ define Package/mariadb-server
   TITLE:=MariaDB database core server binaries
   MENU:=1
   PROVIDES:=mysql-server
+  USERID:=mariadb=376:mariadb=376
 endef
 
 define Package/mariadb-server/description
@@ -340,9 +349,10 @@ CMAKE_OPTIONS += \
 	-DINSTALL_SCRIPTDIR=bin \
 	-DINSTALL_SQLBENCHDIR="" \
 	-DINSTALL_SUPPORTFILESDIR=share/mysql \
-	-DMYSQLD_USER=root \
+	-DINSTALL_UNIX_ADDRDIR=/var/run/mysqld/mysqld.sock \
+	-DMYSQLD_USER=mariadb \
 	-DMYSQL_DATADIR=/var/lib/mysql \
-	-DMYSQL_UNIX_ADDR=/var/run/mysqld.sock \
+	-DMYSQL_UNIX_ADDR=/var/run/mysqld/mysqld.sock \
 	-DSKIP_TESTS=ON \
 	-DWITH_ASAN=OFF \
 	-DWITH_EMBEDDED_SERVER=OFF \
@@ -371,7 +381,6 @@ CMAKE_OPTIONS += \
 	-DPLUGIN_MROONGA=NO \
 	-DPLUGIN_OQGRAPH=NO \
 	-DPLUGIN_ROCKSDB=NO \
-	-DPLUGIN_SPHINX=NO \
 	-DPLUGIN_TOKUDB=NO \
 	-DPLUGIN_AUTH_PAM=NO \
 	-DPLUGIN_AUTH_GSSAPI=NO \
@@ -441,6 +450,10 @@ endef
 define Package/mariadb-client/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(foreach b,$(MARIADB_CLIENT),$(call Package/mariadb/install/bin,$(1),$(b));)
+	# Install convenience links for mysqlcheck multi-call binary
+	cd $(1)/usr/bin; $(LN) mysqlcheck mysqlanalyze
+	cd $(1)/usr/bin; $(LN) mysqlcheck mysqlrepair
+	cd $(1)/usr/bin; $(LN) mysqlcheck mysqloptimize
 endef
 
 define Package/mariadb-client-extra/install
@@ -456,10 +469,12 @@ endef
 define Package/mariadb-server/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(foreach b,$(MARIADB_SERVER),$(call Package/mariadb/install/bin,$(1),$(b));)
+	$(INSTALL_DIR) $(1)/etc/default
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_DIR) $(1)/etc/mysql/conf.d
 	$(INSTALL_BIN) files/mysqld.init $(1)/etc/init.d/mysqld
 	$(INSTALL_CONF) conf/my.cnf $(1)/etc/mysql
+	$(INSTALL_CONF) conf/mysqld.default $(1)/etc/default/mysqld
 	$(INSTALL_DIR) $(1)$(PLUGIN_DIR)
 	$(INSTALL_CONF) $(PKG_INSTALL_DIR)$(PLUGIN_DIR)/daemon_example.ini $(1)$(PLUGIN_DIR)
 	$(INSTALL_DIR) $(1)/usr/share/mysql/english
@@ -477,8 +492,9 @@ define Package/mariadb-server-extra/install
 endef
 
 define Package/mariadb-server/conffiles
+/etc/default/mysqld
 /etc/mysql/my.cnf
-/usr/lib/mysql/plugin/daemon_example.ini
+$(PLUGIN_DIR)/daemon_example.ini
 endef
 
 define BuildPlugin
@@ -525,9 +541,12 @@ $(eval $(call BuildPlugin,file_key_management,))
 $(eval $(call BuildPlugin,ha_archive,))
 $(eval $(call BuildPlugin,ha_blackhole,))
 $(eval $(call BuildPlugin,ha_connect,+libxml2))
+$(eval $(call BuildPlugin,ha_example,))
 $(eval $(call BuildPlugin,ha_federated,))
 $(eval $(call BuildPlugin,ha_federatedx,))
 $(eval $(call BuildPlugin,ha_innodb,))
+$(eval $(call BuildPlugin,ha_sequence,))
+$(eval $(call BuildPlugin,ha_sphinx,))
 $(eval $(call BuildPlugin,ha_spider,))
 $(eval $(call BuildPlugin,ha_test_sql_discovery,))
 $(eval $(call BuildPlugin,handlersocket,))

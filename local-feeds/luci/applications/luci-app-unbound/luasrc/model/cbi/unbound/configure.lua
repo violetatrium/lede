@@ -9,7 +9,7 @@ local rlh, rpv, vld, nvd, eds, prt, tlm
 local ctl, dlk, dom, dty, lfq, wfq, exa
 local dp6, d64, pfx, qry, qrs
 local pro, tgr, rsc, rsn, ag2, stt
-local rpn, din, dfw
+local rpn, din, dfw, ath
 local ucl = luci.model.uci.cursor()
 local valman = ucl:get_first("unbound", "unbound", "manual_conf")
 
@@ -27,7 +27,7 @@ s1:tab("basic", translate("Basic"),
   .. "UCI documentation can be found on "
   .. "<a href=\"%s\" target=\"_blank\">github (link)</a>.",
   "https://www.unbound.net/",
-  "https://github.com/openwrt/packages/blob/master/net/unbound/files/README.md"))
+  "https://github.com/openwrt/packages/blob/openwrt-18.06/net/unbound/files/README.md"))
 
 
 if valman ~= "1" then
