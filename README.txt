@@ -31,7 +31,7 @@ Adding hardware support
 =======================
 
 1. Find the official release for the target hardware. Start here:
-   https://downloads.lede-project.org/releases/17.01.4/targets/
+   https://downloads.lede-project.org/releases/18.06.1/targets/
    For example, for "Archer C7 v2", go to "ar71xx" (this board TYPE), then to
    "generic" (board subtype), then download the firmware for the
    specific device "archer-c7-v2-squashfs-sysupgrade.bin" in this case.
@@ -59,6 +59,13 @@ Adding hardware support
 7. Use "git add" to add the new packages and/or feeds that were
    downloaded for the new hardware type to the cache and commit
    all the canges for the new hardware in a single commit.
+
+8. Go to the unum-v2 repository and make any changes required to make
+   the Minim agent function properly for the new hardware type.
+   Typically the only thing you'll need to do is create a symlink
+   for pulling in the approprite crash handler code under
+     ./src/unum/util/lede_generic
+
 
 Upgrading to a new release
 ==========================
