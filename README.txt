@@ -60,6 +60,13 @@ Adding hardware support
    downloaded for the new hardware type to the cache and commit
    all the canges for the new hardware in a single commit.
 
+8. Go to the unum-v2 repository and make any changes required to make
+   the Minim agent function properly for the new hardware type.
+   Typically the only thing you'll need to do is create a symlink
+   for pulling in the approprite crash handler code under
+     ./src/unum/util/lede_generic
+
+
 Upgrading to a new release
 ==========================
 
