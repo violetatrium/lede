@@ -127,8 +127,8 @@ define Package/unum/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-updater.init $(1)/etc/init.d/unum-updater
 	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-support.init $(1)/etc/init.d/unum-support
-        $(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/fix_lan_addr.init $(1)/etc/init.d/fix_lan_addr
-        $(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.init $(1)/etc/init.d/unum
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/fix_lan_addr.init $(1)/etc/init.d/fix_lan_addr
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.init $(1)/etc/init.d/unum
 	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.common $(1)$(AGENT_ETC_DIR)/unum.common
 	# Agent files to keep through the firmware upgrade
 	$(INSTALL_DIR) $(1)/lib/upgrade/keep.d
