@@ -138,6 +138,10 @@ define Package/unum/install
 	echo "$(AGENT_USER_CONF)" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 	echo "/etc/unum/.credentials_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 	echo "/etc/unum/.wifi_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
+	#Files to set default password
+	$(INSTALL_DIR) $(1)/sbin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/set_default_password.init $(1)/etc/init.d/set_default_password
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/set_default_password.sh $(1)/sbin/set_default_password.sh
 endef
 
 $(eval $(call BuildPackage,unum))
