@@ -106,12 +106,6 @@ fi
 echo "Clean our agent package before rebuild..."
 make V=s package/unum/clean
 
-#Replace LEDE files with ours if needed
-cmp --silent $MINIM_UNUM_DIR/files/lede_generic/mac80211.sh \
-	package/kernel/mac80211/files/lib/wifi/mac80211.sh \
-	|| cp $MINIM_UNUM_DIR/files/lede_generic/mac80211.sh \
-		package/kernel/mac80211/files/lib/wifi/mac80211.sh
-
 echo "Building the firmware..."
 make -j$NUM_CORES V=s
 
