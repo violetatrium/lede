@@ -138,6 +138,14 @@ define Package/unum/install
 	echo "$(AGENT_USER_CONF)" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 	echo "/etc/unum/.credentials_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 	echo "/etc/unum/.wifi_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
+	#Files to set default password and default SSID and key
+	$(INSTALL_DIR) $(1)/sbin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/set_defaults.init $(1)/etc/init.d/set_defaults
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/check_wireless.init $(1)/etc/init.d/check_wireless
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/m_functions.sh $(1)/sbin/m_functions.sh
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/set_default_password.sh $(1)/sbin/set_default_password.sh
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/set_default_ssid.sh $(1)/sbin/set_default_ssid.sh
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/set_defaults.sh $(1)/sbin/set_defaults.sh
 endef
 
 $(eval $(call BuildPackage,unum))
