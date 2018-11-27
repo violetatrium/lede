@@ -141,7 +141,7 @@ define Package/unum/install
 	echo "/etc/unum/.wifi_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 	#Files to set default password and default SSID and key
 	if [ -d $(PKG_BUILD_DIR_FILES)/lede_generic/$(AGENT_HARDWARE_ID)/. ]; then \
-		$(CP) $(PKG_BUILD_DIR_FILES)/lede_generic/$(AGENT_HARDWARE_ID)/* $(1)/; \
+		$(CP) -L $(PKG_BUILD_DIR_FILES)/lede_generic/$(AGENT_HARDWARE_ID)/* $(1)/; \
 	fi
 endef
 
