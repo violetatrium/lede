@@ -46,9 +46,6 @@ boot() {
 	/bin/config_generate
 	uci_apply_defaults
 
-	# For some platforms MAC address is not by the driver correctly
-	/sbin/set_macaddr.sh
-	
 	# temporary hack until configd exists
 	/sbin/reload_config
 }
