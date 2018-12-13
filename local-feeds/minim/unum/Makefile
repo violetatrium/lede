@@ -79,6 +79,21 @@ else
   AGENT_VERSION_NUMBER=$(MINIM_VERSION_NUMBER)
 endif
 
+# Add common, platform and target specific features to the release feature list
+RELEASE_FEATURES := $(shell cat "$(AGENT_FILES_DIR)/features-common.txt")
+ifneq ("$(wildcard $(AGENT_FILES_DIR)/$(AGENT_MODEL_ID)/features.txt)","")
+  RELEASE_FEATURES := $(RELEASE_FEATURES) $(shell cat "$(AGENT_FILES_DIR)/$(AGENT_MODEL_ID)/features.txt")
+endif
+ifneq ("$(wildcard $(AGENT_FILES_DIR)/$(AGENT_MODEL_ID)/features-$(AGENT_HARDWARE_ID).txt)","")
+  RELEASE_FEATURES := $(RELEASE_FEATURES) $(shell cat "$(AGENT_FILES_DIR)/$(AGENT_MODEL_ID)/features-$(AGENT_HARDWARE_ID).txt")
+endif
+# Create comma separated quoted release features list
+quote := "
+space := $(null) #
+comma := ,
+RELEASE_FEATURES := $(strip $(RELEASE_FEATURES))
+RELEASE_FEATURES := $(subst $(space),$(comma),$(patsubst %,$(quote)%$(quote),$(RELEASE_FEATURES)))
+
 # This is needed to prevent polluting the source tree w/ LEDE build artefacts.
 # If pulling sources from external tarball this step is not needed.
 define Build/Prepare
@@ -125,13 +140,13 @@ define Package/unum/install
 	echo "export UNUM_NICENESS=13" >> $(1)$(AGENT_SYSTEM_CONF)
 	# Agent init files
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-updater.init $(1)/etc/init.d/unum-updater
-	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum-support.init $(1)/etc/init.d/unum-support
-	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.init $(1)/etc/init.d/unum
-	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/lede_generic/unum.common $(1)$(AGENT_ETC_DIR)/unum.common
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/unum-updater.init $(1)/etc/init.d/unum-updater
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/unum-support.init $(1)/etc/init.d/unum-support
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/unum.init $(1)/etc/init.d/unum
+	$(INSTALL_DATA) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/unum.common $(1)$(AGENT_ETC_DIR)/unum.common
 	# LAN/WAN IP range overlap recovery scripts
-	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/fix_lan_addr.init $(1)/etc/init.d/fix_lan_addr
-	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/lede_generic/fix_lan_addr.sh $(1)/usr/bin/fix_lan_addr.sh
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/fix_lan_addr.init $(1)/etc/init.d/fix_lan_addr
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/fix_lan_addr.sh $(1)/usr/bin/fix_lan_addr.sh
 	# Agent files to keep through the firmware upgrade
 	$(INSTALL_DIR) $(1)/lib/upgrade/keep.d
 	echo "/etc/unum/unum.pem" > $(1)/lib/upgrade/keep.d/unum.upgrade
@@ -140,9 +155,12 @@ define Package/unum/install
 	echo "/etc/unum/.credentials_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 	echo "/etc/unum/.wifi_provisioned" >> $(1)/lib/upgrade/keep.d/unum.upgrade
 	#Files to set default password and default SSID and key
-	if [ -d $(PKG_BUILD_DIR_FILES)/lede_generic/$(AGENT_HARDWARE_ID)/. ]; then \
-		$(CP) -L $(PKG_BUILD_DIR_FILES)/lede_generic/$(AGENT_HARDWARE_ID)/* $(1)/; \
+	if [ -d $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/$(AGENT_HARDWARE_ID)/. ]; then \
+		$(CP) -L $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/$(AGENT_HARDWARE_ID)/* $(1)/; \
 	fi
+	# Installing properties.json to rootfs under $(AGENT_ETC_DIR) to avoid
+	# dealing with owrt build folders (although we do not need it on target)
+	RELEASE_FEATURES='$(RELEASE_FEATURES)' envsubst < $(PKG_BUILD_DIR_FILES)/release_properties.json > $(1)$(AGENT_ETC_DIR)/release_properties.json
 endef
 
 $(eval $(call BuildPackage,unum))
