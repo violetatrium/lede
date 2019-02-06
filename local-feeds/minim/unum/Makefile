@@ -101,7 +101,8 @@ define Build/Prepare
 	mkdir -p "$(PKG_BUILD_DIR_UNUM)"
 	cd "$(PKG_BUILD_DIR)/src/unum" && find -xtype l -exec rm -f {} \;
 	cd "$(AGENT_SOURCE_DIR)" && find * -type d -exec mkdir -p "$(PKG_BUILD_DIR_UNUM)/{}" \;
-	cd "$(AGENT_SOURCE_DIR)" && find * \( -type f -o -type l \) -exec ln -sf "$(AGENT_SOURCE_DIR)/{}" "$(PKG_BUILD_DIR_UNUM)/{}" \;
+	cd "$(AGENT_SOURCE_DIR)" && find * \( -type f \) -exec ln -sf "$(AGENT_SOURCE_DIR)/{}" "$(PKG_BUILD_DIR_UNUM)/{}" \;
+	cd "$(AGENT_SOURCE_DIR)" && find * \( -type l \) -exec cp -avf "$(AGENT_SOURCE_DIR)/{}" "$(PKG_BUILD_DIR_UNUM)/{}" \;
 	ln -s "$(AGENT_FILES_DIR)" "$(PKG_BUILD_DIR_FILES)"
 endef
 
