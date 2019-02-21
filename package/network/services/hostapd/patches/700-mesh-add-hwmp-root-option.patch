@@ -23,21 +23,29 @@ Index: hostapd-2018-04-09-fa617ee6/src/drivers/driver_nl80211.c
 ===================================================================
 --- hostapd-2018-04-09-fa617ee6.orig/src/drivers/driver_nl80211.c
 +++ hostapd-2018-04-09-fa617ee6/src/drivers/driver_nl80211.c
-@@ -9249,7 +9249,13 @@ static int nl80211_put_mesh_config(struc
- 			 params->max_peer_links)) ||
- 	    ((params->flags & WPA_DRIVER_MESH_CONF_FLAG_RSSI_THRESHOLD) &&
- 	     nla_put_u32(msg, NL80211_MESHCONF_RSSI_THRESHOLD,
--			 params->rssi_threshold)))
-+			 params->rssi_threshold)),
-+	    ((params->flags & WPA_DRIVER_MESH_CONF_FLAG_HWMP_ROOTMODE) &&
-+	     nla_put_u8(msg, NL80211_MESHCONF_HWMP_ROOTMODE,
-+			 params->hwmp_rootmode)),
-+	    ((params->flags & WPA_DRIVER_MESH_CONF_FLAG_HWMP_ROOTMODE) &&
-+	     nla_put_u8(msg, NL80211_MESHCONF_GATE_ANNOUNCEMENTS,
-+			 params->gate_announcements)))
+@@ -9253,6 +9253,22 @@ static int nl80211_put_mesh_config(struc
  		return -1;
  
  	/*
++	 * Set HWMP_ROOTMODE and GATE_ANNOUNCEMENTS
++	 */
++	if (params->flags & WPA_DRIVER_MESH_CONF_FLAG_HWMP_ROOTMODE) {
++		if (nla_put_u8(msg, NL80211_MESHCONF_HWMP_ROOTMODE,
++			 params->hwmp_rootmode)) {
++			wpa_printf(MSG_ERROR, "nl80211: Failed to set HWMP_ROOTMODE");
++			return -1;
++		}
++		if (nla_put_u8(msg, NL80211_MESHCONF_GATE_ANNOUNCEMENTS,
++			 params->gate_announcements)) {
++			wpa_printf(MSG_ERROR, "nl80211: Failed to set GATE_ANNOUNCEMENTS");
++			return -1;
++		}
++	}
++
++	/*
+ 	 * Set NL80211_MESHCONF_PLINK_TIMEOUT even if user mpm is used because
+ 	 * the timer could disconnect stations even in that case.
+ 	 */
 Index: hostapd-2018-04-09-fa617ee6/wpa_supplicant/config.c
 ===================================================================
 --- hostapd-2018-04-09-fa617ee6.orig/wpa_supplicant/config.c
