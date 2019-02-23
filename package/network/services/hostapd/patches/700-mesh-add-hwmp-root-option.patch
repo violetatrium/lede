@@ -1,0 +1,156 @@
+Index: hostapd-2018-04-09-fa617ee6/src/common/ieee802_11_defs.h
+===================================================================
+--- hostapd-2018-04-09-fa617ee6.orig/src/common/ieee802_11_defs.h
++++ hostapd-2018-04-09-fa617ee6/src/common/ieee802_11_defs.h
+@@ -2031,5 +2031,29 @@ struct ieee80211_he_operation {
+ 
+ /* DPP Public Action frame identifiers - OUI_WFA */
+ #define DPP_OUI_TYPE 0x1A
++/**
++ * Copied from backports driver code
++ *                
++ * enum ieee80211_root_mode_identifier - root mesh STA mode identifier
++ *              
++ * These attribute are used by dot11MeshHWMPRootMode to set root mesh STA mode
++ *
++ * @IEEE80211_ROOTMODE_NO_ROOT: the mesh STA is not a root mesh STA (default)
++ * @IEEE80211_ROOTMODE_ROOT: the mesh STA is a root mesh STA if greater than
++ *      this value      
++ * @IEEE80211_PROACTIVE_PREQ_NO_PREP: the mesh STA is a root mesh STA supports
++ *      the proactive PREQ with proactive PREP subfield set to 0
++ * @IEEE80211_PROACTIVE_PREQ_WITH_PREP: the mesh STA is a root mesh STA
++ *      supports the proactive PREQ with proactive PREP subfield set to 1
++ * @IEEE80211_PROACTIVE_RANN: the mesh STA is a root mesh STA supports 
++ *      the proactive RANN
++ */
++enum ieee80211_root_mode_identifier {
++        IEEE80211_ROOTMODE_NO_ROOT = 0,
++        IEEE80211_ROOTMODE_ROOT = 1,
++        IEEE80211_PROACTIVE_PREQ_NO_PREP = 2,
++        IEEE80211_PROACTIVE_PREQ_WITH_PREP = 3,
++        IEEE80211_PROACTIVE_RANN = 4,
++};              
+ 
+ #endif /* IEEE802_11_DEFS_H */
+Index: hostapd-2018-04-09-fa617ee6/wpa_supplicant/mesh.c
+===================================================================
+--- hostapd-2018-04-09-fa617ee6.orig/wpa_supplicant/mesh.c
++++ hostapd-2018-04-09-fa617ee6/wpa_supplicant/mesh.c
+@@ -497,6 +497,11 @@ int wpa_supplicant_join_mesh(struct wpa_
+ 		params->conf.rssi_threshold = ssid->mesh_rssi_threshold;
+ 		params->conf.flags |= WPA_DRIVER_MESH_CONF_FLAG_RSSI_THRESHOLD;
+ 	}
++	if (ssid->mesh_hwmp_rootmode > IEEE80211_ROOTMODE_ROOT) {
++		params->conf.hwmp_rootmode = ssid->mesh_hwmp_rootmode;
++		params->conf.flags |= WPA_DRIVER_MESH_CONF_FLAG_HWMP_ROOTMODE;
++		params->conf.gate_announcements = ssid->mesh_gate_announcements;
++	}
+ 
+ 	if (ssid->key_mgmt & WPA_KEY_MGMT_SAE) {
+ 		params->flags |= WPA_DRIVER_MESH_FLAG_SAE_AUTH;
+Index: hostapd-2018-04-09-fa617ee6/wpa_supplicant/config_ssid.h
+===================================================================
+--- hostapd-2018-04-09-fa617ee6.orig/wpa_supplicant/config_ssid.h
++++ hostapd-2018-04-09-fa617ee6/wpa_supplicant/config_ssid.h
+@@ -852,6 +852,21 @@ struct wpa_ssid {
+ 	int mesh_rssi_threshold;
+ 
+ 	/**
++	 * mesh_hwmp_rootmode - Set HWMP Root mode
++	 * Refer ieee80211_root_mode_identifier's definition
++	 */
++	
++	enum ieee80211_root_mode_identifier mesh_hwmp_rootmode;
++
++	/**
++	 * mesh_gate_announcements - Gate Announcement
++	 *
++	 * 0 = mesh_gate_announcements disabled (default)
++	 * 1 = mesh_gate_announcements enabled
++	 */
++	int mesh_gate_announcements;
++
++	/**
+ 	 * wps_disabled - WPS disabled in AP mode
+ 	 *
+ 	 * 0 = WPS enabled and configured (default)
+Index: hostapd-2018-04-09-fa617ee6/src/drivers/driver.h
+===================================================================
+--- hostapd-2018-04-09-fa617ee6.orig/src/drivers/driver.h
++++ hostapd-2018-04-09-fa617ee6/src/drivers/driver.h
+@@ -1368,6 +1368,7 @@ struct wpa_driver_mesh_bss_params {
+ #define WPA_DRIVER_MESH_CONF_FLAG_HT_OP_MODE		0x00000008
+ #define WPA_DRIVER_MESH_CONF_FLAG_RSSI_THRESHOLD	0x00000010
+ #define WPA_DRIVER_MESH_CONF_FLAG_FORWARDING		0x00000020
++#define WPA_DRIVER_MESH_CONF_FLAG_HWMP_ROOTMODE		0x00000040
+ 	/*
+ 	 * TODO: Other mesh configuration parameters would go here.
+ 	 * See NL80211_MESHCONF_* for all the mesh config parameters.
+@@ -1377,6 +1378,8 @@ struct wpa_driver_mesh_bss_params {
+ 	int peer_link_timeout;
+ 	int max_peer_links;
+ 	int rssi_threshold;
++	u8 hwmp_rootmode;
++	u8 gate_announcements;
+ 	int forwarding;
+ 	u16 ht_opmode;
+ };
+Index: hostapd-2018-04-09-fa617ee6/src/drivers/driver_nl80211.c
+===================================================================
+--- hostapd-2018-04-09-fa617ee6.orig/src/drivers/driver_nl80211.c
++++ hostapd-2018-04-09-fa617ee6/src/drivers/driver_nl80211.c
+@@ -9252,6 +9252,19 @@ static int nl80211_put_mesh_config(struc
+ 			 params->rssi_threshold)))
+ 		return -1;
+ 
++	if (params->flags & WPA_DRIVER_MESH_CONF_FLAG_HWMP_ROOTMODE) {
++		if (nla_put_u8(msg, NL80211_MESHCONF_HWMP_ROOTMODE,
++			 params->hwmp_rootmode)) {
++			wpa_printf(MSG_ERROR, "nl80211: Failed to set HWMP_ROOTMODE");
++			return -1;
++		}
++		if (nla_put_u8(msg, NL80211_MESHCONF_GATE_ANNOUNCEMENTS,
++			 params->gate_announcements)) {
++			wpa_printf(MSG_ERROR, "nl80211: Failed to set GATE_ANNOUNCEMENTS");
++			return -1;
++		}
++	}
++
+ 	/*
+ 	 * Set NL80211_MESHCONF_PLINK_TIMEOUT even if user mpm is used because
+ 	 * the timer could disconnect stations even in that case.
+Index: hostapd-2018-04-09-fa617ee6/wpa_supplicant/config_file.c
+===================================================================
+--- hostapd-2018-04-09-fa617ee6.orig/wpa_supplicant/config_file.c
++++ hostapd-2018-04-09-fa617ee6/wpa_supplicant/config_file.c
+@@ -867,6 +867,8 @@ static void wpa_config_write_network(FIL
+ 	INT_DEF(dot11MeshConfirmTimeout, DEFAULT_MESH_CONFIRM_TIMEOUT);
+ 	INT_DEF(dot11MeshHoldingTimeout, DEFAULT_MESH_HOLDING_TIMEOUT);
+ 	INT_DEF(mesh_rssi_threshold, DEFAULT_MESH_RSSI_THRESHOLD);
++	INT_DEF(mesh_hwmp_rootmode, IEEE80211_ROOTMODE_NO_ROOT);
++	INT_DEF(mesh_gate_announcements, 0);
+ #endif /* CONFIG_MESH */
+ 	INT(wpa_ptk_rekey);
+ 	INT(group_rekey);
+Index: hostapd-2018-04-09-fa617ee6/wpa_supplicant/config.c
+===================================================================
+--- hostapd-2018-04-09-fa617ee6.orig/wpa_supplicant/config.c
++++ hostapd-2018-04-09-fa617ee6/wpa_supplicant/config.c
+@@ -2305,6 +2305,8 @@ static const struct parse_data ssid_fiel
+ 	{ INT_RANGE(no_auto_peer, 0, 1) },
+ 	{ INT_RANGE(mesh_fwding, 0, 1) },
+ 	{ INT_RANGE(mesh_rssi_threshold, -255, 1) },
++	{ INT_RANGE(mesh_hwmp_rootmode, IEEE80211_PROACTIVE_PREQ_NO_PREP, IEEE80211_PROACTIVE_RANN) },
++	{ INT_RANGE(mesh_gate_announcements, 0, 1) },
+ #else /* CONFIG_MESH */
+ 	{ INT_RANGE(mode, 0, 4) },
+ #endif /* CONFIG_MESH */
+@@ -2855,6 +2857,8 @@ void wpa_config_set_network_defaults(str
+ 	ssid->dot11MeshHoldingTimeout = DEFAULT_MESH_HOLDING_TIMEOUT;
+ 	ssid->mesh_fwding = DEFAULT_MESH_FWDING;
+ 	ssid->mesh_rssi_threshold = DEFAULT_MESH_RSSI_THRESHOLD;
++	ssid->mesh_hwmp_rootmode = IEEE80211_ROOTMODE_NO_ROOT;
++	ssid->mesh_gate_announcements = 0;
+ #endif /* CONFIG_MESH */
+ #ifdef CONFIG_HT_OVERRIDES
+ 	ssid->disable_ht = DEFAULT_DISABLE_HT;
