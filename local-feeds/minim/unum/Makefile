@@ -148,6 +148,7 @@ define Package/unum/install
 	# LAN/WAN IP range overlap recovery scripts
 	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/fix_lan_addr.init $(1)/etc/init.d/fix_lan_addr
 	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/fix_lan_addr.sh $(1)/usr/bin/fix_lan_addr.sh
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/restart_config.sh $(1)/usr/bin/restart_config.sh
 	# Agent files to keep through the firmware upgrade
 	$(INSTALL_DIR) $(1)/lib/upgrade/keep.d
 	echo "/etc/unum/unum.pem" > $(1)/lib/upgrade/keep.d/unum.upgrade
@@ -159,6 +160,7 @@ define Package/unum/install
 	if [ -d $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/$(AGENT_HARDWARE_ID)/. ]; then \
 		$(CP) -L $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/$(AGENT_HARDWARE_ID)/* $(1)/; \
 	fi
+	$(INSTALL_BIN) $(PKG_BUILD_DIR_FILES)/$(AGENT_MODEL_ID)/switch_mode.sh $(1)/sbin/switch_mode.sh
 	# Installing properties.json to rootfs under $(AGENT_ETC_DIR) to avoid
 	# dealing with owrt build folders (although we do not need it on target)
 	RELEASE_FEATURES='$(RELEASE_FEATURES)' envsubst < $(PKG_BUILD_DIR_FILES)/release_properties.json > $(1)$(AGENT_ETC_DIR)/release_properties.json
