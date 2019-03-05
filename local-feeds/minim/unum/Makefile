@@ -120,6 +120,7 @@ endef
 define Package/unum/install
 	# Agent executable
 	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_DIR) $(1)/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR_UNUM)/unum $(1)/usr/bin/
 	# Agent configuration folder
 	$(INSTALL_DIR) $(1)$(AGENT_ETC_DIR)
