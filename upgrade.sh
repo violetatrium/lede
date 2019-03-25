@@ -1,13 +1,11 @@
 #!/bin/bash
 
 if [ "$1" = "" ]; then
-  echo "Usage: $0 [-c|-n] <AP_IP_ADDRESS> [AP_SSH_PASSWORD] [FIRMWARE_FILE]"
-  echo "The default password is empty string. The default firmware file"
+  echo "Usage: $0 [-c|-n] <AP_IP_ADDRESS> [SSH_KEY_FILE] [FIRMWARE_FILE]"
+  echo "The key file in ~/.ssh/config is used by default. The default firmware file"
   echo "is determined by looking up the ./.config file. Options:"
   echo "-c - attempt to preserve all changed files in /etc/"
   echo "-n - do not save configuration over reflash"
-  echo "Make sure you have ssh and sshpass..."
-  echo "sudo apt-get install sshpass"
   exit 1
 fi
 
@@ -22,7 +20,7 @@ while [ "${1:0:1}" == "-" ]; do
 done
 
 IP="$1"
-PASSWD="$2"
+SSH_KEY_FILE="$2"
 
 if [ "$3" != "" ]; then
   FIRMWARE_FILE="$3"
@@ -49,10 +47,13 @@ if [ ! -e "$FIRMWARE_FILE" ]; then
 fi
 
 SSHOPT="-q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+if [ "$SSH_KEY_FILE" != "" ]; then
+  SSHOPT="$SSHOPT -i $SSH_KEY_FILE"
+fi
 
 # Get the AP current firmware version
 echo "AP current firmvare version:"
-sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "cat /etc/openwrt_release"
+ssh $SSHOPT root@$IP -C "cat /etc/openwrt_release"
 if [ $? -ne 0 ]; then
   echo "Error: failed to get current firmware version from the AP!"
   cd -
@@ -61,12 +62,12 @@ fi
 
 echo "Uploading the firmware..."
 echo "Firmware file: $FIRMWARE_FILE"
-sshpass -p "$PASSWD" scp $SSHOPT "$FIRMWARE_FILE" root@$IP:/tmp/firmware.bin
+scp $SSHOPT "$FIRMWARE_FILE" root@$IP:/tmp/firmware.bin
 if [ $? -ne 0 ]; then
   echo "Error: failed to upload the firmware file to AP!"
   exit 6
 fi
 echo "Sending command to flash the new firmware..."
-echo "sshpass -p \"$PASSWD\" ssh $SSHOPT root@$IP -C \"/sbin/sysupgrade $OPTIONS /tmp/firmware.bin\""
-sshpass -p "$PASSWD" ssh $SSHOPT root@$IP -C "/sbin/sysupgrade $OPTIONS /tmp/firmware.bin"
+echo "ssh $SSHOPT root@$IP -C \"/sbin/sysupgrade $OPTIONS /tmp/firmware.bin\""
+ssh $SSHOPT root@$IP -C "/sbin/sysupgrade $OPTIONS /tmp/firmware.bin"
 

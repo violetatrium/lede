@@ -91,7 +91,15 @@ endif
 quote := "
 space := $(null) #
 comma := ,
-RELEASE_FEATURES := $(strip $(RELEASE_FEATURES))
+dash  := -
+under := _
+uc = $(subst a,A,$(subst b,B,$(subst c,C,$(subst d,D,$(subst e,E,$(subst f,F,$(subst \
+             g,G,$(subst h,H,$(subst i,I,$(subst j,J,$(subst k,K,$(subst l,L,$(subst \
+             m,M,$(subst n,N,$(subst o,O,$(subst p,P,$(subst q,Q,$(subst r,R,$(subst \
+             s,S,$(subst t,T,$(subst u,U,$(subst v,V,$(subst w,W,$(subst x,X,$(subst \
+             y,Y,$(subst z,Z,$1))))))))))))))))))))))))))
+RELEASE_FEATURES := $(sort $(strip $(RELEASE_FEATURES)))
+RELEASE_DEFINES := $(patsubst %,-DFEATURE_%,$(subst $(dash),$(under),$(call uc,$(RELEASE_FEATURES))))
 RELEASE_FEATURES := $(subst $(space),$(comma),$(patsubst %,$(quote)%$(quote),$(RELEASE_FEATURES)))
 
 # This is needed to prevent polluting the source tree w/ LEDE build artefacts.
@@ -114,7 +122,7 @@ define Build/Compile
 	$(call Build/Compile/Default,\
 	  AGENT_VERSION=$(patsubst "%",%,$(AGENT_VERSION_NUMBER))\
 	  MODEL=$(AGENT_MODEL_ID) HARDWARE=$(AGENT_HARDWARE_ID)\
-	  TARGET_OBJ="$(PKG_BUILD_DIR)/src")
+	  TARGET_OBJ="$(PKG_BUILD_DIR)/src" RELEASE_DEFINES="$(RELEASE_DEFINES)")
 endef
 
 define Package/unum/install

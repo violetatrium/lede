@@ -9,7 +9,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "Usage: $MY_NAME [-d|-e|-D|-h|--help] [TARGET_NAME]"
   echo "TARGET_NAME - hardware type to build the image for"
   echo "-d - make debug build of the agent"
-  echo "-D - recompile the agent ibinary only, debug is ON, no new firmware"
+  echo "-D - recompile the agent binary only, debug is ON, no new firmware"
   echo "-e - buld with -j1 to see errors"
   echo "-h/--help - this help"
   echo "Available targets:"
