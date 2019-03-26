@@ -62,9 +62,28 @@ Adding hardware support
 
 8. Go to the unum-v2 repository and make any changes required to make
    the Minim agent function properly for the new hardware type.
-   Typically the only thing you'll need to do is create a symlink
-   for pulling in the approprite crash handler code under
+   Typically here's what you'll need to do: 
+   - create a symlink for pulling in the approprite crash handler code under
      ./src/unum/util/lede_generic
+   - create folder w/ custom scripts for the hardware type, for example
+     ./files/lede_generic/gl_b1300 (for GlInet B1300)
+   - create features file for the hardware kind, for example
+     ./files/lede_generic/features-gl_b1300.txt (for GlInet B1300)
+   In case this README.txt is not kept up-to-date you might be able to find
+   places where hardware kind specific changes are needed by grepping through
+   the code looking for hardware kind strings.
+
+9. Add the hardware kind to the cloud server and make code changes
+   in retroelk to treat the hardware kind config as UCI. There are
+   more details on adding hardware kind to the cloud in README file
+   in unum-v2 repository.
+
+10. Add the hardware kind to the BUILD_HARDWARE_IDS in lede_generic,
+    lede_dev_generic or lede_dev_generic2 build jobs in Jenkins.
+    You should add youri new hardware kind to the job that builds targets of
+    the same architecture (e.g. archer_c7_v2, archer_c7_v4 and gl_ar300m
+    are build using the same toolchain, so it is more efficient to buld
+    them in the same build job).
 
 
 Upgrading to a new release
