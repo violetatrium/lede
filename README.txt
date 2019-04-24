@@ -105,8 +105,12 @@ Upgrading to a new release
          script has to use specific SHAs the releases were built from
          (and I do not know how to get them)
 
-3. Build and test all the supported hardware types. Note all the
+4. Update the seed files for all the platforms (see "Add hardware support"
+   bullet 3 above)
+
+5. Build and test all the supported hardware types. Note all the
    updated feeds and packages downladed during the build.
 
-4. If there were updated feeds and/or packages downloaded commit them
+6. If there were updated feeds and/or packages downloaded commit them
    together with the merged files.
+
