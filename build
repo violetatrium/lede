@@ -112,6 +112,11 @@ make -j$NUM_CORES V=s
 echo
 echo "Firmware file(s):"
 ls -l "$FIRMWARE_DIR"/*-sysupgrade*.bin
+if [ $? -ne 0 ]; then
+  # No sysuprade file. Check if it is trx file (say for Broadcom)
+  fw_file=`echo $BUILD_TARGET | sed 's/_/-/g'`
+  ls -l "$FIRMWARE_DIR"/*"$fw_file"*-*squashfs.trx
+fi
 
 echo "Upgrade AP from the shell by running:"
 echo "./upgrade.sh <AP_IP_ADDRESS> <AP_PASSWORD>"
