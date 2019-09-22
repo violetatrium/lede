@@ -111,8 +111,10 @@ make -j$NUM_CORES V=s
 
 echo
 echo "Firmware file(s):"
-ls -l "$FIRMWARE_DIR"/*-sysupgrade*.bin
-if [ $? -ne 0 ]; then
+files=`find $FIRMWARE_DIR -name *-sysupgrade*.bin`
+if [ "$files" != "" ]; then
+  ls -l "$FIRMWARE_DIR"/*-sysupgrade*.bin
+else
   # No sysuprade file. Check if it is trx file (say for Broadcom)
   fw_file=`echo $BUILD_TARGET | sed 's/_/-/g'`
   ls -l "$FIRMWARE_DIR"/*"$fw_file"*-*squashfs.trx
