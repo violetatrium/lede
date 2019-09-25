@@ -1,0 +1,12 @@
+CONFIG_TARGET_ipq40xx_DEVICE_glinet_gl-b1300=y
+CONFIG_VERSION_HWREV="bridge"
+CONFIG_VERSION_PRODUCT="gl_b1300"
+CONFIG_PACKAGE_lldpd=y
+# CONFIG_PACKAGE_wpad is not set
+# CONFIG_PACKAGE_wpad-mini is not set
+# CONFIG_PACKAGE_wpad-mesh is not set
+# CONFIG_PACKAGE_kmod-ath is not set
+# CONFIG_PACKAGE_kmod-ath10k is not set
+# CONFIG_PACKAGE_kmod-ath10k-ct is not set
+# CONFIG_PACKAGE_kmod-mac80211 is not set
+CONFIG_PACKAGE_kmod-br-netfilter=y
