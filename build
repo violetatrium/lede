@@ -11,6 +11,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "-d - make debug build of the agent"
   echo "-D - recompile the agent binary only, debug is ON, no new firmware"
   echo "-e - buld with -j1 to see errors"
+  echo "-A - recompile the agent binary only, debug is OFF, no new firmware"
   echo "-h/--help - this help"
   echo "Available targets:"
   ls -1 | sed -e 's/\.diffconfig//;tx;d;:x'
@@ -33,6 +34,11 @@ case $1 in
   -D)
   echo "Recompiling the agent binary"
   export UNUM_DEBUG=1
+  AGENT_ONLY=1
+  shift
+  ;;
+  -A)
+  echo "Recompiling the agent binary"
   AGENT_ONLY=1
   shift
   ;;
