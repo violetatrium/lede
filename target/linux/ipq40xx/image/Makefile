@@ -115,6 +115,19 @@ define Device/glinet_gl-b1300
 endef
 TARGET_DEVICES += glinet_gl-b1300
 
+define Device/glinet_gl-b1300-bridge
+	$(call Device/FitImage)
+	DEVICE_TITLE := GL.iNet GL-B1300 Bridge
+	BOARD_NAME := gl-b1300-bridge
+	DEVICE_DTS := qcom-ipq4029-gl-b1300-bridge
+	KERNEL_SIZE := 4096k
+	IMAGE_SIZE := 26624k
+	IMAGES := sysupgrade.bin
+	IMAGE/sysupgrade.bin := append-kernel |append-rootfs | pad-rootfs | append-metadata
+endef
+TARGET_DEVICES += glinet_gl-b1300-bridge
+
+
 define Device/meraki_mr33
 	$(call Device/FitImage)
 	DEVICE_DTS := qcom-ipq4029-mr33
