@@ -159,7 +159,6 @@ ar71xx_setup_interfaces()
 	a60|\
 	alfa-ap96|\
 	alfa-nx|\
-	archer-c25-v1|\
 	dr344|\
 	gl-ar150|\
 	gl-ar300m|\
@@ -181,14 +180,6 @@ ar71xx_setup_interfaces()
 	wpe72|\
 	wrtnode2q)
 		ucidef_set_interfaces_lan_wan "eth1" "eth0"
-		;;
-	rb-750-r2|\
-	rb-750p-pbr2|\
-	rb-750up-r2|\
-	rb-951ui-2nd)
-		ucidef_set_interfaces_lan_wan "eth1.1" "eth0"
-		ucidef_add_switch "switch0" \
-			"0@eth1" "1:lan:4" "2:lan:3" "3:lan:2" "4:lan:1"
 		;;
 	all0258n|\
 	all0315n|\
@@ -247,6 +238,15 @@ ar71xx_setup_interfaces()
 		ucidef_set_interfaces_lan_wan "eth1.1" "eth0.2"
 		ucidef_add_switch "switch0" \
 			"0@eth1" "2:lan" "3:lan" "4:lan" "5:lan" "6@eth0" "1:wan"
+		;;
+	archer-c25-v1|\
+	rb-750-r2|\
+	rb-750p-pbr2|\
+	rb-750up-r2|\
+	rb-951ui-2nd)
+		ucidef_set_interfaces_lan_wan "eth1.1" "eth0"
+		ucidef_add_switch "switch0" \
+			"0@eth1" "1:lan:4" "2:lan:3" "3:lan:2" "4:lan:1"
 		;;
 	archer-c58-v1|\
 	archer-c59-v1|\
@@ -588,6 +588,14 @@ ar71xx_setup_macs()
 	local wan_mac=""
 
 	case $board in
+	archer-c7-v4)
+		base_mac=$(mtd_get_mac_binary config 8)
+		wan_mac=$(macaddr_add "$base_mac" 1)
+		;;
+	archer-c7-v5)
+		base_mac=$(mtd_get_mac_binary info 8)
+		wan_mac=$(macaddr_add "$base_mac" 1)
+		;;
 	dgl-5500-a1|\
 	dir-825-c1)
 		wan_mac=$(mtd_get_mac_ascii nvram "wan_mac")
@@ -599,6 +607,13 @@ ar71xx_setup_macs()
 		lan_mac=$(mtd_get_mac_binary caldata 0)
 		wan_mac=$(mtd_get_mac_binary caldata 6)
 		;;
+	dir-869-a1|\
+	mynet-n750)
+		wan_mac=$(mtd_get_mac_ascii devdata "wanmac")
+		;;
+	esr900)
+		wan_mac=$(mtd_get_mac_ascii u-boot-env "wanaddr")
+		;;
 	fritz300e)
 		lan_mac=$(fritz_tffs -n maca -i $(find_mtd_part "tffs (1)"))
 		;;
@@ -606,13 +621,6 @@ ar71xx_setup_macs()
 	tl-wr1043nd-v4)
 		lan_mac=$(mtd_get_mac_binary product-info 8)
 		wan_mac=$(macaddr_add "$lan_mac" 1)
-		;;
-	esr900)
-		wan_mac=$(mtd_get_mac_ascii u-boot-env "wanaddr")
-		;;
-	dir-869-a1|\
-	mynet-n750)
-		wan_mac=$(mtd_get_mac_ascii devdata "wanmac")
 		;;
 	wlr8100)
 		lan_mac=$(mtd_get_mac_ascii u-boot-env "ethaddr")

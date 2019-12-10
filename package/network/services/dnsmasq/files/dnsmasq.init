@@ -16,6 +16,7 @@ BASEHOSTFILE="/tmp/hosts/dhcp"
 TRUSTANCHORSFILE="/usr/share/dnsmasq/trust-anchors.conf"
 TIMEVALIDFILE="/var/state/dnsmasqsec"
 BASEDHCPSTAMPFILE="/var/run/dnsmasq"
+DHCPBOGUSHOSTNAMEFILE="/usr/share/dnsmasq/dhcpbogushostname.conf"
 RFC6761FILE="/usr/share/dnsmasq/rfc6761.conf"
 DHCPSCRIPT="/usr/lib/dnsmasq/dhcp-script.sh"
 
@@ -730,7 +731,9 @@ dhcp_relay_add() {
 
 dnsmasq_start()
 {
-	local cfg="$1" disabled resolvfile user_dhcpscript
+	local cfg="$1"
+	local disabled user_dhcpscript
+	local resolvfile localuse=0
 
 	config_get_bool disabled "$cfg" disabled 0
 	[ "$disabled" -gt 0 ] && return 0
@@ -813,6 +816,7 @@ dnsmasq_start()
 	append_bool "$cfg" localise_queries "--localise-queries"
 	append_bool "$cfg" readethers "--read-ethers"
 	append_bool "$cfg" dbus "--enable-dbus"
+	append_bool "$cfg" ubus "--enable-ubus"	1
 	append_bool "$cfg" expandhosts "--expand-hosts"
 	config_get tftp_root "$cfg" "tftp_root"
 	[ -n "$tftp_root" ] && mkdir -p "$tftp_root" && append_bool "$cfg" enable_tftp "--enable-tftp"
@@ -869,9 +873,6 @@ dnsmasq_start()
 		ADD_LOCAL_FQDN="$ADD_LOCAL_HOSTNAME"
 	fi
 
-	config_get_bool readethers "$cfg" readethers
-	[ "$readethers" = "1" -a \! -e "/etc/ethers" ] && touch /etc/ethers
-
 	config_get user_dhcpscript $cfg dhcpscript
 	if has_handler || [ -n "$user_dhcpscript" ]; then
 		xappend "--dhcp-script=$DHCPSCRIPT"
@@ -883,12 +884,12 @@ dnsmasq_start()
 
 	config_get_bool noresolv "$cfg" noresolv 0
 	if [ "$noresolv" != "1" ]; then
-		config_get resolvfile "$cfg" resolvfile "/tmp/resolv.conf.auto"
-		# So jail doesn't complain if file missing
-		[ -n "$resolvfile" -a \! -e "$resolvfile" ] && touch "$resolvfile"
+		config_get resolvfile "$cfg" resolvfile /tmp/resolv.conf.auto
+		[ -n "$resolvfile" -a ! -e "$resolvfile" ] && touch "$resolvfile"
+		xappend "--resolv-file=$resolvfile"
+		[ "$resolvfile" = "/tmp/resolv.conf.auto" ] && localuse=1
 	fi
-
-	[ -n "$resolvfile" ] && xappend "--resolv-file=$resolvfile"
+	config_get_bool localuse "$cfg" localuse "$localuse"
 
 	config_get hostsfile "$cfg" dhcphostsfile
 	[ -e "$hostsfile" ] && xappend "--dhcp-hostsfile=$hostsfile"
@@ -958,6 +959,13 @@ dnsmasq_start()
 
 	config_foreach filter_dnsmasq host dhcp_host_add "$cfg"
 	echo >> $CONFIGFILE_TMP
+
+	config_get_bool dhcpbogushostname "$cfg" dhcpbogushostname 1
+	[ "$dhcpbogushostname" -gt 0 ] && {
+		xappend "--dhcp-ignore-names=tag:dhcp_bogus_hostname"
+		[ -r "$DHCPBOGUSHOSTNAMEFILE" ] && xappend "--conf-file=$DHCPBOGUSHOSTNAMEFILE"
+	}
+
 	config_foreach filter_dnsmasq boot dhcp_boot_add "$cfg"
 	config_foreach filter_dnsmasq mac dhcp_mac_add "$cfg"
 	config_foreach filter_dnsmasq tag dhcp_tag_add "$cfg"
@@ -1004,7 +1012,7 @@ dnsmasq_start()
 	mv -f $CONFIGFILE_TMP $CONFIGFILE
 	mv -f $HOSTFILE_TMP $HOSTFILE
 
-	[ "$resolvfile" = "/tmp/resolv.conf.auto" ] && {
+	[ "$localuse" -gt 0 ] && {
 		rm -f /tmp/resolv.conf
 		[ $ADD_LOCAL_DOMAIN -eq 1 ] && [ -n "$DOMAIN" ] && {
 			echo "search $DOMAIN" >> /tmp/resolv.conf
@@ -1022,7 +1030,7 @@ dnsmasq_start()
 	procd_set_param respawn
 
 	procd_add_jail dnsmasq ubus log
-	procd_add_jail_mount $CONFIGFILE $TRUSTANCHORSFILE $HOSTFILE $RFC6761FILE /etc/passwd /etc/group /etc/TZ /dev/null /dev/urandom $dnsmasqconffile $dnsmasqconfdir $resolvfile $user_dhcpscript /etc/hosts /etc/ethers /sbin/hotplug-call $EXTRA_MOUNT $DHCPSCRIPT
+	procd_add_jail_mount $CONFIGFILE $TRUSTANCHORSFILE $HOSTFILE $RFC6761FILE $DHCPBOGUSHOSTNAMEFILE /etc/passwd /etc/group /etc/TZ /dev/null /dev/urandom $dnsmasqconffile $dnsmasqconfdir $resolvfile $user_dhcpscript /etc/hosts /etc/ethers /sbin/hotplug-call $EXTRA_MOUNT $DHCPSCRIPT
 	procd_add_jail_mount_rw /var/run/dnsmasq/ $leasefile
 
 	procd_close_instance
@@ -1030,17 +1038,15 @@ dnsmasq_start()
 
 dnsmasq_stop()
 {
-	local cfg="$1" resolvfile
+	local cfg="$1"
+	local noresolv resolvfile localuse=0
 
+	config_get_bool noresolv "$cfg" noresolv 0
 	config_get resolvfile "$cfg" "resolvfile"
 
-	#relink /tmp/resolve.conf only for main instance
-	[ "$resolvfile" = "/tmp/resolv.conf.auto" ] && {
-		[ -f /tmp/resolv.conf ] && {
-			rm -f /tmp/resolv.conf
-			ln -s "$resolvfile" /tmp/resolv.conf
-		}
-	}
+	[ "$noresolv" = 0 -a "$resolvfile" = "/tmp/resolv.conf.auto" ] && localuse=1
+	config_get_bool localuse "$cfg" localuse "$localuse"
+	[ "$localuse" -gt 0 ] && ln -sf "/tmp/resolv.conf.auto" /tmp/resolv.conf
 
 	rm -f ${BASEDHCPSTAMPFILE}.${cfg}.*.dhcp
 }
