@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=loudmouth
 PKG_VERSION:=1.5.3
-PKG_RELEASE:=1
+PKG_RELEASE:=4
 
 PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org>
 
@@ -27,6 +27,7 @@ PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/nls.mk
 
 define Package/loudmouth
   SECTION:=libs
@@ -41,8 +42,14 @@ define Package/loudmouth/description
 endef
 
 CONFIGURE_ARGS += \
-	--with-ssl=openssl \
-	--with-idn=no
+	--disable-debug \
+	--without-compile-warnings \
+	--without-idn \
+	--with-ssl=openssl
+
+CONFIGURE_VARS += \
+	ac_cv_lib_crypto_BIO_f_base64=yes \
+	ac_cv_lib_ssl_SSL_new=yes
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include/

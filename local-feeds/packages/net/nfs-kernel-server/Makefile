@@ -7,18 +7,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nfs-kernel-server
-PKG_VERSION:=2.3.1
-PKG_RELEASE:=1
-PKG_HASH:=ca92f1ab86b2af4dcd62d7716d46a6cdec268e83fe8d564cd8ff1464cc495989
+PKG_VERSION:=2.3.3
+PKG_RELEASE:=3
+PKG_HASH:=3c8c63611c7e78b7a3b2f8a28b9928a5b5e66d5e9ad09a1e54681508884320a4
 
 PKG_SOURCE_URL:=@SF/nfs
-PKG_SOURCE:=nfs-utils-$(PKG_VERSION).tar.bz2
+PKG_SOURCE:=nfs-utils-$(PKG_VERSION).tar.xz
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/nfs-utils-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/nfs-utils-$(PKG_VERSION)
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_DEPENDS:=$(PKG_NAME)/host
+HOST_BUILD_DEPENDS:=libtirpc/host
+PKG_CONFIG_DEPENDS:= CONFIG_IPV6
 
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/package.mk
@@ -27,7 +29,7 @@ define Package/nfs-kernel-server/Default
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=Filesystem
-  DEPENDS:=+libwrap +libblkid +libuuid $(LIBRPC_DEPENDS)
+  DEPENDS:=+libwrap +libblkid +libuuid +libtirpc
   URL:=http://nfs.sourceforge.net/
   MAINTAINER:=Peter Wagner <tripolar@gmx.at>
 endef
@@ -60,7 +62,7 @@ define Package/nfs-utils
   $(call Package/nfs-kernel-server/Default)
   SECTION:=utils
   CATEGORY:=Utilities
-  DEPENDS+= +libevent2 +USE_UCLIBC:librpc
+  DEPENDS+= +libevent2
   TITLE:=updated mount utility (includes nfs4)
 endef
 
@@ -68,25 +70,32 @@ define Package/nfs-utils/description
   Updated mount.nfs command - allows mounting nfs4 volumes
 endef
 
-TARGET_CFLAGS += -I$(PKG_BUILD_DIR)/lib -I$(STAGING_DIR)/usr/include/libevent \
-		 -I$(STAGING_DIR)/usr/include/ -Drpc_uint=uint
-TARGET_LDFLAGS += -Wl,-rpath-link=$(STAGING_DIR)/usr/lib $(LIBRPC) \
+TARGET_CFLAGS += -Wno-error=implicit-function-declaration \
+		 -Wno-error=strict-prototypes \
+		 -Wno-error=incompatible-pointer-types \
+		 -Wno-error=format-security \
+		 -Wno-error=undef \
+		 -Wno-error=missing-include-dirs
+
+TARGET_LDFLAGS += -Wl,-rpath-link=$(STAGING_DIR)/usr/lib \
 		  -L$(STAGING_DIR)/usr/lib/libevent
 
 CONFIGURE_ARGS += \
 	--disable-gss \
 	--disable-nfsv4 \
 	--disable-nfsv41 \
-	--disable-ipv6 \
 	--enable-static \
 	--enable-shared \
-	--disable-caps \
-	--disable-tirpc \
-	--disable-nfsdcld
+	--disable-caps
+
+ifeq ($(CONFIG_IPV6),n)
+CONFIGURE_ARGS += --disable-ipv6
+endif
 
 CONFIGURE_VARS += \
 	libblkid_cv_is_recent=yes \
 	ac_cv_lib_resolv___res_querydomain=yes \
+	ac_cv_lib_bsd_daemon=no \
 	CONFIG_SQLITE3_TRUE="\#" \
 	CONFIG_NFSDCLD_TRUE="\#"
 
@@ -97,14 +106,13 @@ MAKE_FLAGS += \
 	RPCGEN_PATH=$(STAGING_DIR_HOSTPKG)/bin/rpcgen \
 	RPCGEN=$(STAGING_DIR_HOSTPKG)/bin/rpcgen
 
-HOST_CFLAGS += -Dlinux
+HOST_CFLAGS += -Dlinux \
+	-Wno-error=missing-include-dirs
 
 HOST_CONFIGURE_ARGS += \
 	--disable-gss \
 	--disable-nfsv4 \
 	--disable-nfsv41 \
-	--disable-ipv6 \
-	--disable-tirpc \
 	--without-tcp-wrappers
 
 HOST_CONFIGURE_VARS += \
@@ -114,6 +122,7 @@ HOST_CONFIGURE_VARS += \
 	ac_cv_header_event_h=yes \
 	ac_cv_header_nfsidmap_h=yes \
 	ac_cv_header_blkid_blkid_h=yes \
+	ac_cv_lib_resolv___res_querydomain=yes \
 	GSSGLUE_CFLAGS=" " \
 	GSSGLUE_LIBS=" " \
 	RPCSECGSS_CFLAGS=" " \

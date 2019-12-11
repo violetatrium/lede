@@ -9,35 +9,29 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=softethervpn
-PKG_VERSION:=4.25-9656
+PKG_VERSION:=4.29-9680
 PKG_VERREL:=rtm
-PKG_VERDATE:=2018.01.15
-PKG_RELEASE:=1
+PKG_VERDATE:=2019.02.28
+PKG_RELEASE:=2
 
 PKG_SOURCE:=softether-src-v$(PKG_VERSION)-$(PKG_VERREL).tar.gz
 PKG_SOURCE_URL:=http://www.softether-download.com/files/softether/v$(PKG_VERSION)-$(PKG_VERREL)-$(PKG_VERDATE)-tree/Source_Code/
-PKG_HASH:=b946dec3da5833ad2be69125224784b8a8e2a4149297d0c0a907ba0e1c4535f8
+PKG_HASH:=e6035fa7d9aaf59bdb342cd7ab5ecfdff89811a875f62a3230208cdc8a4e26e4
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/v$(PKG_VERSION)
-HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/v$(PKG_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/v$(PKG_VERSION)
+HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)/v$(PKG_VERSION)
 
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=COPYING
 
 PKG_BUILD_DEPENDS:=softethervpn/host
+HOST_BUILD_DEPENDS:=readline/host libiconv/host openssl
 
 HAMCORE_SE2:=$(STAGING_DIR_HOST)/share/softethervpn/hamcore.se2
 
 include $(INCLUDE_DIR)/nls.mk
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
-
-
-# Override CC to add fake libreadline to linker search path
-HOSTCC += -L./src/readline
-
-# Add defines to turn add_history() and readline() calls into no-ops
-HOSTCC += -D'add_history(x)' -D'readline(x)=\"\"'
 
 # Execute in host build directory
 HOST_MAKE_FLAGS += -C $(HOST_BUILD_DIR)
@@ -50,15 +44,10 @@ define Host/Configure
 endef
 
 define Host/Compile
-	# Prepare fake readline headers and library
-	mkdir -p $(HOST_BUILD_DIR)/src/readline
-	touch $(HOST_BUILD_DIR)/src/readline/readline.h
-	touch $(HOST_BUILD_DIR)/src/readline/history.h
-	ar rcs $(HOST_BUILD_DIR)/src/readline/libreadline.a
-
 	# Build hamcorebuilder using host compiler and let it generate
 	# the hamcore.se2 archive file
-	CC="$(HOSTCC)" $(MAKE) $(HOST_MAKE_FLAGS) \
+	# CFLAGS, CPPFLAGS & LDFLAGS need to be passed with CC because they are being ingored
+	CC="$(HOSTCC) $(HOST_CFLAGS) $(HOST_CPPFLAGS) $(HOST_LDFLAGS)" $(MAKE) $(HOST_MAKE_FLAGS) \
 		src/bin/BuiltHamcoreFiles/unix/hamcore.se2
 endef
 

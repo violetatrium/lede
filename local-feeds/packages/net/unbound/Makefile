@@ -8,16 +8,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=unbound
-PKG_VERSION:=1.7.3
-PKG_RELEASE:=2
+PKG_VERSION:=1.9.4
+PKG_RELEASE:=1
 
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=Eric Luehrsen <ericluehrsen@gmail.com>
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=http://www.unbound.net/downloads
-PKG_HASH:=c11de115d928a6b48b2165e0214402a7a7da313cd479203a7ce7a8b62cba602d
+PKG_SOURCE_URL:=https://nlnetlabs.nl/downloads/unbound
+PKG_HASH:=3d3e25fb224025f0e732c7970e5676f53fd1764c16d6a01be073a13e42954bb0
 
 PKG_BUILD_PARALLEL:=1
 PKG_FIXUP:=autoreconf
@@ -27,7 +27,7 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/unbound/Default
   TITLE:=Validating Recursive DNS Server
-  URL:=http://www.unbound.net/
+  URL:=https://nlnetlabs.nl/projects/unbound/about
   DEPENDS:=+libopenssl
 endef
 
@@ -185,7 +185,7 @@ endef
 
 define Package/libunbound/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/libunbound.so.* $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libunbound.so.* $(1)/usr/lib/
 endef
 
 $(eval $(call BuildPackage,unbound))

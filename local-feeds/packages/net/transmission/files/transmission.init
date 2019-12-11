@@ -52,6 +52,7 @@ transmission() {
 	local mem_percentage
 	local nice
 	local cmdline
+	local web_home
 
 	section_enabled "$section" || return 1
 
@@ -62,10 +63,13 @@ transmission() {
 	config_get mem_percentage "$cfg" 'mem_percentage' '50'
 	config_get config_overwrite "$cfg" config_overwrite 1
 	config_get nice "$cfg" nice 0
+	config_get web_home "$cfg" 'web_home'
 
-	local MEM=$(sed -ne 's!^MemTotal:[[:space:]]*\([0-9]*\) kB$!\1!p' /proc/meminfo)
+	local MEM
+
+	MEM=$(sed -ne 's!^MemTotal:[[:space:]]*\([0-9]*\) kB$!\1!p' /proc/meminfo)
 	if test "$MEM" -gt 1;then
-		USE=$(expr $MEM \* $mem_percentage \* 10)
+		USE=$((MEM * mem_percentage * 10))
 	fi
 
 	config_file="$config_dir/settings.json"
@@ -76,7 +80,7 @@ transmission() {
 		[ -z "$user" ] || chown -R "$user:$group" $config_dir
 	}
 
-	[ "$config_overwrite" == 0 ] || {
+	[ "$config_overwrite" = 0 ] || {
 
 		echo "{" > $config_file
 
@@ -111,7 +115,6 @@ transmission() {
 	cmdline="transmission-daemon -g $config_dir -f"
 	procd_open_instance
 	procd_set_param command $cmdline
-	procd_set_param env CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 	procd_set_param user $user
 	procd_set_param group $group
 	procd_set_param nice $nice
@@ -124,6 +127,10 @@ transmission() {
 		logger -t transmission "Starting with $USE virt mem"
 	fi
 
+	if test -d "$web_home"; then
+		procd_set_param env TRANSMISSION_WEB_HOME="$web_home"
+	fi
+
 	procd_add_jail transmission log
 	procd_add_jail_mount $config_file
 	procd_add_jail_mount_rw $download_dir
@@ -134,4 +141,3 @@ start_service() {
 	config_load 'transmission'
 	config_foreach transmission 'transmission'
 }
-

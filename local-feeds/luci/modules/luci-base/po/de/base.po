@@ -1523,6 +1523,9 @@ msgstr ""
 msgid "IP Addresses"
 msgstr "IP-Adressen"
 
+msgid "IP Protocol"
+msgstr ""
+
 msgid "IP address"
 msgstr "IP-Adresse"
 
@@ -1567,6 +1570,9 @@ msgstr "IPv4 Bereich"
 
 msgid "IPv4 prefix length"
 msgstr "Länge des IPv4 Präfix"
+
+msgid "IPv4+IPv6"
+msgstr ""
 
 msgid "IPv4-Address"
 msgstr "IPv4-Adresse"
@@ -2135,6 +2141,9 @@ msgstr "Modus"
 
 msgid "Model"
 msgstr "Modell"
+
+msgid "Modem default"
+msgstr ""
 
 msgid "Modem device"
 msgstr "Modemgerät"
@@ -4179,8 +4188,6 @@ msgstr "ja"
 
 msgid "« Back"
 msgstr "« Zurück"
-<<<<<<< HEAD
-=======
 
 #~ msgid "<abbr title='Pairwise: %s / Group: %s'>%s - %s</abbr>"
 #~ msgstr "<abbr title='Paarweise: %s / Gruppe: %s'>%s - %s</abbr>"
@@ -4271,4 +4278,3 @@ msgstr "« Zurück"
 
 #~ msgid "IPv6 WAN Status"
 #~ msgstr "IPv6 WAN Status"
->>>>>>> 86660f92d... i18n: sync translations

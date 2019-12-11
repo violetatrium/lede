@@ -132,7 +132,11 @@ function httpdispatch(request, prefix)
 	--context._disable_memtrace()
 end
 
-local function require_post_security(target)
+local function require_post_security(target, args)
+	if type(target) == "table" and target.type == "arcombine" and type(target.targets) == "table" then
+		return require_post_security((type(args) == "table" and #args > 0) and target.targets[2] or target.targets[1], args)
+	end
+
 	if type(target) == "table" then
 		if type(target.post) == "table" then
 			local param_name, required_val, request_val
@@ -315,7 +319,7 @@ function dispatch(request)
 			assert(media, "No valid theme found")
 		end
 
-		local function _ifattr(cond, key, val)
+		local function _ifattr(cond, key, val, noescape)
 			if cond then
 				local env = getfenv(3)
 				local scope = (type(env.self) == "table") and env.self
@@ -326,13 +330,16 @@ function dispatch(request)
 						val = util.serialize_json(val)
 					end
 				end
-				return string.format(
-					' %s="%s"', tostring(key),
-					util.pcdata(tostring( val
-					 or (type(env[key]) ~= "function" and env[key])
-					 or (scope and type(scope[key]) ~= "function" and scope[key])
-					 or "" ))
-				)
+
+				val = tostring(val or
+					(type(env[key]) ~= "function" and env[key]) or
+					(scope and type(scope[key]) ~= "function" and scope[key]) or "")
+
+				if noescape ~= true then
+					val = util.pcdata(val)
+				end
+
+				return string.format(' %s="%s"', tostring(key), val)
 			else
 				return ''
 			end
@@ -452,7 +459,7 @@ function dispatch(request)
 		return
 	end
 
-	if c and require_post_security(c.target) then
+	if c and require_post_security(c.target, args) then
 		if not test_post_security(c) then
 			return
 		end

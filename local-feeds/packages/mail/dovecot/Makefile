@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dovecot
-PKG_VERSION:=2.2.35
+PKG_VERSION:=2.2.36.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=http://www.dovecot.org/releases/2.2
-PKG_HASH:=cce15db2fc5233386b63a3cf21c465c09e6e55014ed66c4f184b7d221a47180c
+PKG_SOURCE_URL:=https://www.dovecot.org/releases/2.2
+PKG_HASH:=777c61e264869e9b288b8d6603f4ed3ac3aac9ec573908067353f51269dce2fe
 PKG_LICENSE:=LGPL-2.1 MIT BSD-3-Clause Unique
 PKG_LICENSE_FILES:=COPYING COPYING.LGPL COPYING.MIT
 PKG_MAINTAINER:=Lucian Cristian <lucian.cristian@gmail.com>

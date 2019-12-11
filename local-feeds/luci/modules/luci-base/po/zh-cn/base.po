@@ -1452,6 +1452,9 @@ msgstr "IKE DH 组"
 msgid "IP Addresses"
 msgstr "IP 地址"
 
+msgid "IP Protocol"
+msgstr "IP 协议"
+
 msgid "IP address"
 msgstr "IP 地址"
 
@@ -1496,6 +1499,9 @@ msgstr "IPv4 地址前缀"
 
 msgid "IPv4 prefix length"
 msgstr "IPv4 地址前缀长度"
+
+msgid "IPv4+IPv6"
+msgstr "IPv4+IPv6"
 
 msgid "IPv4-Address"
 msgstr "IPv4 地址"
@@ -2034,8 +2040,11 @@ msgstr "模式"
 msgid "Model"
 msgstr "主机型号"
 
+msgid "Modem default"
+msgstr "调制解调器默认"
+
 msgid "Modem device"
-msgstr "调制解调器节点"
+msgstr "调制解调器设备"
 
 msgid "Modem information query failed"
 msgstr "调制解调器信息查询失败"

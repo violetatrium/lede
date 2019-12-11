@@ -852,6 +852,14 @@ function get_status_by_address(self, addr)
 					end
 				end
 			end
+			if s and s['ipv6-prefix-assignment'] then
+				local a
+				for _, a in ipairs(s['ipv6-prefix-assignment']) do
+					if a and a['local-address'] and a['local-address'].address == addr then
+						return net, s
+					end
+				end
+			end
 		end
 	end
 end
@@ -1230,8 +1238,8 @@ function protocol.get_interface(self)
 	end
 end
 
-function protocol.get_interfaces(self)
-	if self:is_bridge() or (self:is_virtual() and not self:is_floating()) then
+function protocol.get_interfaces(self, ignore_bridge_state)
+	if ignore_bridge_state or self:is_bridge() or (self:is_virtual() and not self:is_floating()) then
 		local ifaces = { }
 
 		local ifn
