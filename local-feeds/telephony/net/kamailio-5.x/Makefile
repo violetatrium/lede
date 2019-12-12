@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2017 - 2018 OpenWrt.org
-# Copyright (C) 2017 - 2018 Jiri Slachta
+# Copyright (C) 2017 OpenWrt.org
+# Copyright (C) 2017 Jiri Slachta
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -9,25 +9,31 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=kamailio5
-PKG_VERSION:=5.1.3
+PKG_VERSION:=5.2.1
 PKG_RELEASE:=2
 
 PKG_SOURCE_URL:=https://www.kamailio.org/pub/kamailio/$(PKG_VERSION)/src
 PKG_SOURCE:=kamailio-$(PKG_VERSION)$(PKG_VARIANT)_src.tar.gz
-PKG_HASH:=b2266e15ec8ffa62be66b44989155f26a31d137f06f81fb3841aad8315315a14
+PKG_HASH:=95d2158f97c76124a381364d99de1420f193275c5a1c9f88489c6409702f2c8f
 PKG_USE_MIPS16:=0
 
 PKG_LICENSE:=GPL-2.0+
 PKG_LICENSE_FILES:=COPYING
 PKG_MAINTAINER:=Jiri Slachta <jiri@slachta.eu>
 
+# Defining PKG_BUILD_PARALLEL to 1 would be a noop due to the way we call make
+#PKG_BUILD_PARALLEL:=1
+
 MODULES_AVAILABLE:= \
 	acc \
 	acc_diameter \
+	acc_json \
 	alias_db \
 	app_jsdt \
 	app_lua \
 	app_python \
+	app_python3 \
+	app_ruby \
 	app_sqlang \
 	async \
 	auth \
@@ -62,6 +68,7 @@ MODULES_AVAILABLE:= \
 	db_flatstore \
 	db_mysql \
 	db_postgres \
+	db_redis \
 	db_sqlite \
 	db_text \
 	db_unixodbc \
@@ -91,6 +98,7 @@ MODULES_AVAILABLE:= \
 	ims_dialog \
 	ims_diameter_server \
 	ims_icscf \
+	ims_ipsec_pcscf \
 	ims_isc \
 	ims_ocs \
 	ims_qos \
@@ -140,6 +148,7 @@ MODULES_AVAILABLE:= \
 	pua \
 	pua_bla \
 	pua_dialoginfo \
+	pua_json \
 	pua_reginfo \
 	pua_rpc \
 	pua_usrloc \
@@ -239,11 +248,13 @@ endef
 define Package/kamailio5
 $(call Package/kamailio5/Default)
   TITLE:=Mature and flexible open source SIP server, v$(PKG_VERSION)
+  USERID:=kamailio=380:kamailio=380
   MENU:=1
 endef
 
 define Package/kamailio5/conffiles
-/etc/default/kamailio
+/etc/config/kamailio
+/etc/init.d/kamailio
 /etc/kamailio/kamailio.cfg
 /etc/kamailio/kamctlrc
 endef
@@ -258,17 +269,35 @@ $(foreach c,kamailio.cfg kamctlrc,$(call Package/kamailio5/install/conffile,$(1)
 	$(CP) \
 		$(PKG_INSTALL_DIR)/usr/lib/kamailio/lib{srdb1,srdb2,srutils}.so* \
 		$(1)/usr/lib/kamailio/
-	$(INSTALL_DIR) $(1)/etc/default
+	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) \
-		./files/kamailio.default \
-		$(1)/etc/default/kamailio
+		./files/kamailio.config \
+		$(1)/etc/config/kamailio
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) \
 		./files/kamailio.init \
 		$(1)/etc/init.d/kamailio
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	$(INSTALL_BIN) \
+		./files/kamailio.hotplug \
+		$(1)/etc/hotplug.d/iface/99-kamailio
 	$(CP) \
 		$(PKG_INSTALL_DIR)/usr/lib/kamailio/kamctl \
 		$(1)/usr/lib/kamailio/
+endef
+
+define Package/kamailio5/postinst
+#!/bin/sh
+if [ -z "$${IPKG_INSTROOT}" ]; then
+  echo
+  echo "o-------------------------------------------------------------------o"
+  echo "| Kamailio note                                                     |"
+  echo "o-------------------------------------------------------------------o"
+  echo "| Edit /etc/config/kamailio to change basic init configuration.     |"
+  echo "o-------------------------------------------------------------=^_^=-o"
+  echo
+fi
+exit 0
 endef
 
 define Package/kamailio5/install/conffile
@@ -367,6 +396,18 @@ EXTRA_MODULES:= \
 	$(if $(CONFIG_PACKAGE_kamailio5-mod-ims-diameter-server),,ims_diameter_server) \
 	$(if $(CONFIG_PACKAGE_kamailio5-mod-uid-gflags),,uid_gflags)
 
+# MIPS tweak:
+#
+# Kamailio enables use of fast inline assembly locks when ARCH is set to
+# "mips2". When ARCH is set to "mips" instead, Kamailio assumes it is dealing
+# with an old 32-bit MIPS CPU without hardware locking support (like R3000).
+#
+# When CONFIG_CPU_TYPE matches one of the identifiers in the list below, set
+# ARCH to "mips2" to get FAST_LOCK support.
+ifeq ($(call qstrip,$(CONFIG_ARCH)),mips)
+CPU_MIPS2:=mips32 24kc 34kc 74kc
+endif
+
 PKG_MAKE_ARGS:= \
 	prefix=/ \
 	cfg_dir=/etc/kamailio/ \
@@ -385,9 +426,12 @@ PKG_MAKE_ARGS:= \
 	SYSBASE="$(STAGING_DIR)/usr" \
 	CROSS_COMPILE=$(TARGET_CROSS) \
 	CC="$(TARGET_CC)" \
-	ARCH="$(ARCH)"  \
+	$(if $(findstring $(call qstrip,$(CONFIG_CPU_TYPE)),$(CPU_MIPS2)),ARCH="mips2",ARCH="$(ARCH)") \
 	DESTDIR=$(PKG_INSTALL_DIR) \
 	quiet=verbose
+
+define Build/Configure
+endef
 
 define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) $(PKG_MAKE_ARGS) cfg
@@ -413,14 +457,17 @@ $(eval $(call BuildPackage,kamailio5-util-kambdb-recover))
 
 $(eval $(call BuildKamailio5Module,acc,Accounting,,+kamailio5-mod-tm))
 $(eval $(call BuildKamailio5Module,acc_diameter,Accounting for DIAMETER backend,,+kamailio5-mod-acc))
-$(eval $(call BuildKamailio5Module,alias_db,Database-backend aliases,,+kamailio5-mod-db-sqlite))
+$(eval $(call BuildKamailio5Module,acc_json,Accounting with records exported in JSON format,,+jansson +kamailio5-mod-acc))
+$(eval $(call BuildKamailio5Module,alias_db,Database-backend aliases,,))
 $(eval $(call BuildKamailio5Module,app_jsdt,Execute JavaScript scripts,,))
 $(eval $(call BuildKamailio5Module,app_lua,Execute embedded Lua scripts,,+liblua))
 $(eval $(call BuildKamailio5Module,app_python,Execute Python scripts,,+python-light))
+$(eval $(call BuildKamailio5Module,app_python3,Python3 scripting interpreter,,@BROKEN +python3-light))
+$(eval $(call BuildKamailio5Module,app_ruby,Ruby scripting interpreter,,+libruby))
 $(eval $(call BuildKamailio5Module,app_sqlang,Execute Squirrel language scripts,,+libstdcpp))
 $(eval $(call BuildKamailio5Module,async,Asynchronous SIP handling functions,,+kamailio5-mod-tm +kamailio5-mod-tmx))
 $(eval $(call BuildKamailio5Module,auth,Authentication Framework,,))
-$(eval $(call BuildKamailio5Module,auth_db,Database-backend authentication,,+kamailio5-mod-auth +kamailio5-mod-db-sqlite))
+$(eval $(call BuildKamailio5Module,auth_db,Database-backend authentication,,+kamailio5-mod-auth))
 $(eval $(call BuildKamailio5Module,auth_diameter,Diameter authentication,,+kamailio5-mod-sl))
 $(eval $(call BuildKamailio5Module,auth_ephemeral,Ephemeral credentials,,+libopenssl))
 $(eval $(call BuildKamailio5Module,auth_identity,Identity authentication,,+libopenssl +libcurl))
@@ -435,7 +482,7 @@ $(eval $(call BuildKamailio5Module,carrierroute,Carrier Route,,+kamailio5-lib-li
 $(eval $(call BuildKamailio5Module,cdp,C Diameter Peer,,))
 $(eval $(call BuildKamailio5Module,cdp_avp,CDP AVP helper module,,+kamailio5-mod-cdp))
 $(eval $(call BuildKamailio5Module,cfgutils,Config utilities,,))
-$(eval $(call BuildKamailio5Module,cfg_db,Load parameters from database,,+kamailio5-mod-db-sqlite))
+$(eval $(call BuildKamailio5Module,cfg_db,Load parameters from database,,))
 $(eval $(call BuildKamailio5Module,cfg_rpc,Update parameters via RPC,,))
 $(eval $(call BuildKamailio5Module,cfgt,Unit test reporting,,))
 $(eval $(call BuildKamailio5Module,cnxcc,Limit call duration,,+kamailio5-mod-dialog +libhiredis +libevent2))
@@ -451,6 +498,7 @@ $(eval $(call BuildKamailio5Module,db_cluster,Database clustering system,,))
 $(eval $(call BuildKamailio5Module,db_flatstore,fast write-only text DB-backend,,))
 $(eval $(call BuildKamailio5Module,db_mysql,MySQL DB-backend,,+libmysqlclient,mysql))
 $(eval $(call BuildKamailio5Module,db_postgres,PostgreSQL DB-backend,,+libpq,postgres))
+$(eval $(call BuildKamailio5Module,db_redis,Database backend with Redis server,,+libhiredis,db_redis))
 $(eval $(call BuildKamailio5Module,db_sqlite,SQLite DB-backend,,+libsqlite3,db_sqlite))
 $(eval $(call BuildKamailio5Module,db_text,Text DB-backend,,,dbtext/kamailio))
 $(eval $(call BuildKamailio5Module,db_unixodbc,UnixODBC DB-backend,,+unixodbc))
@@ -480,6 +528,7 @@ $(eval $(call BuildKamailio5Module,ims_charging,IMS charging component module,,+
 $(eval $(call BuildKamailio5Module,ims_dialog,IMS dialog tracking module,,+kamailio5-mod-rr +kamailio5-mod-tm))
 $(eval $(call BuildKamailio5Module,ims_diameter_server,IMS DIAMETER server module,,+kamailio5-lib-libkamailio-ims +kamailio5-mod-cdp +kamailio5-mod-cdp-avp))
 $(eval $(call BuildKamailio5Module,ims_icscf,IMS ICSCF component module,,+kamailio5-lib-libkamailio-ims +kamailio5-mod-cdp +kamailio5-mod-cdp-avp +kamailio5-mod-sl +kamailio5-mod-tm))
+$(eval $(call BuildKamailio5Module,ims_ipsec_pcscf,Diameter server implementation,,+kamailio5-lib-libkamailio-ims +kamailio5-mod-ims-usrloc-pcscf +kamailio5-mod-tm +libmnl))
 $(eval $(call BuildKamailio5Module,ims_isc,IMS ISC component module,,+kamailio5-lib-libkamailio-ims +kamailio5-mod-ims-usrloc-scscf +kamailio5-mod-tm))
 $(eval $(call BuildKamailio5Module,ims_ocs,MS OCS component module,,+kamailio5-lib-libkamailio-ims +kamailio5-mod-cdp +kamailio5-mod-cdp-avp))
 $(eval $(call BuildKamailio5Module,ims_qos,IMS Diameter Rx interface between PCSCF and PCRF functions,,+kamailio5-lib-libkamailio-ims +kamailio5-mod-cdp +kamailio5-mod-cdp-avp +kamailio5-mod-ims-dialog +kamailio5-mod-ims-usrloc-pcscf +kamailio5-mod-tm))
@@ -491,7 +540,7 @@ $(eval $(call BuildKamailio5Module,ipops,IP and IPv6 operations,,))
 $(eval $(call BuildKamailio5Module,jansson,Access to JSON attributes,,+jansson))
 $(eval $(call BuildKamailio5Module,janssonrpcc,Alternative JSONRPC server,,+kamailio5-mod-jansson +libevent2))
 $(eval $(call BuildKamailio5Module,json,Access to JSON document attributes,,+libjson-c))
-$(eval $(call BuildKamailio5Module,jsonrpcs,JSONRPC server over HTTP,,+kamailio5-mod-json +libevent2))
+$(eval $(call BuildKamailio5Module,jsonrpcs,JSONRPC server over HTTP,,+libevent2))
 $(eval $(call BuildKamailio5Module,keepalive,SIP keepalive monitoring,+kamailio5-mod-tm,))
 $(eval $(call BuildKamailio5Module,kex,Core extensions,,))
 $(eval $(call BuildKamailio5Module,lcr,Least Cost Routing,,+kamailio5-mod-tm +libpcre))
@@ -529,6 +578,7 @@ $(eval $(call BuildKamailio5Module,presence_xml,XCAP presence,,+kamailio5-mod-pr
 $(eval $(call BuildKamailio5Module,pua,Presence User Agent,,+kamailio5-mod-tm +libxml2))
 $(eval $(call BuildKamailio5Module,pua_bla,Bridged Line Appearence PUA,,+kamailio5-mod-presence +kamailio5-mod-pua +kamailio5-mod-usrloc))
 $(eval $(call BuildKamailio5Module,pua_dialoginfo,Dialog Event PUA,,+kamailio5-mod-dialog +kamailio5-mod-pua))
+$(eval $(call BuildKamailio5Module,pua_json,Presence user agent implementation with JSON messages,,+libjson-c))
 $(eval $(call BuildKamailio5Module,pua_reginfo,PUA registration info,,+kamailio5-mod-pua +kamailio5-mod-usrloc))
 $(eval $(call BuildKamailio5Module,pua_rpc,RPC extensions for PUA,,+kamailio5-mod-pua))
 $(eval $(call BuildKamailio5Module,pua_usrloc,PUA User Location,,+kamailio5-mod-pua +kamailio5-mod-usrloc))

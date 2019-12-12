@@ -8,15 +8,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zsh
-PKG_VERSION:=5.4.2
-PKG_RELEASE:=1
+PKG_VERSION:=5.6.2
+PKG_RELEASE:=2
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@SF/zsh
-PKG_HASH:=957bcdb2c57f64c02f673693ea5a7518ef24b6557aeb3a4ce222cefa6d74acc9
+PKG_HASH:=a50bd66c0557e8eca3b8fa24e85d0de533e775d7a22df042da90488623752e9e
+
 PKG_MAINTAINER:=Vadim A. Misbakh-Soloviov <openwrt-zsh@mva.name>
 PKG_LICENSE:=ZSH
+PKG_LICENSE_FILES:=LICENCE
+PKG_CPE_ID:=cpe:/a:zsh_project:zsh
 
+PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
@@ -27,7 +31,7 @@ define Package/zsh
   SUBMENU:=Shells
   TITLE:=The Z shell
   DEPENDS:=+libcap +libncurses +libncursesw +libpcre +librt
-  URL:=http://www.zsh.org/
+  URL:=https://www.zsh.org/
 endef
 
 define Package/zsh/description
@@ -43,8 +47,8 @@ define Build/Configure
 	$(call Build/Configure/Default, \
 		--disable-etcdir \
 		--disable-gdbm \
-		--enable-dynamic \
-		--enable-libc-musl \
+		--disable-dynamic \
+		$(if $(CONFIG_USE_MUSL),--enable-libc-musl) \
 		--enable-pcre \
 		--enable-cap \
 		--enable-multibyte \
@@ -79,6 +83,9 @@ define Build/Configure
 	$(MAKE) -C $(PKG_BUILD_DIR) DESTDIR="$(PKG_INSTALL_DIR)" prep
 endef
 
+TARGET_CFLAGS += -ffunction-sections -fdata-sections -flto
+TARGET_LDFLAGS += -Wl,--gc-sections -flto
+
 define Package/zsh/postinst
 #!/bin/sh
 grep zsh $${IPKG_INSTROOT}/etc/shells || \
@@ -93,11 +100,9 @@ endef
 define Package/zsh/install
 	$(INSTALL_DIR) $(1)/bin
 	$(INSTALL_DIR) $(1)/$(CONFIGURE_PREFIX)/bin
-	$(INSTALL_DIR) $(1)/$(CONFIGURE_PREFIX)/lib/zsh/$(PKG_VERSION)
 	$(INSTALL_DIR) $(1)/$(CONFIGURE_PREFIX)/share/zsh/$(PKG_VERSION)
 
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/$(CONFIGURE_PREFIX)/bin/zsh $(1)/$(CONFIGURE_PREFIX)/bin/
-	$(CP) $(PKG_INSTALL_DIR)/$(CONFIGURE_PREFIX)/lib/zsh/$(PKG_VERSION)/* $(1)/$(CONFIGURE_PREFIX)/lib/zsh/$(PKG_VERSION)/
 	$(CP) $(PKG_INSTALL_DIR)/$(CONFIGURE_PREFIX)/share/zsh/$(PKG_VERSION)/* $(1)/$(CONFIGURE_PREFIX)/share/zsh/$(PKG_VERSION)/
 endef
 

@@ -12,7 +12,7 @@ LUCI_TYPE:=mod
 LUCI_BASENAME:=base
 
 LUCI_TITLE:=LuCI core libraries
-LUCI_DEPENDS:=+lua +luci-lib-nixio +luci-lib-ip +rpcd +libubus-lua +luci-lib-jsonc +liblucihttp-lua
+LUCI_DEPENDS:=+lua +luci-lib-nixio +luci-lib-ip +rpcd +libubus-lua +luci-lib-jsonc +liblucihttp-lua +rpcd-mod-file +rpcd-mod-luci +cgi-io
 
 
 PKG_SOURCE:=v1.0.0.tar.gz
@@ -36,13 +36,14 @@ define Host/Configure
 endef
 
 define Host/Compile
-	$(MAKE) -C src/ clean po2lmo
+	$(MAKE) -C src/ clean po2lmo jsmin
 endef
 
 define Host/Install
 	$(INSTALL_DIR) $(1)/bin
 	$(INSTALL_DIR) $(1)/lib/lua/5.1
 	$(INSTALL_BIN) src/po2lmo $(1)/bin/po2lmo
+	$(INSTALL_BIN) src/jsmin $(1)/bin/jsmin
 	$(INSTALL_BIN) $(HOST_BUILD_DIR)/bin/luasrcdiet $(1)/bin/luasrcdiet
 	$(CP) $(HOST_BUILD_DIR)/luasrcdiet $(1)/lib/lua/5.1/
 endef

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2010-2018 OpenWrt.org
+# Copyright (C) 2010-2017 OpenWrt.org
 # Copyright (C) 2010 Alfred E. Heggestad
 #
 # This is free software, licensed under the GNU General Public License v2.
@@ -9,12 +9,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=baresip
-PKG_VERSION:=0.5.9
-PKG_RELEASE:=1
+PKG_VERSION:=0.6.2
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.creytiv.com/pub
-PKG_HASH:=eeddcfb9ef800a2d892008bd99a223ea7fa93ba85886cc063c6bb81cb9236e09
+PKG_HASH:=e1fae11ea9e6dc861bb2c43d6bef641778945aad86581d58bc4b0ea64b8d28e2
 
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=docs/COPYING
@@ -36,13 +36,10 @@ baresip-mods:= \
 	plc \
 	portaudio \
 	pulse \
+	rtcpsummary \
 	sndfile \
-	speex \
-	speex_aec \
-	speex_pp \
 	srtp \
 	stdio \
-	v4l \
 	v4l2
 
 PKG_CONFIG_DEPENDS:= \
@@ -69,27 +66,24 @@ $(call Package/baresip/Default)
   MENU:=1
 endef
 
-baresip-mod-alsa      := USE_ALSA
-baresip-mod-avcodec   := USE_AVCODEC
-baresip-mod-avformat  := USE_AVFORMAT
-baresip-mod-cons      := USE_CONS
-baresip-mod-evdev     := USE_EVDEV
-baresip-mod-g711      := USE_G711
-baresip-mod-g722      := USE_G722
-baresip-mod-g726      := USE_G726
-baresip-mod-opus      := USE_OPUS
-baresip-mod-oss       := USE_OSS
-baresip-mod-plc       := USE_PLC
-baresip-mod-portaudio := USE_PORTAUDIO
-baresip-mod-pulse     := USE_PULSE
-baresip-mod-sndfile   := USE_SNDFILE
-baresip-mod-speex     := USE_SPEEX
-baresip-mod-speex_aec := USE_SPEEX_AEC
-baresip-mod-speex_pp  := USE_SPEEX_PP
-baresip-mod-srtp      := USE_SRTP
-baresip-mod-stdio     := USE_STDIO
-baresip-mod-v4l       := USE_V4L
-baresip-mod-v4l2      := USE_V4L2
+baresip-mod-alsa        := USE_ALSA
+baresip-mod-avcodec     := USE_AVCODEC
+baresip-mod-avformat    := USE_AVFORMAT
+baresip-mod-cons        := USE_CONS
+baresip-mod-evdev       := USE_EVDEV
+baresip-mod-g711        := USE_G711
+baresip-mod-g722        := USE_G722
+baresip-mod-g726        := USE_G726
+baresip-mod-opus        := USE_OPUS
+baresip-mod-oss         := USE_OSS
+baresip-mod-plc         := USE_PLC
+baresip-mod-portaudio   := USE_PORTAUDIO
+baresip-mod-pulse       := USE_PULSE
+baresip-mod-rtcpsummary := USE_RTCPSUMMARY
+baresip-mod-sndfile     := USE_SNDFILE
+baresip-mod-srtp        := USE_SRTP
+baresip-mod-stdio       := USE_STDIO
+baresip-mod-v4l2        := USE_V4L2
 
 BARESIP_MOD_OPTIONS:= \
 	MOD_AUTODETECT= \
@@ -116,12 +110,14 @@ define Package/baresip/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/baresip $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/usr/lib/baresip/modules
-	$(INSTALL_BIN) \
+	$(INSTALL_DATA) \
 		$(PKG_INSTALL_DIR)/usr/lib/baresip/modules/{account,auloop,contact,ice,menu,stun,turn}.so \
 		$(1)/usr/lib/baresip/modules
 	$(INSTALL_DIR) $(1)/usr/share/baresip
-	$(CP) $(PKG_INSTALL_DIR)/usr/share/baresip/* $(1)/usr/share/baresip
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/share/baresip/* $(1)/usr/share/baresip
 	$(INSTALL_DIR) $(1)/etc/baresip
+	$(SED) '/^#/!s/^/#/' $(PKG_BUILD_DIR)/docs/examples/accounts
+	$(SED) '/^#module_path/s|^#||;s|/local||' $(PKG_BUILD_DIR)/docs/examples/config
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/docs/examples/{accounts,config,contacts} $(1)/etc/baresip
 	$(INSTALL_DIR) $(1)/etc/default
 	$(INSTALL_CONF) ./files/baresip.default $(1)/etc/default/baresip
@@ -144,11 +140,6 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
     /etc/baresip/accounts \
     /etc/baresip/config \
     /etc/baresip/contacts
-
-  # Prevent $(PKG_NAME) from auto-starting after an upgrade. The modules may
-  # not be upgraded yet and the user configuration may need a revision.
-  sed -i '/^ENABLE_BARESIP="yes"/s/^/#/' \
-    /etc/default/$(PKG_NAME)
 fi
 exit 0
 endef
@@ -186,13 +177,15 @@ $(eval $(call BuildPackage,baresip))
 $(eval $(call BuildPlugin,alsa,ALSA audio driver,alsa,+alsa-lib))
 $(eval $(call BuildPlugin,aubridge,Audio bridge module,aubridge,))
 $(eval $(call BuildPlugin,aufile,Audio module for using a WAV-file as audio input,aufile,))
-$(eval $(call BuildPlugin,avcodec,Video codec using FFmpeg,avcodec,@BARESIP_WITH_FFMPEG +libffmpeg-full +libx264))
+$(eval $(call BuildPlugin,avcodec,Video codec using FFmpeg,avcodec,@BARESIP_WITH_FFMPEG +libffmpeg-full))
 $(eval $(call BuildPlugin,avformat,Video source using FFmpeg,avformat,baresip-mod-avcodec))
+$(eval $(call BuildPlugin,b2bua,Back-to-Back User-Agent module,b2bua,))
 $(eval $(call BuildPlugin,cons,UDP/TCP console UI driver,cons,))
 $(eval $(call BuildPlugin,ctrl_tcp,TCP control interface,ctrl_tcp,))
 $(eval $(call BuildPlugin,debug_cmd,Debug commands,debug_cmd,))
 $(eval $(call BuildPlugin,dtls_srtp,DTLS-SRTP end-to-end encryption,dtls_srtp,))
 $(eval $(call BuildPlugin,dtmfio,DTMF input/output,dtmfio,))
+$(eval $(call BuildPlugin,echo,Echo server module,echo,))
 $(eval $(call BuildPlugin,evdev,Linux input driver,evdev,))
 $(eval $(call BuildPlugin,fakevideo,Fake video input/output driver,fakevideo,))
 $(eval $(call BuildPlugin,g711,G.711 audio codec,g711,))
@@ -200,23 +193,19 @@ $(eval $(call BuildPlugin,g722,G.722 audio codec,g722,+libspandsp))
 $(eval $(call BuildPlugin,g726,G.726 audio codec,g726,+libspandsp))
 $(eval $(call BuildPlugin,httpd,HTTP webserver UI-module,httpd,))
 $(eval $(call BuildPlugin,mwi,Message Waiting Indication,mwi,))
-$(eval $(call BuildPlugin,natbd,NAT Behavior Discovery Module,natbd,))
 $(eval $(call BuildPlugin,natpmp,NAT Port Mapping Protocol module,natpmp,))
 $(eval $(call BuildPlugin,opus,OPUS Interactive audio codec,opus,+libopus))
 $(eval $(call BuildPlugin,oss,OSS audio driver,oss,))
 $(eval $(call BuildPlugin,plc,Packet Loss Concealment,plc,+libspandsp))
 $(eval $(call BuildPlugin,portaudio,Portaudio audio driver,portaudio,+portaudio))
 $(eval $(call BuildPlugin,presence,Presence module,presence,))
-$(eval $(call BuildPlugin,pulse,Pulseaudio audio driver,pulse,+pulseaudio))
+$(eval $(call BuildPlugin,pulse,Pulseaudio audio driver,pulse,PACKAGE_$(PKG_NAME)-mod-pulse:pulseaudio))
+$(eval $(call BuildPlugin,rtcpsummary,RTCP summary module,rtcpsummary,))
 $(eval $(call BuildPlugin,selfview,Video selfview module,selfview,))
 $(eval $(call BuildPlugin,sndfile,Audio dumper using libsndfile,sndfile,+libsndfile))
-$(eval $(call BuildPlugin,speex,Speex audio codec,speex,+libspeex))
-$(eval $(call BuildPlugin,speex_aec,Speex Acoustic Echo Canceller,speex_aec,+libspeex +libspeexdsp))
-$(eval $(call BuildPlugin,speex_pp,Speex preprocessor,speex_pp,+libspeex +libspeexdsp))
 $(eval $(call BuildPlugin,srtp,Secure RTP module using libre,srtp,))
 $(eval $(call BuildPlugin,stdio,Standard input/output UI driver,stdio,))
 $(eval $(call BuildPlugin,uuid,UUID generator and loader,uuid,))
-$(eval $(call BuildPlugin,v4l,Video4Linux video source,v4l,+libv4l))
 $(eval $(call BuildPlugin,v4l2,Video4Linux2 video source,v4l2,+libv4l))
 $(eval $(call BuildPlugin,v4l2_codec,Video4Linux2 video codec module,v4l2_codec,))
 $(eval $(call BuildPlugin,vidbridge,Video bridge module,vidbridge,))

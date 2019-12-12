@@ -1,16 +1,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ustream-ssl
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/ustream-ssl.git
-PKG_SOURCE_DATE:=2018-05-22
-PKG_SOURCE_VERSION:=5322f9db23b69fdc2b4760a6cfd67848a11818a4
-PKG_MIRROR_HASH:=c943f6e603b1309b33fd276acddffb33a171b6370455b6c21200897012e42d05
+PKG_SOURCE_DATE:=2019-11-05
+PKG_SOURCE_VERSION:=c9b6668215a27f2346d5eedd6f29cc720985b448
+PKG_MIRROR_HASH:=28b53b7e27b68d62c8fbbc57660d915bdcb6a464157c1930f16ed67e151398e9
 CMAKE_INSTALL:=1
-
-PKG_BUILD_DIR=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_SOURCE_SUBDIR)
 
 PKG_LICENSE:=ISC
 PKG_LICENSE_FILES:=
@@ -25,7 +23,7 @@ define Package/libustream/default
   CATEGORY:=Libraries
   TITLE:=ustream SSL Library
   DEPENDS:=+libubox
-  ABI_VERSION:=$(PKG_VERSION)
+  ABI_VERSION:=20150806
 endef
 
 define Package/libustream-openssl
@@ -51,8 +49,8 @@ define Package/libustream-mbedtls
 endef
 
 ifeq ($(BUILD_VARIANT),wolfssl)
-  TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/cyassl -DHAVE_SNI
-  CMAKE_OPTIONS += -DCYASSL=on
+  TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/wolfssl
+  CMAKE_OPTIONS += -DWOLFSSL=on
 endif
 ifeq ($(BUILD_VARIANT),mbedtls)
   CMAKE_OPTIONS += -DMBEDTLS=on

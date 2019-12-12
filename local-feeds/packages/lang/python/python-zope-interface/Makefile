@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python-zope-interface
-PKG_VERSION:=4.5.0
+PKG_VERSION:=4.7.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=zope.interface-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://files.pythonhosted.org/packages/source/z/zope.interface
-PKG_HASH:=57c38470d9f57e37afb460c399eb254e7193ac7fb8042bd09bdc001981a9c74c
+PKG_HASH:=4bb937e998be9d5e345f486693e477ba79e4344674484001a0b646be1d530487
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(BUILD_VARIANT)-zope-interface-$(PKG_VERSION)
 
@@ -31,19 +31,18 @@ define Package/python-zope-interface/Default
   SECTION:=lang
   CATEGORY:=Languages
   SUBMENU:=Python
+  TITLE:=Interfaces for Python
   URL:=https://github.com/zopefoundation/zope.interface
 endef
 
 define Package/python-zope-interface
 $(call Package/python-zope-interface/Default)
-  TITLE:=Interfaces for Python
   DEPENDS:=+PACKAGE_python-zope-interface:python-light
   VARIANT:=python
 endef
 
 define Package/python3-zope-interface
 $(call Package/python-zope-interface/Default)
-  TITLE:=Interfaces for Python
   DEPENDS:=+PACKAGE_python3-zope-interface:python3-light
   VARIANT:=python3
 endef

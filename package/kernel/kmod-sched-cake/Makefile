@@ -13,9 +13,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/dtaht/sch_cake.git
-PKG_SOURCE_DATE:=2018-07-16
-PKG_SOURCE_VERSION:=f39ab9a402ad51d7c17d4cde18ca15b2b7022030
-PKG_MIRROR_HASH:=fc22fc6eb7a24f4595c2777f33758ebcf9a2a404c16d00aa37ae389cd7f9c78f
+PKG_SOURCE_DATE:=2019-03-12
+PKG_SOURCE_VERSION:=057c738801e9dc64e8dd72a3fc4f50734214433c
+PKG_MIRROR_HASH:=5bf06a804824db36ae393fc174aeec7b12633176e05a765c0931b39df5bd34df
 PKG_MAINTAINER:=Kevin Darbyshire-Bryant <ldir@darbyshire-bryant.me.uk>
 
 include $(INCLUDE_DIR)/package.mk
@@ -26,7 +26,7 @@ define KernelPackage/sched-cake
   URL:=https://github.com/dtaht/sch_cake
   FILES:=$(PKG_BUILD_DIR)/sch_cake.ko
   AUTOLOAD:=$(call AutoLoad,75,sch_cake)
-  DEPENDS:=+kmod-ipt-conntrack @!LINUX_3_18
+  DEPENDS:=+kmod-ipt-conntrack
 endef
 
 include $(INCLUDE_DIR)/kernel-defaults.mk

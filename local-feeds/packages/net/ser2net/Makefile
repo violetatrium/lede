@@ -8,14 +8,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ser2net
-PKG_VERSION:=3.5
+PKG_VERSION:=3.5.1
 PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=@SF/ser2net
-PKG_HASH:=ba9e1d60a89fd7ed075553b4a2074352902203f7fbd9b65b15048c05f0e3f3be
+PKG_HASH:=02f5dd0abbef5a17b80836b0de1ef0588e257106fb5e269b86822bfd001dc862
 
-PKG_LICENSE:=GPL-2.0+
+PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=COPYING
 PKG_MAINTAINER:=Michael Heimpold <mhei@heimpold.de>
 
@@ -28,8 +28,7 @@ define Package/ser2net
   SECTION:=net
   CATEGORY:=Network
   TITLE:=Serial to Network Proxy
-  URL:=http://sourceforge.net/projects/ser2net/
-  DEPENDS:=+USE_UCLIBC:libpthread +USE_UCLIBC:librt
+  URL:=https://sourceforge.net/projects/ser2net/
 endef
 
 define Package/ser2net/description

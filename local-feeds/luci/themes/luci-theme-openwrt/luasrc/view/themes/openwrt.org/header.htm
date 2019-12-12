@@ -125,28 +125,6 @@
 			end
 		end
 	end
-
-	local function render_changes()
-		if tree.nodes[category] and tree.nodes[category].ucidata then
-			local ucic = 0
-			for i, j in pairs(require("luci.model.uci").cursor():changes()) do
-				for k, l in pairs(j) do
-					for m, n in pairs(l) do
-						ucic = ucic + 1;
-					end
-				end
-			end
-
-			if ucic > 0 then
-				write('<div id="savemenu" class="uci_change_indicator"><a class="warning" href="%s?redir=%s">%s: %d</a></div>' %{
-					url(category, 'uci/changes'),
-					http.urlencode(http.formvalue('redir') or table.concat(disp.context.request, "/")),
-					translate('Unsaved Changes'),
-					ucic
-				})
-			end
-		end
-	end
 -%>
 
 <?xml version="1.0" encoding="utf-8"?>
@@ -163,6 +141,7 @@
 <%= css %>
 </style>
 <% end -%>
+<script type="text/javascript" src="<%=url('admin/translations', luci.i18n.context.lang)%><%# ?v=PKG_VERSION %>"></script>
 <script type="text/javascript" src="<%=resource%>/cbi.js"></script>
 <script type="text/javascript" src="<%=resource%>/xhr.js"></script>
 <script type="text/javascript">//<![CDATA[
@@ -208,7 +187,7 @@
 //]]></script>
 <title><%=striptags( (boardinfo.hostname or "?") .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %> - LuCI</title>
 </head>
-<body class="lang_<%=luci.i18n.context.lang%>">
+<body class="lang_<%=luci.i18n.context.lang%>" data-page="<%= table.concat(disp.context.requestpath, "-") %>">
 
 <p class="skiplink">
 <span id="skiplink1"><a href="#navigation"><%:Skip to navigation%></a></span>
@@ -236,8 +215,6 @@
 	</ul>
 <% end %>
 
-<% render_changes() %>
-
 <div class="clear"></div>
 </div>
 
@@ -260,6 +237,8 @@
 		<div class="alert-message warning">
 			<h4><%:No password set!%></h4>
 			<p><%:There is no password set on this router. Please configure a root password to protect the web interface and enable SSH.%></p>
-			<div class="right"><a class="btn" href="<%=url("admin/system/admin")%>"><%:Go to password configuration...%></a></div>
+			<% if disp.lookup("admin/system/admin") then %>
+				<div class="right"><a class="btn" href="<%=url("admin/system/admin")%>"><%:Go to password configuration...%></a></div>
+			<% end %>
 		</div>
 		<%- end -%>

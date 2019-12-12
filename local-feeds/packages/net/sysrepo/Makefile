@@ -11,18 +11,12 @@ PKG_LICENSE:=ASL-2.0
 PKG_MAINTAINER:=Mislav Novakovic <mislav.novakovic@sartura.hr>
 
 PKG_NAME:=sysrepo
-PKG_VERSION:=0.7.3
-PKG_RELEASE:=2
+PKG_VERSION:=0.7.7
+PKG_RELEASE:=4
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=91e65c6f7d8826197b2806ab6d5466d16882b07f
-PKG_MIRROR_HASH:=1662c158d5eac3e6c9f400517bd02b1967632f3d8b3516523da669bbd1c28c4
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.xz
-PKG_SOURCE_URL:=https://github.com/sysrepo/sysrepo.git
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION)
-
-PKG_BUILD_ROOT:=$(BUILD_DIR)/$(PKG_SOURCE_SUBDIR)
-PKG_BUILD_DIR:=$(PKG_BUILD_ROOT)
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/sysrepo/sysrepo/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=2bf8cb4d810d19231eba1e549f58f3a0ce068d170a5e7b212b927396098560e4
 
 CMAKE_INSTALL:=1
 
@@ -39,14 +33,14 @@ define Package/libsysrepo/config
 	source "$(SOURCE)/Config_libsysrepo.in"
 endef
 
-PKG_BUILD_DEPENDS:=+SYSREPO_BINDINGS:swig/host
+PKG_BUILD_DEPENDS:=SYSREPO_BINDINGS:swig/host
 
 define Package/libsysrepo
   SECTION:=utils
   CATEGORY:=Utilities
   URL:=$(PKG_SOURCE_URL)
   TITLE:=YANG-based data store library
-  DEPENDS:=+libyang +libprotobuf-c +libev +libredblack +librt +SYSREPO_BINDINGS:libstdcpp +SYSREPO_PYTHON:python-base +SYSREPO_LUA:lua
+  DEPENDS:=+libyang +libprotobuf-c +libev +libredblack +librt +libpthread +SYSREPO_BINDINGS:libstdcpp +SYSREPO_PYTHON:python-base +SYSREPO_LUA:lua
   MENU:=1
 endef
 
@@ -96,7 +90,8 @@ CMAKE_OPTIONS += \
 	-DOPER_DATA_PROVIDE_TIMEOUT=4 \
 	-DNOTIF_AGE_TIMEOUT=120 \
 	-DNOTIF_TIME_WINDOW=20 \
-	-DUSE_SR_MEM_MGMT=0
+	-DUSE_SR_MEM_MGMT=0 \
+	-DFILE_FORMAT_EXT:STRING=xml
 
 ifeq ($(CONFIG_SYSREPO_LUA),y)
 CMAKE_OPTIONS += \
@@ -114,7 +109,9 @@ ifeq ($(CONFIG_SYSREPO_BINDINGS),y)
 CMAKE_OPTIONS += \
 	-DCMAKE_DISABLE_FIND_PACKAGE_SWIG=FALSE \
 	-DGEN_LANGUAGE_BINDINGS:BOOL=TRUE \
-	-DSWIG_DIR=$(STAGING_DIR)/host/share/swig
+	-DSWIG_DIR=$(STAGING_DIR_HOSTPKG)/share/swig \
+	-DSWIG_EXECUTABLE=$(STAGING_DIR_HOSTPKG)/bin/swig \
+	-DCALL_TARGET_BINS_DIRECTLY=OFF
 endif
 
 define Package/libsysrepo/install
@@ -127,8 +124,8 @@ define Package/libsysrepo/install
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/yang/sysrepo-persistent-data.yang $(1)/etc/sysrepo/yang/internal
 
 	$(INSTALL_DIR) $(1)/etc/sysrepo/yang
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/yang/ietf-netconf-acm@2012-02-22.yang $(1)/etc/sysrepo/yang/ietf-netconf-acm@2012-02-22.yang
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/yang/ietf-netconf-notifications.yang $(1)/etc/sysrepo/yang/ietf-netconf-notifications@2012-02-06..yang
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/yang/ietf-netconf-acm@2018-02-14.yang $(1)/etc/sysrepo/yang/ietf-netconf-acm@2018-02-14.yang
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/yang/ietf-netconf-notifications.yang $(1)/etc/sysrepo/yang/ietf-netconf-notifications@2012-02-06.yang
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/yang/nc-notifications.yang $(1)/etc/sysrepo/yang/nc-notifications@2008-07-14.yang
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/yang/notifications.yang $(1)/etc/sysrepo/yang/notifications@2008-07-14.yang
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/yang/ietf-netconf@2011-06-01.yang $(1)/etc/sysrepo/yang/ietf-netconf@2011-06-01.yang
@@ -173,6 +170,17 @@ endef
 define Package/sysrepocfg/install
 	$(INSTALL_DIR) $(1)/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/sysrepocfg $(1)/bin/
+endef
+
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/libsysrepo.pc $(1)/usr/lib/pkgconfig/
+
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_BUILD_DIR)/src/libsysrepo.so* $(1)/usr/lib/
+
+	$(INSTALL_DIR) $(1)/usr/include
+	$(CP) $(PKG_BUILD_DIR)/inc/* $(1)/usr/include/
 endef
 
 $(eval $(call BuildPackage,libsysrepo))

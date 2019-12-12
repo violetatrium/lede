@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2017 - 2018 OpenWrt.org
+# Copyright (C) 2017 Sebastian Kemper <sebastian_ml@gmx.net>
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -9,15 +9,17 @@ include $(TOPDIR)/rules.mk
 
 PRG_NAME:=freeswitch
 PKG_NAME:=$(PRG_NAME)-stable
-PKG_VERSION:=1.6.20
-PKG_RELEASE:=9
+PKG_VERSION:=1.10.1
+PKG_RELEASE:=2
 PKG_MAINTAINER:=Sebastian Kemper <sebastian_ml@gmx.net>
 
-PKG_SOURCE:=$(PRG_NAME)-$(PKG_VERSION).tar.xz
+PKG_SOURCE:=$(PRG_NAME)-$(PKG_VERSION).-release.tar.xz
 PKG_SOURCE_URL:=https://files.$(PRG_NAME).org/releases/$(PRG_NAME)
-PKG_HASH:=dbb0f73109171bd381772b247b8ef581f6a176964619082a1fe031b004086f6b
+PKG_HASH:=360c867103c5f529a3724a46cf86da9b9acd8443b6793eb7f88fba0ace72001d
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PRG_NAME)-$(PKG_VERSION)
+PKG_CPE_ID:=cpe:/a:freeswitch:freeswitch
+
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PRG_NAME)-$(PKG_VERSION).-release
 
 # configure in libs/spandsp fails without libjpeg and tiff
 PKG_BUILD_DEPENDS:= \
@@ -29,7 +31,7 @@ PKG_BUILD_DEPENDS:= \
 PKG_FIXUP:=autoreconf
 
 # With mod_ssml and mod_rayo enabled the parallel compiles always failed
-#PKG_BUILD_PARALLEL:=1
+PKG_BUILD_PARALLEL:=0
 PKG_INSTALL:=1
 
 PKG_LICENSE:= \
@@ -121,6 +123,7 @@ FS_STABLE_MOD_AVAILABLE:= \
 	event_test \
 	event_zmq \
 	expr \
+	fail2ban \
 	fifo \
 	format_cdr \
 	$(FTDM) \
@@ -144,13 +147,16 @@ FS_STABLE_MOD_AVAILABLE:= \
 	logfile \
 	loopback \
 	lua \
+	mariadb \
 	mp4v \
 	native_file \
 	nibblebill \
 	odbc_cdr \
 	opus \
+	opusfile \
 	oreka \
 	perl \
+	pgsql \
 	png \
 	pocketsphinx \
 	portaudio \
@@ -160,6 +166,7 @@ FS_STABLE_MOD_AVAILABLE:= \
 	python \
 	radius_cdr \
 	random \
+	raven \
 	rayo \
 	redis \
 	rss \
@@ -203,9 +210,9 @@ FS_STABLE_MOD_AVAILABLE:= \
 	translate \
 	tts_commandline \
 	unimrcp \
-	v8 \
 	valet_parking \
 	verto \
+	video_filter \
 	vmd \
 	voicemail \
 	voicemail_ivr \
@@ -223,10 +230,8 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_FS_STABLE_WITH_FREETYPE \
 	CONFIG_FS_STABLE_WITH_LIBYUV \
 	CONFIG_FS_STABLE_WITH_ODBC \
-	CONFIG_FS_STABLE_WITH_PGSQL \
 	CONFIG_FS_STABLE_WITH_PNG \
 	CONFIG_FS_STABLE_WITH_SRTP \
-	CONFIG_FS_STABLE_WITH_V8_SNAPSHOT \
 	CONFIG_FS_STABLE_WITH_VPX \
 	CONFIG_FS_STABLE_WITH_ZRTP \
 	CONFIG_LIBC \
@@ -256,7 +261,9 @@ endif
 FS_STABLE_PERL_FEED:=$(TOPDIR)/feeds/packages/lang/perl
 
 include $(TOPDIR)/feeds/packages/lang/python/python-host.mk
-include $(FS_STABLE_PERL_FEED)/perlmod.mk
+include $(FS_STABLE_PERL_FEED)/perlver.mk
+
+PERL_SITELIB:=/usr/lib/perl$(PERL_MAJOR)/$(PERL_VERSION2)
 
 FS_STABLE_PERL_LIBS:=$(shell grep "^libs=" \
 	$(FS_STABLE_PERL_FEED)/files/base.config | \
@@ -299,7 +306,7 @@ endef
 
 define Package/$(PKG_NAME)/install/lib
 	$(INSTALL_DIR) $(1)$(FS_STABLE_LIB_DIR)
-	$(CP) $(PKG_INSTALL_DIR)$(FS_STABLE_LIB_DIR)/$(2).so* \
+	$(CP) $(PKG_INSTALL_DIR)$(FS_STABLE_LIB_DIR)/$(2).so.* \
 					$(1)$(FS_STABLE_LIB_DIR)
 endef
 
@@ -369,7 +376,6 @@ $(call Package/$(PKG_NAME)/Default)
 	  $(ICONV_DEPENDS) \
 	  +FS_STABLE_WITH_FREETYPE:libfreetype \
 	  +FS_STABLE_WITH_ODBC:unixodbc \
-	  +FS_STABLE_WITH_PGSQL:libpq \
 	  +FS_STABLE_WITH_PNG:libpng \
 	  +libcurl \
 	  +libedit \
@@ -393,7 +399,7 @@ endef
 
 define Package/$(PKG_NAME)/conffiles
 $(FS_STABLE_SYSCONF_DIR)/$(PRG_NAME)
-$(FS_STABLE_SYSCONF_DIR)/default/$(PRG_NAME)
+$(FS_STABLE_SYSCONF_DIR)/config/$(PRG_NAME)
 $(FS_STABLE_SYSCONF_DIR)/init.d/$(PRG_NAME)
 endef
 
@@ -406,59 +412,29 @@ $(call Package/$(PKG_NAME)/install/lib,$(1),lib$(PRG_NAME))
 	$(INSTALL_DIR) $(1)$(FS_STABLE_IMAGES_DIR)
 	$(INSTALL_DIR) $(1)$(FS_STABLE_SCRIPTS_DIR)
 	$(INSTALL_DIR) $(1)$(FS_STABLE_SOUNDS_DIR)
-	$(INSTALL_DIR) $(1)$(FS_STABLE_SYSCONF_DIR)/default
+	$(INSTALL_DIR) $(1)$(FS_STABLE_SYSCONF_DIR)/config
+	$(INSTALL_DIR) $(1)$(FS_STABLE_SYSCONF_DIR)/hotplug.d/iface
 	$(INSTALL_DIR) $(1)$(FS_STABLE_SYSCONF_DIR)/init.d
 	$(INSTALL_DIR) $(1)$(FS_STABLE_TLS_DIR)
 	$(INSTALL_BIN) ./files/$(PRG_NAME).init \
 		$(1)$(FS_STABLE_SYSCONF_DIR)/init.d/$(PRG_NAME)
-	$(INSTALL_CONF) ./files/$(PRG_NAME).default \
-		$(1)$(FS_STABLE_SYSCONF_DIR)/default/$(PRG_NAME)
+	$(INSTALL_BIN) ./files/$(PRG_NAME).hotplug \
+		$(1)$(FS_STABLE_SYSCONF_DIR)/hotplug.d/iface/90-$(PRG_NAME)
+	$(INSTALL_CONF) ./files/$(PRG_NAME).conf \
+		$(1)$(FS_STABLE_SYSCONF_DIR)/config/$(PRG_NAME)
 endef
 
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
-  # Prevent $(PRG_NAME) from auto-starting after an upgrade. The modules may
-  # not be upgraded yet and the user configuration may need a revision.
-  sed -i '/^ENABLE_FREESWITCH="yes"/s/^/#/' \
-    $(FS_STABLE_SYSCONF_DIR)/default/$(PRG_NAME)
-
   echo
   echo "o-------------------------------------------------------------------o"
   echo "| FreeSWITCH note                                                   |"
   echo "o-------------------------------------------------------------------o"
-  echo "| Edit /etc/default/freeswitch to change basic init configuration.  |"
-  echo "o-------------------------------------------------------------=^_^=-o"
-  echo
-fi
-exit 0
-endef
-
-define Package/$(PKG_NAME)-misc-hotplug
-$(call Package/$(PKG_NAME)/Default)
-  TITLE:=Hotplug script
-  DEPENDS:=$(PKG_NAME)
-  PKGARCH:=all
-endef
-
-define Package/$(PKG_NAME)-misc-hotplug/description
-This package includes a hotplug script for FreeSWITCH.
-endef
-
-define Package/$(PKG_NAME)-misc-hotplug/install
-	$(INSTALL_DIR) $(1)$(FS_STABLE_SYSCONF_DIR)/hotplug.d/iface
-	$(INSTALL_BIN) ./files/$(PRG_NAME).hotplug \
-		$(1)$(FS_STABLE_SYSCONF_DIR)/hotplug.d/iface/99-$(PRG_NAME)
-endef
-
-define Package/$(PKG_NAME)-misc-hotplug/postinst
-#!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-  echo
-  echo "o-------------------------------------------------------------------o"
-  echo "| FreeSWITCH hotplug note                                           |"
-  echo "o-------------------------------------------------------------------o"
-  echo "| See /etc/default/freeswitch for hotplug hints.                    |"
+  echo "| Edit /etc/config/freeswitch to change basic init configuration.   |"
+  echo "|                                                                   |"
+  echo "| Also visit the Wiki at:                                           |"
+  echo "| https://openwrt.org/docs/guide-user/services/voip/freeswitch      |"
   echo "o-------------------------------------------------------------=^_^=-o"
   echo
 fi
@@ -659,14 +635,12 @@ CONFIGURE_ARGS+= \
 	$(call autoconf_bool,CONFIG_FS_STABLE_WITH_DEBUG,debug) \
 	$(call autoconf_bool,CONFIG_FS_STABLE_WITH_LIBYUV,libyuv) \
 	$(call autoconf_bool,CONFIG_FS_STABLE_WITH_ODBC,core-odbc-support) \
-	$(call autoconf_bool,CONFIG_FS_STABLE_WITH_PGSQL,core-pgsql-support) \
 	$(call autoconf_bool,CONFIG_FS_STABLE_WITH_SRTP,srtp) \
 	$(call autoconf_bool,CONFIG_FS_STABLE_WITH_VPX,libvpx) \
 	$(call autoconf_bool,CONFIG_FS_STABLE_WITH_ZRTP,zrtp) \
 	$(if $(CONFIG_FS_STABLE_WITH_FREETYPE),,--without-freetype) \
 	$(if $(CONFIG_FS_STABLE_WITH_ODBC),--with-odbc-lib="$(STAGING_DIR)$(FS_STABLE_LIB_DIR)") \
 	$(if $(CONFIG_FS_STABLE_WITH_ODBC),--with-odbc="$(STAGING_DIR)/usr") \
-	$(if $(CONFIG_FS_STABLE_WITH_PGSQL),,--without-pgsql) \
 	$(if $(CONFIG_FS_STABLE_WITH_PNG),,--without-png) \
 	$(if $(CONFIG_PACKAGE_$(PKG_LIBFTDM)-ftmod-libpri),--with-libpri="$(STAGING_DIR)/usr",--without-libpri) \
 	$(if $(CONFIG_PACKAGE_$(PKG_LIBFTDM)-ftmod-pritap),--with-pritap,--without-pritap)
@@ -684,18 +658,19 @@ CONFIGURE_ARGS+= \
 	--with-erlang=no
 endif
 
-ifneq ($(CONFIG_PACKAGE_$(PKG_NAME)-mod-v8),)
-CONFIGURE_ARGS+= \
-	--enable-static-v8 \
-	$(if $(CONFIG_FS_STABLE_WITH_V8_SNAPSHOT),,--disable-snapshot-v8)
-endif
-
 # Make mod_spandsp use fixed point math when soft float support is
 # enabled on target devices.
 ifeq ($(CONFIG_SOFT_FLOAT),y)
 CONFIGURE_ARGS+= \
 	--enable-fixed-point
 endif
+
+# FreeSWITCH dropped postgresql support from the core. postgresql
+# support is now available via mod_pgsql. We still need to pass
+# '--without-pgsql', otherwise apr-util links to libpq and we still
+# would have the core link to it.
+CONFIGURE_ARGS+= \
+	--without-pgsql
 
 # Don't want host-php
 CONFIGURE_VARS+= \
@@ -732,8 +707,7 @@ CONFIGURE_VARS+= \
 
 # Regarding apr_cv_mutex_robust_shared=no see
 # http://www.openwall.com/lists/musl/2016/11/26/1
-# _Don't_ remove quotes below!
-ifeq ($(CONFIG_LIBC),"musl")
+ifeq ($(call qstrip,$(CONFIG_LIBC)),musl)
 CONFIGURE_VARS+= \
 	apr_cv_mutex_robust_shared=no \
 	ac_cv_strerror_r_rc_int=yes
@@ -744,7 +718,7 @@ endif
 
 ifneq ($(CONFIG_PACKAGE_$(PKG_NAME)-misc-perl-esl)$(CONFIG_PACKAGE_$(PKG_NAME)-mod-perl),)
 CONFIGURE_VARS+= \
-	PERL="$(PERL_CMD)" \
+	PERL="$(STAGING_DIR_HOSTPKG)/usr/bin/perl$(PERL_VERSION)" \
 	PERL_CFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -I$(STAGING_DIR)$(PERL_SITELIB)/CORE" \
 	PERL_INC="-I$(STAGING_DIR)$(PERL_SITELIB)/CORE" \
 	PERL_LDFLAGS="-Wl,-rpath,$(PERL_SITELIB)/CORE -L$(STAGING_DIR)$(PERL_SITELIB)/CORE -lperl" \
@@ -770,84 +744,6 @@ endif
 # freeradius-client know /dev/urandom is available on target devices.
 MAKE_VARS+= \
 	ac_cv_dev_urandom=yes
-
-ifneq ($(CONFIG_PACKAGE_$(PKG_NAME)-mod-v8),)
-
-# arm
-ifeq ($(CONFIG_arm),y)
-  FS_STABLE_MYARCH:=arm
-  FS_STABLE_MYDEFINES:=v8_target_arch=arm
-  ifeq ($(CONFIG_arm_v6),y)
-    FS_STABLE_MYDEFINES+=arm_version=6
-  else
-    ifeq ($(CONFIG_arm_v7),y)
-      FS_STABLE_MYDEFINES+=arm_version=7
-    else
-      FS_STABLE_MYDEFINES+=arm_version=default
-    endif
-  endif
-  ifeq ($(CONFIG_VFP),y)
-    ifeq ($(CONFIG_VFPv3),y)
-      ifeq ($(CONFIG_NEON),y)
-        FS_STABLE_MYDEFINES+=arm_fpu=neon
-      else
-        FS_STABLE_MYDEFINES+=arm_fpu=vfpv3
-      endif
-    else
-      FS_STABLE_MYDEFINES+=arm_fpu=vfp
-    endif
-  else
-    FS_STABLE_MYDEFINES+=arm_fpu=default
-  endif
-  ifeq ($(CONFIG_SOFT_FLOAT),y)
-    FS_STABLE_MYDEFINES+=arm_float_abi=softfp
-  else
-    FS_STABLE_MYDEFINES+=arm_float_abi=hard
-  endif
-endif
-
-# i386
-ifeq ($(CONFIG_i386),y)
-  FS_STABLE_MYARCH:=ia32
-  FS_STABLE_MYDEFINES:=v8_target_arch=ia32
-endif
-
-# mipsel
-ifeq ($(CONFIG_mipsel),y)
-  FS_STABLE_MYARCH:=mipsel
-  FS_STABLE_MYDEFINES:=v8_target_arch=mipsel
-  ifeq ($(CONFIG_CPU_MIPS32),y)
-    ifeq ($(CONFIG_CPU_MIPS32_R2),y)
-      FS_STABLE_MYDEFINES+=mips_arch_variant=mips32r2
-    else
-      ifeq ($(CONFIG_CPU_MIPS32_R1),y)
-        FS_STABLE_MYDEFINES+=mips_arch_variant=mips32r1
-      endif
-    endif
-  endif
-  ifeq ($(CONFIG_SOFT_FLOAT),y)
-    FS_STABLE_MYDEFINES+=v8_use_mips_abi_hardfloat=false
-  else
-    FS_STABLE_MYDEFINES+=v8_use_mips_abi_hardfloat=true
-  endif
-endif
-
-# x86_64
-ifeq ($(CONFIG_x86_64),y)
-  FS_STABLE_MYARCH:=x64
-  FS_STABLE_MYDEFINES:=v8_target_arch=x64
-endif
-
-MAKE_VARS+= \
-	FS_STABLE_HOSTCC="$(HOSTCC)" \
-	FS_STABLE_HOSTCXX="$(HOSTCXX)" \
-	FS_STABLE_HOST_CFLAGS="$(HOST_CFLAGS)" \
-	FS_STABLE_HOST_LDFLAGS="$(HOST_LDFLAGS)" \
-	FS_STABLE_HOST_PYTHONPATH="$(HOST_PYTHONPATH)" \
-	FS_STABLE_MYARCH="$(FS_STABLE_MYARCH)" \
-	FS_STABLE_MYDEFINES="$(FS_STABLE_MYDEFINES)"
-
-endif
 
 # Make sphinxbase use fixed point math when soft float support is
 # enabled on target devices.
@@ -876,12 +772,8 @@ FS_STABLE_SPHINXMODEL_FILE:=communicator_semi_6000_20080321.tar.gz
 FS_STABLE_SPHINXMODEL_HASH:=dbb5e9fb85000a7cb97d6958a3ef8d77532dc55fc730ac6979705e8645cb0c18
 
 # mod_radius_cdr
-FS_STABLE_FREERADIUS_CLIENT_FILE:=freeradius-client-1.1.6.tar.gz
-FS_STABLE_FREERADIUS_CLIENT_HASH:=3fc609af328258e00345389d5478b099fe4ea3ad694d0472525ef3adab9cf053
-
-# mod_v8
-FS_STABLE_V8_FILE:=v8-3.24.14.tar.bz2
-FS_STABLE_V8_HASH:=395f4eaf5580b973b1e33fe0aa27f8d013ddf1b163ad76992c50dd91ff182828
+FS_STABLE_FREERADIUS_CLIENT_FILE:=freeradius-client-1.1.7.tar.gz
+FS_STABLE_FREERADIUS_CLIENT_HASH:=eada2861b8f4928e3ac6b5bbfe11e92cd6cdcacfce40cae1085e77c1b6add0e9
 
 ifneq ($(CONFIG_PACKAGE_$(PKG_NAME)-mod-event-zmq),)
 $(eval $(call Download/files,zmq,$(FS_STABLE_ZEROMQ_FILE),$(FS_STABLE_ZEROMQ_URL),$(FS_STABLE_ZEROMQ_HASH)))
@@ -897,10 +789,6 @@ ifneq ($(CONFIG_PACKAGE_$(PKG_NAME)-mod-radius-cdr),)
 $(eval $(call Download/files,freeradius-client,$(FS_STABLE_FREERADIUS_CLIENT_FILE),$(FS_STABLE_LIBS_URL),$(FS_STABLE_FREERADIUS_CLIENT_HASH)))
 endif
 
-ifneq ($(CONFIG_PACKAGE_$(PKG_NAME)-mod-v8),)
-$(eval $(call Download/files,v8,$(FS_STABLE_V8_FILE),$(FS_STABLE_LIBS_URL),$(FS_STABLE_V8_HASH)))
-endif
-
 # Need to update LDFLAGS for libs/unimrcp, otherwise it will try to link to a
 # different apr/apr-util if found.
 # FS_STABLE_ANCHOR: string in build/acmacros/apr.m4 that will be replaced
@@ -909,8 +797,6 @@ FS_STABLE_APR_LIBS:=-L$(PKG_BUILD_DIR)/libs/apr -L$(PKG_BUILD_DIR)/libs/apr-util
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
-
-	$(RM) -r $(PKG_BUILD_DIR)/libs/tiff-*
 
 	echo '#applications/mod_random' >> $(PKG_BUILD_DIR)/modules.conf
 	echo '#codecs/mod_yuv' >> $(PKG_BUILD_DIR)/modules.conf
@@ -964,10 +850,6 @@ endif
 
 ifneq ($(CONFIG_PACKAGE_$(PKG_NAME)-mod-radius-cdr),)
 	$(CP) $(DL_DIR)/$(FS_STABLE_FREERADIUS_CLIENT_FILE) $(PKG_BUILD_DIR)/libs
-endif
-
-ifneq ($(CONFIG_PACKAGE_$(PKG_NAME)-mod-v8),)
-	$(CP) $(DL_DIR)/$(FS_STABLE_V8_FILE) $(PKG_BUILD_DIR)/libs
 endif
 
 # Compile FreeTDM first
@@ -1030,7 +912,6 @@ endef
 
 $(eval $(call BuildPackage,$(PKG_LIBFTDM)))
 $(eval $(call BuildPackage,$(PKG_NAME)))
-$(eval $(call BuildPackage,$(PKG_NAME)-misc-hotplug))
 $(eval $(call BuildPackage,$(PKG_NAME)-misc-perl-esl))
 $(eval $(call BuildPackage,$(PKG_NAME)-misc-python-esl))
 $(eval $(call BuildPackage,$(PKG_NAME)-misc-timezones))
@@ -1111,7 +992,7 @@ $(eval $(call Package/$(PKG_NAME)/Module,abstraction,API abstraction,This module
 $(eval $(call Package/$(PKG_NAME)/Module,alsa,ALSA endpoint,ALSA endpoint module.,+alsa-lib))
 $(eval $(call Package/$(PKG_NAME)/Module,amr,AMR passthrough,Passthrough AMR codec support.,))
 $(eval $(call Package/$(PKG_NAME)/Module,amrwb,AMR wideband passthrough,Passthrough AMR wideband codec support.,))
-$(eval $(call Package/$(PKG_NAME)/Module,av,AV,Video codec and format support via FFmpeg.,+libffmpeg-full @i386||x86_64))
+$(eval $(call Package/$(PKG_NAME)/Module,av,AV,Video codec and format support via FFmpeg.,+libffmpeg-full @x86_64))
 $(eval $(call Package/$(PKG_NAME)/Module,avmd,Voicemail detection,This module attempts to determine when a voicemail system has answered\nthe call.,))
 $(eval $(call Package/$(PKG_NAME)/Module,b64,Base64,Transfers data Base64 encoded.,))
 $(eval $(call Package/$(PKG_NAME)/Module,basic,BASIC,BASIC module for FreeSWITCH.,))
@@ -1120,7 +1001,7 @@ $(eval $(call Package/$(PKG_NAME)/Module,blacklist,Blacklist helper,This module 
 $(eval $(call Package/$(PKG_NAME)/Module,callcenter,Call center,This module implements Automated Call Distribution queues.,))
 $(eval $(call Package/$(PKG_NAME)/Module,cdr_csv,CSV CDR,CSV Call Detail Record handler.,))
 $(eval $(call Package/$(PKG_NAME)/Module,cdr_mongodb,MongoDB CDR,MongoDB Call Detail Record handler.,))
-$(eval $(call Package/$(PKG_NAME)/Module,cdr_pg_csv,PostgreSQL CDR,PostgreSQL Call Detail Record handler.,@FS_STABLE_WITH_PGSQL))
+$(eval $(call Package/$(PKG_NAME)/Module,cdr_pg_csv,PostgreSQL CDR,PostgreSQL Call Detail Record handler.,+libpq))
 $(eval $(call Package/$(PKG_NAME)/Module,cdr_sqlite,SQLite CDR,SQLite Call Detail Record handler.,))
 $(eval $(call Package/$(PKG_NAME)/Module,cidlookup,Caller ID lookup,This module provides an API for querying caller ID name and location\ndata.,))
 $(eval $(call Package/$(PKG_NAME)/Module,clearmode,Clearmode,Clearmode codec passthrough support.,))
@@ -1149,6 +1030,7 @@ $(eval $(call Package/$(PKG_NAME)/Module,event_socket,Event socket,Sends events 
 $(eval $(call Package/$(PKG_NAME)/Module,event_test,Event test,Event demo module.,))
 $(eval $(call Package/$(PKG_NAME)/Module,event_zmq,ZMQ event,ZMQ event module.,@!USE_UCLIBCXX))
 $(eval $(call Package/$(PKG_NAME)/Module,expr,Expr,This module adds expr support for expression evaluation.,))
+$(eval $(call Package/$(PKG_NAME)/Module,fail2ban,Fail2ban logging,Provides support for Fail2ban logging.,))
 $(eval $(call Package/$(PKG_NAME)/Module,fifo,FIFO,This module adds a first-in first-out queue system.,))
 $(eval $(call Package/$(PKG_NAME)/Module,format_cdr,Multiformat CDR,A superset of mod_json_cdr and mod_xml_cdr.,))
 $(eval $(call Package/$(PKG_NAME)/Module,$(FTDM),FreeTDM endpoint,This module is the glue between FreeSWITCH and FreeTDM.,+$(PKG_LIBFTDM)))
@@ -1172,13 +1054,16 @@ $(eval $(call Package/$(PKG_NAME)/Module,local_stream,Local stream,Connects mult
 $(eval $(call Package/$(PKG_NAME)/Module,logfile,File logger,Logs FreeSWITCH output to a file.,))
 $(eval $(call Package/$(PKG_NAME)/Module,loopback,Loopback,A loopback channel driver.,))
 $(eval $(call Package/$(PKG_NAME)/Module,lua,Lua,Lua language interface for FreeSWITCH.,+liblua))
-$(eval $(call Package/$(PKG_NAME)/Module,mp4v,MP4 video passthrough,MP4 video passthrough..,))
+$(eval $(call Package/$(PKG_NAME)/Module,mariadb,MariaDB,Adds MariaDB support.,+libmariadb @!USE_UCLIBCXX))
+$(eval $(call Package/$(PKG_NAME)/Module,mp4v,MP4 video passthrough,MP4 video passthrough.,))
 $(eval $(call Package/$(PKG_NAME)/Module,native_file,Native file,Plays files that are already encoded in the right format.,))
 $(eval $(call Package/$(PKG_NAME)/Module,nibblebill,Nibblebill,This module allows for real-time accounting of a cash balance and\nusing that information for call routing.,))
 $(eval $(call Package/$(PKG_NAME)/Module,odbc_cdr,ODBC CDR,ODBC Call Detail Record handler.,))
 $(eval $(call Package/$(PKG_NAME)/Module,opus,Opus,Opus codec support.,+libopus))
+$(eval $(call Package/$(PKG_NAME)/Module,opusfile,Opus file,Read and Write OGG/Opus files.,+libopusenc +libopusfile))
 $(eval $(call Package/$(PKG_NAME)/Module,oreka,Oreka,This module provides media recording with the Oreka cross-platform\naudio stream recording and retrieval system.,))
 $(eval $(call Package/$(PKG_NAME)/Module,perl,Perl,This package contains mod_perl for FreeSWITCH.,+libdb47 +libgdbm +perlbase-essential @PERL_THREADS))
+$(eval $(call Package/$(PKG_NAME)/Module,pgsql,PostgreSQL,Adds PostgreSQL support.,+libpq))
 $(eval $(call Package/$(PKG_NAME)/Module,png,PNG,Allows playback of video using PNG files.,@FS_STABLE_WITH_PNG))
 $(eval $(call Package/$(PKG_NAME)/Module,pocketsphinx,Pocketsphinx,This module allows speech recognition. You might want to install\n$(PKG_NAME)-misc-grammar as well.,+libsamplerate)) # When libsamplerate is found it'll be linked against, there is no switch to turn it off
 $(eval $(call Package/$(PKG_NAME)/Module,portaudio,Portaudio,Voice through a local soundcard.,+portaudio))
@@ -1188,6 +1073,7 @@ $(eval $(call Package/$(PKG_NAME)/Module,prefix,Prefix match,This module provide
 $(eval $(call Package/$(PKG_NAME)/Module,python,Python,Python support module.,+python-light))
 $(eval $(call Package/$(PKG_NAME)/Module,radius_cdr,Radius CDR,Radius Call Detail Record handler.,))
 $(eval $(call Package/$(PKG_NAME)/Module,random,Entropy,This module extracts entropy from FreeSWITCH and feeds it into\n/dev/random.,))
+$(eval $(call Package/$(PKG_NAME)/Module,raven,Raven logging,Adds support for logging to Raven instances.,))
 $(eval $(call Package/$(PKG_NAME)/Module,rayo,Rayo,Rayo/XMPP 3PCC server for FreeSWITCH.,+$(PKG_NAME)-mod-ssml))
 $(eval $(call Package/$(PKG_NAME)/Module,redis,Redis limit backend,This module provides a mechanism to use Redis as a limit backend data\nstore.,))
 $(eval $(call Package/$(PKG_NAME)/Module,rss,RSS,Parses and reads XML based RSS feeds and reads the entries aloud via a TTS engine.,))
@@ -1231,9 +1117,9 @@ $(eval $(call Package/$(PKG_NAME)/Module,tone_stream,Tone stream,Tone generation
 $(eval $(call Package/$(PKG_NAME)/Module,translate,Number translation,This module implements number translation.,))
 $(eval $(call Package/$(PKG_NAME)/Module,tts_commandline,TTS command-line,Run a command-line and play the output file.,))
 $(eval $(call Package/$(PKG_NAME)/Module,unimrcp,UniMRCP,Allows communication with Media Resource Control Protocol servers.,))
-$(eval $(call Package/$(PKG_NAME)/Module,v8,V8,This package contains mod_v8 for FreeSWITCH.,@!USE_UCLIBCXX @FS_STABLE_WITH_V8 @arm||i386||mipsel||x86_64))
 $(eval $(call Package/$(PKG_NAME)/Module,valet_parking,Valet parking,This module implements the valet call parking strategy.,))
 $(eval $(call Package/$(PKG_NAME)/Module,verto,Verto,Verto signaling protocol.,))
+$(eval $(call Package/$(PKG_NAME)/Module,video_filter,Video filter chromakey,This module provides a media bug for chromakey functionality.,))
 $(eval $(call Package/$(PKG_NAME)/Module,vmd,Voicemail detection,This module detects voicemail beeps.,))
 $(eval $(call Package/$(PKG_NAME)/Module,voicemail,Voicemail,This module provides a voicemail system.,))
 $(eval $(call Package/$(PKG_NAME)/Module,voicemail_ivr,Voicemail IVR,This module provides an extensible voicemail IVR system.,))
@@ -1258,5 +1144,6 @@ $(eval $(call Package/$(PKG_NAME)/Module,yuv,Raw YUV,Raw YUV I420 video codec su
 $(eval $(call Package/$(PKG_NAME)/Util,fs_cli,CLI,The fs_cli program is a Command-Line Interface that allows a user to\nconnect to a FreeSWITCH instance running on the local or a remote\nsystem.,,n))
 $(eval $(call Package/$(PKG_NAME)/Util,fs_encode,Sound file conversion,Format conversion of sound files so the result can be used by\nmod_native_file.,+$(PKG_NAME)-mod-native-file +$(PKG_NAME)-mod-sndfile +$(PKG_NAME)-mod-spandsp,n))
 $(eval $(call Package/$(PKG_NAME)/Util,fs_ivrd,IVR daemon,The FreeSWITCH IVR daemon is an abstraction layer that sits on top of\nthe ESL. The basic idea is that the ivrd will allow the user to have\na STDIN/STDOUT interface for simple call control.,,n))
+$(eval $(call Package/$(PKG_NAME)/Util,fs_tts,TTS to sound file,Use TTS to generate a sound file.,,n))
 $(eval $(call Package/$(PKG_NAME)/Util,gentls_cert,TLS certificate,Can be used to create TLS certificates and setup CAs.,+openssl-util,y))
 $(eval $(call Package/$(PKG_NAME)/Util,tone2wav,Sound file generation,Generates a sound file from a teletone script. The output can be in\nany format that is supported by libsndfile.,+$(PKG_NAME)-mod-sndfile,n))

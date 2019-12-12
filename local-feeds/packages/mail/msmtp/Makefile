@@ -9,21 +9,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=msmtp
-PKG_VERSION:=1.6.6
-PKG_RELEASE:=1
+PKG_VERSION:=1.8.4
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=@SF/msmtp
-PKG_HASH:=da15db1f62bd0201fce5310adb89c86188be91cd745b7cb3b62b81a501e7fb5e
+PKG_SOURCE_URL:=https://marlam.de/msmtp/releases
+PKG_HASH:=e5dd7fe95bc8e2f5eea3e4894ec9628252f30bd700a7fd1a568b10efa91129f7
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
 
+PKG_MAINTAINER:=Rosen Penev <rosenp@gmail.com>
 PKG_LICENSE:=GPL-3.0+
 PKG_LICENSE_FILES:=COPYING
-PKG_MAINTAINER:=Nicolas Thill <nico@openwrt.org>
+PKG_CPE_ID:=cpe:/a:marlam:msmtp
 
-PKG_FIXUP:=autoreconf
+PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -33,7 +33,7 @@ define Package/msmtp/Default
   CATEGORY:=Mail
   DEPENDS:=$(INTL_DEPENDS)
   TITLE:=Simple sendmail SMTP forwarding
-  URL:=http://msmtp.sourceforge.net/
+  URL:=https://marlam.de/msmtp
 endef
 
 define Package/msmtp/Default/description
@@ -46,9 +46,10 @@ endef
 
 define Package/msmtp
 $(call Package/msmtp/Default)
-  DEPENDS+= +libopenssl +ca-bundle
+  DEPENDS+= +libgnutls +ca-bundle
   TITLE+= (with SSL support)
   VARIANT:=ssl
+  DEFAULT_VARIANT:=1
 endef
 
 define Package/msmtp/conffiles
@@ -64,6 +65,7 @@ define Package/msmtp-nossl
 $(call Package/msmtp/Default)
   TITLE+= (without SSL support)
   VARIANT:=nossl
+  PROVIDES:=msmtp
 endef
 
 define Package/msmtp-nossl/description
@@ -74,7 +76,10 @@ endef
 define Package/msmtp-mta
 $(call Package/msmtp/Default)
   TITLE+= (as MTA)
-  DEPENDS+=@(PACKAGE_msmtp||PACAKGE_msmtp-nossl)
+  DEPENDS+=+msmtp
+  ALTERNATIVES:=\
+	100:/usr/sbin/sendmail:/usr/bin/msmtp \
+	100:/usr/lib/sendmail:/usr/bin/msmtp
 endef
 
 define Package/msmtp-mta/description
@@ -85,7 +90,7 @@ endef
 
 define Package/msmtp-queue
 $(call Package/msmtp/Default)
-  DEPENDS+= +bash @(PACKAGE_msmtp||PACKAGE_msmtp-nossl)
+  DEPENDS+= +bash +msmtp
   TITLE+= (queue scripts)
 endef
 
@@ -101,21 +106,12 @@ CONFIGURE_ARGS += \
 	--without-libidn \
 	--without-libsecret \
 	--without-macosx-keyring \
-
-ifneq ($(CONFIG_USE_UCLIBC),)
-  CONFIGURE_ARGS += --disable-gai-idn
-endif
-
-MAKE_FLAGS :=
+	--without-msmtpd
 
 ifeq ($(BUILD_VARIANT),ssl)
-	CONFIGURE_ARGS += \
-		--with-tls=openssl
-endif
-
-ifeq ($(BUILD_VARIANT),nossl)
-	CONFIGURE_ARGS += \
-		--with-tls=no
+	CONFIGURE_ARGS += --with-tls=gnutls
+else
+	CONFIGURE_ARGS += --without-tls
 endif
 
 define Package/msmtp/install
@@ -128,8 +124,6 @@ endef
 
 define Package/msmtp-mta/install
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/usr/lib
-	ln -sf ../bin/msmtp $(1)/usr/sbin/sendmail
-	ln -sf ../bin/msmtp $(1)/usr/lib/sendmail
 endef
 
 Package/msmtp-nossl/conffiles = $(Package/msmtp/conffiles)

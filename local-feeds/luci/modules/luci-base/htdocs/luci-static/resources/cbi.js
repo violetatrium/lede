@@ -2,7 +2,7 @@
 	LuCI - Lua Configuration Interface
 
 	Copyright 2008 Steven Barth <steven@midlink.org>
-	Copyright 2008-2012 Jo-Philipp Wich <jow@openwrt.org>
+	Copyright 2008-2018 Jo-Philipp Wich <jo@mein.io>
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -12,432 +12,91 @@
 */
 
 var cbi_d = [];
-var cbi_t = [];
 var cbi_strings = { path: {}, label: {} };
 
-function Int(x) {
-	return (/^-?\d+$/.test(x) ? +x : NaN);
+function s8(bytes, off) {
+	var n = bytes[off];
+	return (n > 0x7F) ? (n - 256) >>> 0 : n;
 }
 
-function Dec(x) {
-	return (/^-?\d+(?:\.\d+)?$/.test(x) ? +x : NaN);
+function u16(bytes, off) {
+	return ((bytes[off + 1] << 8) + bytes[off]) >>> 0;
 }
 
-function IPv4(x) {
-	if (!x.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/))
+function sfh(s) {
+	if (s === null || s.length === 0)
 		return null;
 
-	if (RegExp.$1 > 255 || RegExp.$2 > 255 || RegExp.$3 > 255 || RegExp.$4 > 255)
-		return null;
+	var bytes = [];
 
-	return [ +RegExp.$1, +RegExp.$2, +RegExp.$3, +RegExp.$4 ];
-}
+	for (var i = 0; i < s.length; i++) {
+		var ch = s.charCodeAt(i);
 
-function IPv6(x) {
-	if (x.match(/^([a-fA-F0-9:]+):(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/)) {
-		var v6 = RegExp.$1, v4 = IPv4(RegExp.$2);
-
-		if (!v4)
-			return null;
-
-		x = v6 + ':' + (v4[0] * 256 + v4[1]).toString(16)
-		       + ':' + (v4[2] * 256 + v4[3]).toString(16);
+		if (ch <= 0x7F)
+			bytes.push(ch);
+		else if (ch <= 0x7FF)
+			bytes.push(((ch >>>  6) & 0x1F) | 0xC0,
+			           ( ch         & 0x3F) | 0x80);
+		else if (ch <= 0xFFFF)
+			bytes.push(((ch >>> 12) & 0x0F) | 0xE0,
+			           ((ch >>>  6) & 0x3F) | 0x80,
+			           ( ch         & 0x3F) | 0x80);
+		else if (code <= 0x10FFFF)
+			bytes.push(((ch >>> 18) & 0x07) | 0xF0,
+			           ((ch >>> 12) & 0x3F) | 0x80,
+			           ((ch >>   6) & 0x3F) | 0x80,
+			           ( ch         & 0x3F) | 0x80);
 	}
 
-	if (!x.match(/^[a-fA-F0-9:]+$/))
+	if (!bytes.length)
 		return null;
 
-	var prefix_suffix = x.split(/::/);
+	var hash = (bytes.length >>> 0),
+	    len = (bytes.length >>> 2),
+	    off = 0, tmp;
 
-	if (prefix_suffix.length > 2)
-		return null;
+	while (len--) {
+		hash += u16(bytes, off);
+		tmp   = ((u16(bytes, off + 2) << 11) ^ hash) >>> 0;
+		hash  = ((hash << 16) ^ tmp) >>> 0;
+		hash += hash >>> 11;
+		off  += 4;
+	}
 
-	var prefix = (prefix_suffix[0] || '0').split(/:/);
-	var suffix = prefix_suffix.length > 1 ? (prefix_suffix[1] || '0').split(/:/) : [];
+	switch ((bytes.length & 3) >>> 0) {
+	case 3:
+		hash += u16(bytes, off);
+		hash  = (hash ^ (hash << 16)) >>> 0;
+		hash  = (hash ^ (s8(bytes, off + 2) << 18)) >>> 0;
+		hash += hash >>> 11;
+		break;
 
-	if (suffix.length ? (prefix.length + suffix.length > 7) : (prefix.length > 8))
-		return null;
+	case 2:
+		hash += u16(bytes, off);
+		hash  = (hash ^ (hash << 11)) >>> 0;
+		hash += hash >>> 17;
+		break;
 
-	var i, word;
-	var words = [];
+	case 1:
+		hash += s8(bytes, off);
+		hash  = (hash ^ (hash << 10)) >>> 0;
+		hash += hash >>> 1;
+		break;
+	}
 
-	for (i = 0, word = parseInt(prefix[0], 16); i < prefix.length; word = parseInt(prefix[++i], 16))
-		if (prefix[i].length <= 4 && !isNaN(word) && word <= 0xFFFF)
-			words.push(word);
-		else
-			return null;
+	hash  = (hash ^ (hash << 3)) >>> 0;
+	hash += hash >>> 5;
+	hash  = (hash ^ (hash << 4)) >>> 0;
+	hash += hash >>> 17;
+	hash  = (hash ^ (hash << 25)) >>> 0;
+	hash += hash >>> 6;
 
-	for (i = 0; i < (8 - prefix.length - suffix.length); i++)
-		words.push(0);
-
-	for (i = 0, word = parseInt(suffix[0], 16); i < suffix.length; word = parseInt(suffix[++i], 16))
-		if (suffix[i].length <= 4 && !isNaN(word) && word <= 0xFFFF)
-			words.push(word);
-		else
-			return null;
-
-	return words;
+	return (0x100000000 + hash).toString(16).substr(1);
 }
 
-var cbi_validators = {
-
-	'integer': function()
-	{
-		return !!Int(this);
-	},
-
-	'uinteger': function()
-	{
-		return (Int(this) >= 0);
-	},
-
-	'float': function()
-	{
-		return !!Dec(this);
-	},
-
-	'ufloat': function()
-	{
-		return (Dec(this) >= 0);
-	},
-
-	'ipaddr': function()
-	{
-		return cbi_validators.ip4addr.apply(this) ||
-			cbi_validators.ip6addr.apply(this);
-	},
-
-	'ip4addr': function()
-	{
-		var m = this.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?:\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|\/(\d{1,2}))?$/);
-		return !!(m && IPv4(m[1]) && (m[2] ? IPv4(m[2]) : (m[3] ? cbi_validators.ip4prefix.apply(m[3]) : true)));
-	},
-
-	'ip6addr': function()
-	{
-		var m = this.match(/^([0-9a-fA-F:.]+)(?:\/(\d{1,3}))?$/);
-		return !!(m && IPv6(m[1]) && (m[2] ? cbi_validators.ip6prefix.apply(m[2]) : true));
-	},
-
-	'ip4prefix': function()
-	{
-		return !isNaN(this) && this >= 0 && this <= 32;
-	},
-
-	'ip6prefix': function()
-	{
-		return !isNaN(this) && this >= 0 && this <= 128;
-	},
-
-	'cidr': function()
-	{
-		return cbi_validators.cidr4.apply(this) ||
-			cbi_validators.cidr6.apply(this);
-	},
-
-	'cidr4': function()
-	{
-		var m = this.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\/(\d{1,2})$/);
-		return !!(m && IPv4(m[1]) && cbi_validators.ip4prefix.apply(m[2]));
-	},
-
-	'cidr6': function()
-	{
-		var m = this.match(/^([0-9a-fA-F:.]+)\/(\d{1,3})$/);
-		return !!(m && IPv6(m[1]) && cbi_validators.ip6prefix.apply(m[2]));
-	},
-
-	'ipnet4': function()
-	{
-		var m = this.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/);
-		return !!(m && IPv4(m[1]) && IPv4(m[2]));
-	},
-
-	'ipnet6': function()
-	{
-		var m = this.match(/^([0-9a-fA-F:.]+)\/([0-9a-fA-F:.]+)$/);
-		return !!(m && IPv6(m[1]) && IPv6(m[2]));
-	},
-
-	'ip6hostid': function()
-	{
-		if (this == "eui64" || this == "random")
-			return true;
-
-		var v6 = IPv6(this);
-		return !(!v6 || v6[0] || v6[1] || v6[2] || v6[3]);
-	},
-
-	'ipmask': function()
-	{
-		return cbi_validators.ipmask4.apply(this) ||
-			cbi_validators.ipmask6.apply(this);
-	},
-
-	'ipmask4': function()
-	{
-		return cbi_validators.cidr4.apply(this) ||
-			cbi_validators.ipnet4.apply(this) ||
-			cbi_validators.ip4addr.apply(this);
-	},
-
-	'ipmask6': function()
-	{
-		return cbi_validators.cidr6.apply(this) ||
-			cbi_validators.ipnet6.apply(this) ||
-			cbi_validators.ip6addr.apply(this);
-	},
-
-	'port': function()
-	{
-		var p = Int(this);
-		return (p >= 0 && p <= 65535);
-	},
-
-	'portrange': function()
-	{
-		if (this.match(/^(\d+)-(\d+)$/))
-		{
-			var p1 = +RegExp.$1;
-			var p2 = +RegExp.$2;
-			return (p1 <= p2 && p2 <= 65535);
-		}
-
-		return cbi_validators.port.apply(this);
-	},
-
-	'macaddr': function()
-	{
-		return (this.match(/^([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2}$/) != null);
-	},
-
-	'host': function(ipv4only)
-	{
-		return cbi_validators.hostname.apply(this) ||
-			((ipv4only != 1) && cbi_validators.ipaddr.apply(this)) ||
-			((ipv4only == 1) && cbi_validators.ip4addr.apply(this));
-	},
-
-	'hostname': function(strict)
-	{
-		if (this.length <= 253)
-			return (this.match(/^[a-zA-Z0-9_]+$/) != null ||
-			        (this.match(/^[a-zA-Z0-9_][a-zA-Z0-9_\-.]*[a-zA-Z0-9]$/) &&
-			         this.match(/[^0-9.]/))) &&
-			       (!strict || !this.match(/^_/));
-
-		return false;
-	},
-
-	'network': function()
-	{
-		return cbi_validators.uciname.apply(this) ||
-			cbi_validators.host.apply(this);
-	},
-
-	'hostport': function(ipv4only)
-	{
-		var hp = this.split(/:/);
-
-		if (hp.length == 2)
-			return (cbi_validators.host.apply(hp[0], ipv4only) &&
-			        cbi_validators.port.apply(hp[1]));
-
-		return false;
-	},
-
-	'ip4addrport': function()
-	{
-		var hp = this.split(/:/);
-
-		if (hp.length == 2)
-			return (cbi_validators.ipaddr.apply(hp[0]) &&
-			        cbi_validators.port.apply(hp[1]));
-		return false;
-	},
-
-	'ipaddrport': function(bracket)
-	{
-		if (this.match(/^([^\[\]:]+):([^:]+)$/)) {
-			var addr = RegExp.$1
-			var port = RegExp.$2
-			return (cbi_validators.ip4addr.apply(addr) &&
-				cbi_validators.port.apply(port));
-                } else if ((bracket == 1) && (this.match(/^\[(.+)\]:([^:]+)$/))) {
-			var addr = RegExp.$1
-			var port = RegExp.$2
-			return (cbi_validators.ip6addr.apply(addr) &&
-				cbi_validators.port.apply(port));
-                } else if ((bracket != 1) && (this.match(/^([^\[\]]+):([^:]+)$/))) {
-			var addr = RegExp.$1
-			var port = RegExp.$2
-			return (cbi_validators.ip6addr.apply(addr) &&
-				cbi_validators.port.apply(port));
-		} else {
-			return false;
-		}
-	},
-
-	'wpakey': function()
-	{
-		var v = this;
-
-		if( v.length == 64 )
-			return (v.match(/^[a-fA-F0-9]{64}$/) != null);
-		else
-			return (v.length >= 8) && (v.length <= 63);
-	},
-
-	'wepkey': function()
-	{
-		var v = this;
-
-		if ( v.substr(0,2) == 's:' )
-			v = v.substr(2);
-
-		if( (v.length == 10) || (v.length == 26) )
-			return (v.match(/^[a-fA-F0-9]{10,26}$/) != null);
-		else
-			return (v.length == 5) || (v.length == 13);
-	},
-
-	'uciname': function()
-	{
-		return (this.match(/^[a-zA-Z0-9_]+$/) != null);
-	},
-
-	'range': function(min, max)
-	{
-		var val = Dec(this);
-		return (val >= +min && val <= +max);
-	},
-
-	'min': function(min)
-	{
-		return (Dec(this) >= +min);
-	},
-
-	'max': function(max)
-	{
-		return (Dec(this) <= +max);
-	},
-
-	'rangelength': function(min, max)
-	{
-		var val = '' + this;
-		return ((val.length >= +min) && (val.length <= +max));
-	},
-
-	'minlength': function(min)
-	{
-		return ((''+this).length >= +min);
-	},
-
-	'maxlength': function(max)
-	{
-		return ((''+this).length <= +max);
-	},
-
-	'or': function()
-	{
-		for (var i = 0; i < arguments.length; i += 2)
-		{
-			if (typeof arguments[i] != 'function')
-			{
-				if (arguments[i] == this)
-					return true;
-				i--;
-			}
-			else if (arguments[i].apply(this, arguments[i+1]))
-			{
-				return true;
-			}
-		}
-		return false;
-	},
-
-	'and': function()
-	{
-		for (var i = 0; i < arguments.length; i += 2)
-		{
-			if (typeof arguments[i] != 'function')
-			{
-				if (arguments[i] != this)
-					return false;
-				i--;
-			}
-			else if (!arguments[i].apply(this, arguments[i+1]))
-			{
-				return false;
-			}
-		}
-		return true;
-	},
-
-	'neg': function()
-	{
-		return cbi_validators.or.apply(
-			this.replace(/^[ \t]*![ \t]*/, ''), arguments);
-	},
-
-	'list': function(subvalidator, subargs)
-	{
-		if (typeof subvalidator != 'function')
-			return false;
-
-		var tokens = this.match(/[^ \t]+/g);
-		for (var i = 0; i < tokens.length; i++)
-			if (!subvalidator.apply(tokens[i], subargs))
-				return false;
-
-		return true;
-	},
-	'phonedigit': function()
-	{
-		return (this.match(/^[0-9\*#!\.]+$/) != null);
-	},
-	'timehhmmss': function()
-	{
-		return (this.match(/^[0-6][0-9]:[0-6][0-9]:[0-6][0-9]$/) != null);
-	},
-	'dateyyyymmdd': function()
-	{
-		if (this == null) {
-			return false;
-		}
-		if (this.match(/^(\d\d\d\d)-(\d\d)-(\d\d)/)) {
-			var year = RegExp.$1;
-			var month = RegExp.$2;
-			var day = RegExp.$2
-
-			var days_in_month = [ 31, 28, 31, 30, 31, 30, 31, 31, 30 , 31, 30, 31 ];
-			function is_leap_year(year) {
-				return ((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0);
-			}
-			function get_days_in_month(month, year) {
-				if ((month == 2) && is_leap_year(year)) {
-					return 29;
-				} else {
-					return days_in_month[month];
-				}
-			}
-			/* Firewall rules in the past don't make sense */
-			if (year < 2015) {
-				return false;
-			}
-			if ((month <= 0) || (month > 12)) {
-				return false;
-			}
-			if ((day <= 0) || (day > get_days_in_month(month, year))) {
-				return false;
-			}
-			return true;
-
-		} else {
-			return false;
-		}
-	}
-};
+function _(s) {
+	return (window.TR && TR[sfh(s)]) || s;
+}
 
 
 function cbi_d_add(field, dep, index) {
@@ -511,20 +170,19 @@ function cbi_d_update() {
 		if (node && node.parentNode && !cbi_d_check(entry.deps)) {
 			node.parentNode.removeChild(node);
 			state = true;
-		} else if (parent && (!node || !node.parentNode) && cbi_d_check(entry.deps)) {
+		}
+		else if (parent && (!node || !node.parentNode) && cbi_d_check(entry.deps)) {
 			var next = undefined;
 
 			for (next = parent.firstChild; next; next = next.nextSibling) {
-				if (next.getAttribute && parseInt(next.getAttribute('data-index'), 10) > entry.index) {
+				if (next.getAttribute && parseInt(next.getAttribute('data-index'), 10) > entry.index)
 					break;
-				}
 			}
 
-			if (!next) {
+			if (!next)
 				parent.appendChild(entry.node);
-			} else {
+			else
 				parent.insertBefore(entry.node, next);
-			}
 
 			state = true;
 		}
@@ -534,18 +192,22 @@ function cbi_d_update() {
 			parent.parentNode.style.display = (parent.options.length <= 1) ? 'none' : '';
 	}
 
-	if (entry && entry.parent) {
-		if (!cbi_t_update())
-			cbi_tag_last(parent);
-	}
+	if (entry && entry.parent)
+		cbi_tag_last(parent);
 
-	if (state) {
+	if (state)
 		cbi_d_update();
-	}
+	else if (parent)
+		parent.dispatchEvent(new CustomEvent('dependency-update', { bubbles: true }));
 }
 
 function cbi_init() {
 	var nodes;
+
+	document.querySelectorAll('.cbi-dropdown').forEach(function(node) {
+		cbi_dropdown_init(node);
+		node.addEventListener('cbi-dropdown-change', cbi_d_update);
+	});
 
 	nodes = document.querySelectorAll('[data-strings]');
 
@@ -565,9 +227,8 @@ function cbi_init() {
 		var index = parseInt(node.getAttribute('data-index'), 10);
 		var depends = JSON.parse(node.getAttribute('data-depends'));
 		if (!isNaN(index) && depends.length > 0) {
-			for (var alt = 0; alt < depends.length; alt++) {
+			for (var alt = 0; alt < depends.length; alt++)
 				cbi_d_add(node, depends[alt], index);
-			}
 		}
 	}
 
@@ -575,16 +236,15 @@ function cbi_init() {
 
 	for (var i = 0, node; (node = nodes[i]) !== undefined; i++) {
 		var events = node.getAttribute('data-update').split(' ');
-		for (var j = 0, event; (event = events[j]) !== undefined; j++) {
-			cbi_bind(node, event, cbi_d_update);
-		}
+		for (var j = 0, event; (event = events[j]) !== undefined; j++)
+			node.addEventListener(event, cbi_d_update);
 	}
 
 	nodes = document.querySelectorAll('[data-choices]');
 
 	for (var i = 0, node; (node = nodes[i]) !== undefined; i++) {
-		var choices = JSON.parse(node.getAttribute('data-choices'));
-		var options = {};
+		var choices = JSON.parse(node.getAttribute('data-choices')),
+		    options = {};
 
 		for (var j = 0; j < choices[0].length; j++)
 			options[choices[0][j]] = choices[1][j];
@@ -592,15 +252,24 @@ function cbi_init() {
 		var def = (node.getAttribute('data-optional') === 'true')
 			? node.placeholder || '' : null;
 
-		cbi_combobox_init(node, options, def,
-		                  node.getAttribute('data-manual'));
+		var cb = new L.ui.Combobox(node.value, options, {
+			name: node.getAttribute('name'),
+			sort: choices[0],
+			select_placeholder: def || _('-- Please choose --'),
+			custom_placeholder: node.getAttribute('data-manual') || _('-- custom --')
+		});
+
+		var n = cb.render();
+		n.addEventListener('cbi-dropdown-change', cbi_d_update);
+		node.parentNode.replaceChild(n, node);
 	}
 
 	nodes = document.querySelectorAll('[data-dynlist]');
 
 	for (var i = 0, node; (node = nodes[i]) !== undefined; i++) {
-		var choices = JSON.parse(node.getAttribute('data-dynlist'));
-		var options = null;
+		var choices = JSON.parse(node.getAttribute('data-dynlist')),
+		    values = JSON.parse(node.getAttribute('data-values') || '[]'),
+		    options = null;
 
 		if (choices[0] && choices[0].length) {
 			options = {};
@@ -609,7 +278,17 @@ function cbi_init() {
 				options[choices[0][j]] = choices[1][j];
 		}
 
-		cbi_dynlist_init(node, choices[2], choices[3], options);
+		var dl = new L.ui.DynamicList(values, options, {
+			name: node.getAttribute('data-prefix'),
+			sort: choices[0],
+			datatype: choices[2],
+			optional: choices[3],
+			placeholder: node.getAttribute('data-placeholder')
+		});
+
+		var n = dl.render();
+		n.addEventListener('cbi-dynlist-change', cbi_d_update);
+		node.parentNode.replaceChild(n, node);
 	}
 
 	nodes = document.querySelectorAll('[data-type]');
@@ -618,10 +297,6 @@ function cbi_init() {
 		cbi_validate_field(node, node.getAttribute('data-optional') === 'true',
 		                   node.getAttribute('data-type'));
 	}
-
-	document.querySelectorAll('.cbi-dropdown').forEach(function(s) {
-		cbi_dropdown_init(s);
-	});
 
 	document.querySelectorAll('.cbi-tooltip:not(:empty)').forEach(function(s) {
 		s.parentNode.classList.add('cbi-tooltip-container');
@@ -639,463 +314,33 @@ function cbi_init() {
 		i.addEventListener('mouseout', handler);
 	});
 
-	cbi_d_update();
-}
+	var tasks = [];
 
-function cbi_bind(obj, type, callback, mode) {
-	if (!obj.addEventListener) {
-		obj.attachEvent('on' + type,
-			function(){
-				var e = window.event;
+	document.querySelectorAll('[data-ui-widget]').forEach(function(node) {
+		var args = JSON.parse(node.getAttribute('data-ui-widget') || '[]'),
+		    widget = new (Function.prototype.bind.apply(L.ui[args[0]], args)),
+		    markup = widget.render();
 
-				if (!e.target && e.srcElement)
-					e.target = e.srcElement;
-
-				return !!callback(e);
-			}
-		);
-	} else {
-		obj.addEventListener(type, callback, !!mode);
-	}
-	return obj;
-}
-
-function cbi_combobox(id, values, def, man, focus) {
-	var selid = "cbi.combobox." + id;
-	if (document.getElementById(selid)) {
-		return
-	}
-
-	var obj = document.getElementById(id)
-	var sel = document.createElement("select");
-		sel.id = selid;
-		sel.index = obj.index;
-		sel.className = obj.className.replace(/cbi-input-text/, 'cbi-input-select');
-
-	if (obj.nextSibling) {
-		obj.parentNode.insertBefore(sel, obj.nextSibling);
-	} else {
-		obj.parentNode.appendChild(sel);
-	}
-
-	var dt = obj.getAttribute('cbi_datatype');
-	var op = obj.getAttribute('cbi_optional');
-
-	if (!values[obj.value]) {
-		if (obj.value == "") {
-			var optdef = document.createElement("option");
-			optdef.value = "";
-			optdef.appendChild(document.createTextNode(typeof(def) === 'string' ? def : cbi_strings.label.choose));
-			sel.appendChild(optdef);
-		} else {
-			var opt = document.createElement("option");
-			opt.value = obj.value;
-			opt.selected = "selected";
-			opt.appendChild(document.createTextNode(obj.value));
-			sel.appendChild(opt);
-		}
-	}
-
-	for (var i in values) {
-		var opt = document.createElement("option");
-		opt.value = i;
-
-		if (obj.value == i) {
-			opt.selected = "selected";
-		}
-
-		opt.appendChild(document.createTextNode(values[i]));
-		sel.appendChild(opt);
-	}
-
-	var optman = document.createElement("option");
-	optman.value = "";
-	optman.appendChild(document.createTextNode(typeof(man) === 'string' ? man : cbi_strings.label.custom));
-	sel.appendChild(optman);
-
-	obj.style.display = "none";
-
-	if (dt)
-		cbi_validate_field(sel, op == 'true', dt);
-
-	cbi_bind(sel, "change", function() {
-		if (sel.selectedIndex == sel.options.length - 1) {
-			obj.style.display = "inline";
-			sel.blur();
-			sel.parentNode.removeChild(sel);
-			obj.focus();
-		} else {
-			obj.value = sel.options[sel.selectedIndex].value;
-		}
-
-		try {
-			cbi_d_update();
-		} catch (e) {
-			//Do nothing
-		}
-	})
-
-	// Retrigger validation in select
-	if (focus) {
-		sel.focus();
-		sel.blur();
-	}
-}
-
-function cbi_combobox_init(id, values, def, man) {
-	var obj = (typeof(id) === 'string') ? document.getElementById(id) : id;
-	cbi_bind(obj, "blur", function() {
-		cbi_combobox(obj.id, values, def, man, true);
+		tasks.push(Promise.resolve(markup).then(function(markup) {
+			markup.addEventListener('widget-change', cbi_d_update);
+			node.parentNode.replaceChild(markup, node);
+		}));
 	});
-	cbi_combobox(obj.id, values, def, man, false);
+
+	Promise.all(tasks).then(cbi_d_update);
 }
-
-function cbi_filebrowser(id, defpath) {
-	var field   = document.getElementById(id);
-	var browser = window.open(
-		cbi_strings.path.browser + ( field.value || defpath || '' ) + '?field=' + id,
-		"luci_filebrowser", "width=300,height=400,left=100,top=200,scrollbars=yes"
-	);
-
-	browser.focus();
-}
-
-function cbi_browser_init(id, resource, defpath)
-{
-	function cbi_browser_btnclick(e) {
-		cbi_filebrowser(id, defpath);
-		return false;
-	}
-
-	var field = document.getElementById(id);
-
-	var btn = document.createElement('img');
-	btn.className = 'cbi-image-button';
-	btn.src = (resource || cbi_strings.path.resource) + '/cbi/folder.gif';
-	field.parentNode.insertBefore(btn, field.nextSibling);
-
-	cbi_bind(btn, 'click', cbi_browser_btnclick);
-}
-
-function cbi_dynlist_init(parent, datatype, optional, choices)
-{
-	var prefix = parent.getAttribute('data-prefix');
-	var holder = parent.getAttribute('data-placeholder');
-
-	var values;
-
-	function cbi_dynlist_redraw(focus, add, del)
-	{
-		values = [ ];
-
-		while (parent.firstChild)
-		{
-			var n = parent.firstChild;
-			var i = +n.index;
-
-			if (i != del)
-			{
-				if (n.nodeName.toLowerCase() == 'input')
-					values.push(n.value || '');
-				else if (n.nodeName.toLowerCase() == 'select')
-					values[values.length-1] = n.options[n.selectedIndex].value;
-			}
-
-			parent.removeChild(n);
-		}
-
-		if (add >= 0)
-		{
-			focus = add+1;
-			values.splice(focus, 0, '');
-		}
-		else if (values.length == 0)
-		{
-			focus = 0;
-			values.push('');
-		}
-
-		for (var i = 0; i < values.length; i++)
-		{
-			var t = document.createElement('input');
-				t.id = prefix + '.' + (i+1);
-				t.name = prefix;
-				t.value = values[i];
-				t.type = 'text';
-				t.index = i;
-				t.className = 'cbi-input-text';
-
-			if (i == 0 && holder)
-			{
-				t.placeholder = holder;
-			}
-
-			var b = E('div', {
-				class: 'cbi-button cbi-button-' + ((i+1) < values.length ? 'remove' : 'add')
-			}, (i+1) < values.length ? '×' : '+');
-
-			parent.appendChild(t);
-			parent.appendChild(b);
-			if (datatype == 'file')
-			{
-				cbi_browser_init(t.id, null, parent.getAttribute('data-browser-path'));
-			}
-
-			parent.appendChild(document.createElement('br'));
-
-			if (datatype)
-			{
-				cbi_validate_field(t.id, ((i+1) == values.length) || optional, datatype);
-			}
-
-			if (choices)
-			{
-				cbi_combobox_init(t.id, choices, '', cbi_strings.label.custom);
-				b.index = i;
-
-				cbi_bind(b, 'keydown',  cbi_dynlist_keydown);
-				cbi_bind(b, 'keypress', cbi_dynlist_keypress);
-
-				if (i == focus || -i == focus)
-					b.focus();
-			}
-			else
-			{
-				cbi_bind(t, 'keydown',  cbi_dynlist_keydown);
-				cbi_bind(t, 'keypress', cbi_dynlist_keypress);
-
-				if (i == focus)
-				{
-					t.focus();
-				}
-				else if (-i == focus)
-				{
-					t.focus();
-
-					/* force cursor to end */
-					var v = t.value;
-					t.value = ' '
-					t.value = v;
-				}
-			}
-
-			cbi_bind(b, 'click', cbi_dynlist_btnclick);
-		}
-	}
-
-	function cbi_dynlist_keypress(ev)
-	{
-		ev = ev ? ev : window.event;
-
-		var se = ev.target ? ev.target : ev.srcElement;
-
-		if (se.nodeType == 3)
-			se = se.parentNode;
-
-		switch (ev.keyCode)
-		{
-			/* backspace, delete */
-			case 8:
-			case 46:
-				if (se.value.length == 0)
-				{
-					if (ev.preventDefault)
-						ev.preventDefault();
-
-					return false;
-				}
-
-				return true;
-
-			/* enter, arrow up, arrow down */
-			case 13:
-			case 38:
-			case 40:
-				if (ev.preventDefault)
-					ev.preventDefault();
-
-				return false;
-		}
-
-		return true;
-	}
-
-	function cbi_dynlist_keydown(ev)
-	{
-		ev = ev ? ev : window.event;
-
-		var se = ev.target ? ev.target : ev.srcElement;
-
-		if (se.nodeType == 3)
-			se = se.parentNode;
-
-		var prev = se.previousSibling;
-		while (prev && prev.name != prefix)
-			prev = prev.previousSibling;
-
-		var next = se.nextSibling;
-		while (next && next.name != prefix)
-			next = next.nextSibling;
-
-		/* advance one further in combobox case */
-		if (next && next.nextSibling.name == prefix)
-			next = next.nextSibling;
-
-		switch (ev.keyCode)
-		{
-			/* backspace, delete */
-			case 8:
-			case 46:
-				var del = (se.nodeName.toLowerCase() == 'select')
-					? true : (se.value.length == 0);
-
-				if (del)
-				{
-					if (ev.preventDefault)
-						ev.preventDefault();
-
-					var focus = se.index;
-					if (ev.keyCode == 8)
-						focus = -focus+1;
-
-					cbi_dynlist_redraw(focus, -1, se.index);
-
-					return false;
-				}
-
-				break;
-
-			/* enter */
-			case 13:
-				cbi_dynlist_redraw(-1, se.index, -1);
-				break;
-
-			/* arrow up */
-			case 38:
-				if (prev)
-					prev.focus();
-
-				break;
-
-			/* arrow down */
-			case 40:
-				if (next)
-					next.focus();
-
-				break;
-		}
-
-		return true;
-	}
-
-	function cbi_dynlist_btnclick(ev)
-	{
-		ev = ev ? ev : window.event;
-
-		var se = ev.target ? ev.target : ev.srcElement;
-		var input = se.previousSibling;
-		while (input && input.name != prefix) {
-			input = input.previousSibling;
-		}
-
-		if (se.classList.contains('cbi-button-remove')) {
-			input.value = '';
-
-			cbi_dynlist_keydown({
-				target:  input,
-				keyCode: 8
-			});
-		}
-		else {
-			cbi_dynlist_keydown({
-				target:  input,
-				keyCode: 13
-			});
-		}
-
-		return false;
-	}
-
-	cbi_dynlist_redraw(NaN, -1, -1);
-}
-
-
-function cbi_t_add(section, tab) {
-	var t = document.getElementById('tab.' + section + '.' + tab);
-	var c = document.getElementById('container.' + section + '.' + tab);
-
-	if( t && c ) {
-		cbi_t[section] = (cbi_t[section] || [ ]);
-		cbi_t[section][tab] = { 'tab': t, 'container': c, 'cid': c.id };
-	}
-}
-
-function cbi_t_switch(section, tab) {
-	if( cbi_t[section] && cbi_t[section][tab] ) {
-		var o = cbi_t[section][tab];
-		var h = document.getElementById('tab.' + section);
-		for( var tid in cbi_t[section] ) {
-			var o2 = cbi_t[section][tid];
-			if( o.tab.id != o2.tab.id ) {
-				o2.tab.className = o2.tab.className.replace(/(^| )cbi-tab( |$)/, " cbi-tab-disabled ");
-				o2.container.style.display = 'none';
-			}
-			else {
-				if(h) h.value = tab;
-				o2.tab.className = o2.tab.className.replace(/(^| )cbi-tab-disabled( |$)/, " cbi-tab ");
-				o2.container.style.display = 'block';
-			}
-		}
-	}
-	return false
-}
-
-function cbi_t_update() {
-	var hl_tabs = [ ];
-	var updated = false;
-
-	for( var sid in cbi_t )
-		for( var tid in cbi_t[sid] )
-		{
-			var t = cbi_t[sid][tid].tab;
-			var c = cbi_t[sid][tid].container;
-
-			if (!c.firstElementChild) {
-				t.style.display = 'none';
-			}
-			else if (t.style.display == 'none') {
-				t.style.display = '';
-				t.className += ' cbi-tab-highlighted';
-				hl_tabs.push(t);
-			}
-
-			cbi_tag_last(c);
-			updated = true;
-		}
-
-	if (hl_tabs.length > 0)
-		window.setTimeout(function() {
-			for( var i = 0; i < hl_tabs.length; i++ )
-				hl_tabs[i].className = hl_tabs[i].className.replace(/ cbi-tab-highlighted/g, '');
-		}, 750);
-
-	return updated;
-}
-
 
 function cbi_validate_form(form, errmsg)
 {
 	/* if triggered by a section removal or addition, don't validate */
-	if( form.cbi_state == 'add-section' || form.cbi_state == 'del-section' )
+	if (form.cbi_state == 'add-section' || form.cbi_state == 'del-section')
 		return true;
 
-	if( form.cbi_validators )
-	{
-		for( var i = 0; i < form.cbi_validators.length; i++ )
-		{
+	if (form.cbi_validators) {
+		for (var i = 0; i < form.cbi_validators.length; i++) {
 			var validator = form.cbi_validators[i];
-			if( !validator() && errmsg )
-			{
+
+			if (!validator() && errmsg) {
 				alert(errmsg);
 				return false;
 			}
@@ -1114,133 +359,37 @@ function cbi_validate_reset(form)
 	return true;
 }
 
-function cbi_validate_compile(code)
-{
-	var pos = 0;
-	var esc = false;
-	var depth = 0;
-	var stack = [ ];
-
-	code += ',';
-
-	for (var i = 0; i < code.length; i++)
-	{
-		if (esc)
-		{
-			esc = false;
-			continue;
-		}
-
-		switch (code.charCodeAt(i))
-		{
-		case 92:
-			esc = true;
-			break;
-
-		case 40:
-		case 44:
-			if (depth <= 0)
-			{
-				if (pos < i)
-				{
-					var label = code.substring(pos, i);
-						label = label.replace(/\\(.)/g, '$1');
-						label = label.replace(/^[ \t]+/g, '');
-						label = label.replace(/[ \t]+$/g, '');
-
-					if (label && !isNaN(label))
-					{
-						stack.push(parseFloat(label));
-					}
-					else if (label.match(/^(['"]).*\1$/))
-					{
-						stack.push(label.replace(/^(['"])(.*)\1$/, '$2'));
-					}
-					else if (typeof cbi_validators[label] == 'function')
-					{
-						stack.push(cbi_validators[label]);
-						stack.push(null);
-					}
-					else
-					{
-						throw "Syntax error, unhandled token '"+label+"'";
-					}
-				}
-				pos = i+1;
-			}
-			depth += (code.charCodeAt(i) == 40);
-			break;
-
-		case 41:
-			if (--depth <= 0)
-			{
-				if (typeof stack[stack.length-2] != 'function')
-					throw "Syntax error, argument list follows non-function";
-
-				stack[stack.length-1] =
-					arguments.callee(code.substring(pos, i));
-
-				pos = i+1;
-			}
-			break;
-		}
-	}
-
-	return stack;
-}
-
 function cbi_validate_field(cbid, optional, type)
 {
-	var field = (typeof cbid == "string") ? document.getElementById(cbid) : cbid;
-	var vstack; try { vstack = cbi_validate_compile(type); } catch(e) { };
+	var field = isElem(cbid) ? cbid : document.getElementById(cbid);
+	var validatorFn;
 
-	if (field && vstack && typeof vstack[0] == "function")
-	{
-		var validator = function()
-		{
-			// is not detached
-			if( field.form )
-			{
-				field.className = field.className.replace(/ cbi-input-invalid/g, '');
+	try {
+		var cbiValidator = L.validation.create(field, type, optional);
+		validatorFn = cbiValidator.validate.bind(cbiValidator);
+	}
+	catch(e) {
+		validatorFn = null;
+	};
 
-				// validate value
-				var value = (field.options && field.options.selectedIndex > -1)
-					? field.options[field.options.selectedIndex].value : field.value;
+	if (validatorFn !== null) {
+		var form = findParent(field, 'form');
 
-				if (!(((value.length == 0) && optional) || vstack[0].apply(value, vstack[1])))
-				{
-					// invalid
-					field.className += ' cbi-input-invalid';
-					return false;
-				}
-			}
+		if (!form.cbi_validators)
+			form.cbi_validators = [ ];
 
-			return true;
-		};
+		form.cbi_validators.push(validatorFn);
 
-		if( ! field.form.cbi_validators )
-			field.form.cbi_validators = [ ];
+		field.addEventListener("blur",  validatorFn);
+		field.addEventListener("keyup", validatorFn);
+		field.addEventListener("cbi-dropdown-change", validatorFn);
 
-		field.form.cbi_validators.push(validator);
-
-		cbi_bind(field, "blur",  validator);
-		cbi_bind(field, "keyup", validator);
-
-		if (field.nodeName == 'SELECT')
-		{
-			cbi_bind(field, "change", validator);
-			cbi_bind(field, "click",  validator);
+		if (matchesElem(field, 'select')) {
+			field.addEventListener("change", validatorFn);
+			field.addEventListener("click",  validatorFn);
 		}
 
-		field.setAttribute("cbi_validate", validator);
-		field.setAttribute("cbi_datatype", type);
-		field.setAttribute("cbi_optional", (!!optional).toString());
-
-		validator();
-
-		var fcbox = document.getElementById('cbi.combobox.' + field.id);
-		if (fcbox)
-			cbi_validate_field(fcbox, optional, type);
+		validatorFn();
 	}
 }
 
@@ -1291,7 +440,8 @@ function cbi_row_swap(elem, up, store)
 		input.value = ids.join(' ');
 
 	window.scrollTo(0, tr.offsetTop);
-	window.setTimeout(function() { tr.classList.add('flash'); }, 1);
+	void tr.offsetWidth;
+	tr.classList.add('flash');
 
 	return false;
 }
@@ -1300,20 +450,16 @@ function cbi_tag_last(container)
 {
 	var last;
 
-	for (var i = 0; i < container.childNodes.length; i++)
-	{
+	for (var i = 0; i < container.childNodes.length; i++) {
 		var c = container.childNodes[i];
-		if (c.nodeType == 1 && c.nodeName.toLowerCase() == 'div')
-		{
-			c.className = c.className.replace(/ cbi-value-last$/, '');
+		if (matchesElem(c, 'div')) {
+			c.classList.remove('cbi-value-last');
 			last = c;
 		}
 	}
 
 	if (last)
-	{
-		last.className += ' cbi-value-last';
-	}
+		last.classList.add('cbi-value-last');
 }
 
 function cbi_submit(elem, name, value, action)
@@ -1350,8 +496,9 @@ String.prototype.format = function()
 		if (typeof(s) !== 'string' && !(s instanceof String))
 			return '';
 
-		for( var i = 0; i < r.length; i += 2 )
+		for (var i = 0; i < r.length; i += 2)
 			s = s.replace(r[i], r[i+1]);
+
 		return s;
 	}
 
@@ -1360,22 +507,18 @@ String.prototype.format = function()
 	var re = /^(([^%]*)%('.|0|\x20)?(-)?(\d+)?(\.\d+)?(%|b|c|d|u|f|o|s|x|X|q|h|j|t|m))/;
 	var a = b = [], numSubstitutions = 0, numMatches = 0;
 
-	while (a = re.exec(str))
-	{
+	while (a = re.exec(str)) {
 		var m = a[1];
 		var leftpart = a[2], pPad = a[3], pJustify = a[4], pMinLength = a[5];
 		var pPrecision = a[6], pType = a[7];
 
 		numMatches++;
 
-		if (pType == '%')
-		{
+		if (pType == '%') {
 			subst = '%';
 		}
-		else
-		{
-			if (numSubstitutions < arguments.length)
-			{
+		else {
+			if (numSubstitutions < arguments.length) {
 				var param = arguments[numSubstitutions++];
 
 				var pad = '';
@@ -1400,10 +543,9 @@ String.prototype.format = function()
 
 				var subst = param;
 
-				switch(pType)
-				{
+				switch(pType) {
 					case 'b':
-						subst = (+param || 0).toString(2);
+						subst = Math.floor(+param || 0).toString(2);
 						break;
 
 					case 'c':
@@ -1411,11 +553,12 @@ String.prototype.format = function()
 						break;
 
 					case 'd':
-						subst = ~~(+param || 0);
+						subst = Math.floor(+param || 0).toFixed(0);
 						break;
 
 					case 'u':
-						subst = ~~Math.abs(+param || 0);
+						var n = +param || 0;
+						subst = Math.floor((n < 0) ? 0x100000000 + n : n).toFixed(0);
 						break;
 
 					case 'f':
@@ -1425,7 +568,7 @@ String.prototype.format = function()
 						break;
 
 					case 'o':
-						subst = (+param || 0).toString(8);
+						subst = Math.floor(+param || 0).toString(8);
 						break;
 
 					case 's':
@@ -1433,11 +576,11 @@ String.prototype.format = function()
 						break;
 
 					case 'x':
-						subst = ('' + (+param || 0).toString(16)).toLowerCase();
+						subst = Math.floor(+param || 0).toString(16).toLowerCase();
 						break;
 
 					case 'X':
-						subst = ('' + (+param || 0).toString(16)).toUpperCase();
+						subst = Math.floor(+param || 0).toString(16).toUpperCase();
 						break;
 
 					case 'h':
@@ -1517,16 +660,20 @@ String.prototype.nobr = function()
 String.format = function()
 {
 	var a = [ ];
+
 	for (var i = 1; i < arguments.length; i++)
 		a.push(arguments[i]);
+
 	return ''.format.apply(arguments[0], a);
 }
 
 String.nobr = function()
 {
 	var a = [ ];
+
 	for (var i = 1; i < arguments.length; i++)
 		a.push(arguments[i]);
+
 	return ''.nobr.apply(arguments[0], a);
 }
 
@@ -1539,90 +686,20 @@ if (window.NodeList && !NodeList.prototype.forEach) {
 	};
 }
 
-
-var dummyElem, domParser;
-
-function isElem(e)
-{
-	return (typeof(e) === 'object' && e !== null && 'nodeType' in e);
+if (!window.requestAnimationFrame) {
+	window.requestAnimationFrame = function(f) {
+		window.setTimeout(function() {
+			f(new Date().getTime())
+		}, 1000/30);
+	};
 }
 
-function toElem(s)
-{
-	var elem;
 
-	try {
-		domParser = domParser || new DOMParser();
-		elem = domParser.parseFromString(s, 'text/html').body.firstChild;
-	}
-	catch(e) {}
-
-	if (!elem) {
-		try {
-			dummyElem = dummyElem || document.createElement('div');
-			dummyElem.innerHTML = s;
-			elem = dummyElem.firstChild;
-		}
-		catch (e) {}
-	}
-
-	return elem || null;
-}
-
-function findParent(node, selector)
-{
-	while (node)
-		if (node.msMatchesSelector && node.msMatchesSelector(selector))
-			return node;
-		else if (node.matches && node.matches(selector))
-			return node;
-		else
-			node = node.parentNode;
-
-	return null;
-}
-
-function E()
-{
-	var html = arguments[0],
-	    attr = (arguments[1] instanceof Object && !Array.isArray(arguments[1])) ? arguments[1] : null,
-	    data = attr ? arguments[2] : arguments[1],
-	    elem;
-
-	if (isElem(html))
-		elem = html;
-	else if (html.charCodeAt(0) === 60)
-		elem = toElem(html);
-	else
-		elem = document.createElement(html);
-
-	if (!elem)
-		return null;
-
-	if (attr)
-		for (var key in attr)
-			if (attr.hasOwnProperty(key) && attr[key] !== null && attr[key] !== undefined)
-				elem.setAttribute(key, attr[key]);
-
-	if (typeof(data) === 'function')
-		data = data(elem);
-
-	if (isElem(data)) {
-		elem.appendChild(data);
-	}
-	else if (Array.isArray(data)) {
-		for (var i = 0; i < data.length; i++)
-			if (isElem(data[i]))
-				elem.appendChild(data[i]);
-			else
-				elem.appendChild(document.createTextNode('' + data[i]));
-	}
-	else if (data !== null && data !== undefined) {
-		elem.innerHTML = '' + data;
-	}
-
-	return elem;
-}
+function isElem(e) { return L.dom.elem(e) }
+function toElem(s) { return L.dom.parse(s) }
+function matchesElem(node, selector) { return L.dom.matches(node, selector) }
+function findParent(node, selector) { return L.dom.parent(node, selector) }
+function E() { return L.dom.create.apply(L.dom, arguments) }
 
 if (typeof(window.CustomEvent) !== 'function') {
 	function CustomEvent(event, params) {
@@ -1636,465 +713,13 @@ if (typeof(window.CustomEvent) !== 'function') {
 	window.CustomEvent = CustomEvent;
 }
 
-CBIDropdown = {
-	openDropdown: function(sb) {
-		var st = window.getComputedStyle(sb, null),
-		    ul = sb.querySelector('ul'),
-		    li = ul.querySelectorAll('li'),
-		    sel = ul.querySelector('[selected]'),
-		    rect = sb.getBoundingClientRect(),
-		    h = sb.clientHeight - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom),
-		    mh = this.dropdown_items * h,
-		    eh = Math.min(mh, li.length * h);
-
-		document.querySelectorAll('.cbi-dropdown[open]').forEach(function(s) {
-			s.dispatchEvent(new CustomEvent('cbi-dropdown-close', {}));
-		});
-
-		ul.style.maxHeight = mh + 'px';
-		sb.setAttribute('open', '');
-
-		ul.scrollTop = sel ? Math.max(sel.offsetTop - sel.offsetHeight, 0) : 0;
-		ul.querySelectorAll('[selected] input[type="checkbox"]').forEach(function(c) {
-			c.checked = true;
-		});
-
-		ul.style.top = ul.style.bottom = '';
-		ul.style[((sb.getBoundingClientRect().top + eh) > window.innerHeight) ? 'bottom' : 'top'] = rect.height + 'px';
-		ul.classList.add('dropdown');
-
-		var pv = ul.cloneNode(true);
-		    pv.classList.remove('dropdown');
-		    pv.classList.add('preview');
-
-		sb.insertBefore(pv, ul.nextElementSibling);
-
-		li.forEach(function(l) {
-			l.setAttribute('tabindex', 0);
-		});
-
-		sb.lastElementChild.setAttribute('tabindex', 0);
-
-		this.setFocus(sb, sel || li[0], true);
-	},
-
-	closeDropdown: function(sb, no_focus) {
-		if (!sb.hasAttribute('open'))
-			return;
-
-		var pv = sb.querySelector('ul.preview'),
-		    ul = sb.querySelector('ul.dropdown'),
-		    li = ul.querySelectorAll('li');
-
-		li.forEach(function(l) { l.removeAttribute('tabindex'); });
-		sb.lastElementChild.removeAttribute('tabindex');
-
-		sb.removeChild(pv);
-		sb.removeAttribute('open');
-		sb.style.width = sb.style.height = '';
-
-		ul.classList.remove('dropdown');
-
-		if (!no_focus)
-			this.setFocus(sb, sb);
-
-		this.saveValues(sb, ul);
-	},
-
-	toggleItem: function(sb, li, force_state) {
-		if (li.hasAttribute('unselectable'))
-			return;
-
-		if (this.multi) {
-			var cbox = li.querySelector('input[type="checkbox"]'),
-			    items = li.parentNode.querySelectorAll('li'),
-			    label = sb.querySelector('ul.preview'),
-			    sel = li.parentNode.querySelectorAll('[selected]').length,
-			    more = sb.querySelector('.more'),
-			    ndisplay = this.display_items,
-			    n = 0;
-
-			if (li.hasAttribute('selected')) {
-				if (force_state !== true) {
-					if (sel > 1 || this.optional) {
-						li.removeAttribute('selected');
-						cbox.checked = cbox.disabled = false;
-						sel--;
-					}
-					else {
-						cbox.disabled = true;
-					}
-				}
-			}
-			else {
-				if (force_state !== false) {
-					li.setAttribute('selected', '');
-					cbox.checked = true;
-					cbox.disabled = false;
-					sel++;
-				}
-			}
-
-			while (label.firstElementChild)
-				label.removeChild(label.firstElementChild);
-
-			for (var i = 0; i < items.length; i++) {
-				items[i].removeAttribute('display');
-				if (items[i].hasAttribute('selected')) {
-					if (ndisplay-- > 0) {
-						items[i].setAttribute('display', n++);
-						label.appendChild(items[i].cloneNode(true));
-					}
-					var c = items[i].querySelector('input[type="checkbox"]');
-					if (c)
-						c.disabled = (sel == 1 && !this.optional);
-				}
-			}
-
-			if (ndisplay < 0)
-				sb.setAttribute('more', '');
-			else
-				sb.removeAttribute('more');
-
-			if (ndisplay === this.display_items)
-				sb.setAttribute('empty', '');
-			else
-				sb.removeAttribute('empty');
-
-			more.innerHTML = (ndisplay === this.display_items) ? this.placeholder : '···';
-		}
-		else {
-			var sel = li.parentNode.querySelector('[selected]');
-			if (sel) {
-				sel.removeAttribute('display');
-				sel.removeAttribute('selected');
-			}
-
-			li.setAttribute('display', 0);
-			li.setAttribute('selected', '');
-
-			this.closeDropdown(sb, true);
-		}
-
-		this.saveValues(sb, li.parentNode);
-	},
-
-	transformItem: function(sb, li) {
-		var cbox = E('form', {}, E('input', { type: 'checkbox', tabindex: -1, onclick: 'event.preventDefault()' })),
-		    label = E('label');
-
-		while (li.firstChild)
-			label.appendChild(li.firstChild);
-
-		li.appendChild(cbox);
-		li.appendChild(label);
-	},
-
-	saveValues: function(sb, ul) {
-		var sel = ul.querySelectorAll('[selected]'),
-		    div = sb.lastElementChild;
-
-		while (div.lastElementChild)
-			div.removeChild(div.lastElementChild);
-
-		sel.forEach(function (s) {
-			div.appendChild(E('input', {
-				type: 'hidden',
-				name: s.hasAttribute('name') ? s.getAttribute('name') : (sb.getAttribute('name') || ''),
-				value: s.hasAttribute('value') ? s.getAttribute('value') : s.innerText
-			}));
-		});
-
-		cbi_d_update();
-	},
-
-	setFocus: function(sb, elem, scroll) {
-		if (sb && sb.hasAttribute && sb.hasAttribute('locked-in'))
-			return;
-
-		document.querySelectorAll('.focus').forEach(function(e) {
-			if (e.nodeName.toLowerCase() !== 'input') {
-				e.classList.remove('focus');
-				e.blur();
-			}
-		});
-
-		if (elem) {
-			elem.focus();
-			elem.classList.add('focus');
-
-			if (scroll)
-				elem.parentNode.scrollTop = elem.offsetTop - elem.parentNode.offsetTop;
-		}
-	},
-
-	createItems: function(sb, value) {
-		var sbox = this,
-		    val = (value || '').trim().split(/\s+/),
-		    ul = sb.querySelector('ul');
-
-		if (!sbox.multi)
-			val.length = Math.min(val.length, 1);
-
-		val.forEach(function(item) {
-			var new_item = null;
-
-			ul.childNodes.forEach(function(li) {
-				if (li.getAttribute && li.getAttribute('value') === item)
-					new_item = li;
-			});
-
-			if (!new_item) {
-				var markup,
-				    tpl = sb.querySelector(sbox.template);
-
-				if (tpl)
-					markup = (tpl.textContent || tpl.innerHTML || tpl.firstChild.data).replace(/^<!--|-->$/, '').trim();
-				else
-					markup = '<li value="{{value}}">{{value}}</li>';
-
-				new_item = E(markup.replace(/{{value}}/g, item));
-
-				if (sbox.multi) {
-					sbox.transformItem(sb, new_item);
-				}
-				else {
-					var old = ul.querySelector('li[created]');
-					if (old)
-						ul.removeChild(old);
-
-					new_item.setAttribute('created', '');
-				}
-
-				new_item = ul.insertBefore(new_item, ul.lastElementChild);
-			}
-
-			sbox.toggleItem(sb, new_item, true);
-			sbox.setFocus(sb, new_item, true);
-		});
-	},
-
-	closeAllDropdowns: function() {
-		document.querySelectorAll('.cbi-dropdown[open]').forEach(function(s) {
-			s.dispatchEvent(new CustomEvent('cbi-dropdown-close', {}));
-		});
-	}
-};
-
 function cbi_dropdown_init(sb) {
-	if (!(this instanceof cbi_dropdown_init))
-		return new cbi_dropdown_init(sb);
-
-	this.multi = sb.hasAttribute('multiple');
-	this.optional = sb.hasAttribute('optional');
-	this.placeholder = sb.getAttribute('placeholder') || '---';
-	this.display_items = parseInt(sb.getAttribute('display-items') || 3);
-	this.dropdown_items = parseInt(sb.getAttribute('dropdown-items') || 5);
-	this.create = sb.getAttribute('item-create') || '.create-item-input';
-	this.template = sb.getAttribute('item-template') || 'script[type="item-template"]';
-
-	var sbox = this,
-	    ul = sb.querySelector('ul'),
-	    items = ul.querySelectorAll('li'),
-	    more = sb.appendChild(E('span', { class: 'more', tabindex: -1 }, '···')),
-	    open = sb.appendChild(E('span', { class: 'open', tabindex: -1 }, '▾')),
-	    canary = sb.appendChild(E('div')),
-	    create = sb.querySelector(this.create),
-	    ndisplay = this.display_items,
-	    n = 0;
-
-	if (this.multi) {
-		for (var i = 0; i < items.length; i++) {
-			sbox.transformItem(sb, items[i]);
-
-			if (items[i].hasAttribute('selected') && ndisplay-- > 0)
-				items[i].setAttribute('display', n++);
-		}
-	}
-	else {
-		var sel = sb.querySelectorAll('[selected]');
-
-		sel.forEach(function(s) {
-			s.removeAttribute('selected');
-		});
-
-		var s = sel[0] || items[0];
-		if (s) {
-			s.setAttribute('selected', '');
-			s.setAttribute('display', n++);
-		}
-
-		ndisplay--;
-
-		if (this.optional && !ul.querySelector('li[value=""]')) {
-			var placeholder = E('li', { placeholder: '' }, this.placeholder);
-			ul.firstChild ? ul.insertBefore(placeholder, ul.firstChild) : ul.appendChild(placeholder);
-		}
-	}
-
-	sbox.saveValues(sb, ul);
-
-	ul.setAttribute('tabindex', -1);
-	sb.setAttribute('tabindex', 0);
-
-	if (ndisplay < 0)
-		sb.setAttribute('more', '')
-	else
-		sb.removeAttribute('more');
-
-	if (ndisplay === this.display_items)
-		sb.setAttribute('empty', '')
-	else
-		sb.removeAttribute('empty');
-
-	more.innerHTML = (ndisplay === this.display_items) ? this.placeholder : '···';
-
-
-	sb.addEventListener('click', function(ev) {
-		if (!this.hasAttribute('open')) {
-			if (ev.target.nodeName.toLowerCase() !== 'input')
-				sbox.openDropdown(this);
-		}
-		else {
-			var li = findParent(ev.target, 'li');
-			if (li && li.parentNode.classList.contains('dropdown'))
-				sbox.toggleItem(this, li);
-		}
-
-		ev.preventDefault();
-		ev.stopPropagation();
-	});
-
-	sb.addEventListener('keydown', function(ev) {
-		if (ev.target.nodeName.toLowerCase() === 'input')
-			return;
-
-		if (!this.hasAttribute('open')) {
-			switch (ev.keyCode) {
-			case 37:
-			case 38:
-			case 39:
-			case 40:
-				sbox.openDropdown(this);
-				ev.preventDefault();
-			}
-		}
-		else
-		{
-			var active = findParent(document.activeElement, 'li');
-
-			switch (ev.keyCode) {
-			case 27:
-				sbox.closeDropdown(this);
-				break;
-
-			case 13:
-				if (active) {
-					if (!active.hasAttribute('selected'))
-						sbox.toggleItem(this, active);
-					sbox.closeDropdown(this);
-					ev.preventDefault();
-				}
-				break;
-
-			case 32:
-				if (active) {
-					sbox.toggleItem(this, active);
-					ev.preventDefault();
-				}
-				break;
-
-			case 38:
-				if (active && active.previousElementSibling) {
-					sbox.setFocus(this, active.previousElementSibling);
-					ev.preventDefault();
-				}
-				break;
-
-			case 40:
-				if (active && active.nextElementSibling) {
-					sbox.setFocus(this, active.nextElementSibling);
-					ev.preventDefault();
-				}
-				break;
-			}
-		}
-	});
-
-	sb.addEventListener('cbi-dropdown-close', function(ev) {
-		sbox.closeDropdown(this, true);
-	});
-
-	if ('ontouchstart' in window) {
-		sb.addEventListener('touchstart', function(ev) { ev.stopPropagation(); });
-		window.addEventListener('touchstart', sbox.closeAllDropdowns);
-	}
-	else {
-		sb.addEventListener('mouseover', function(ev) {
-			if (!this.hasAttribute('open'))
-				return;
-
-			var li = findParent(ev.target, 'li');
-			if (li) {
-				if (li.parentNode.classList.contains('dropdown'))
-					sbox.setFocus(this, li);
-
-				ev.stopPropagation();
-			}
-		});
-
-		sb.addEventListener('focus', function(ev) {
-			document.querySelectorAll('.cbi-dropdown[open]').forEach(function(s) {
-				if (s !== this || this.hasAttribute('open'))
-					s.dispatchEvent(new CustomEvent('cbi-dropdown-close', {}));
-			});
-		});
-
-		canary.addEventListener('focus', function(ev) {
-			sbox.closeDropdown(this.parentNode);
-		});
-
-		window.addEventListener('mouseover', sbox.setFocus);
-		window.addEventListener('click', sbox.closeAllDropdowns);
-	}
-
-	if (create) {
-		create.addEventListener('keydown', function(ev) {
-			switch (ev.keyCode) {
-			case 13:
-				sbox.createItems(sb, this.value);
-				ev.preventDefault();
-				this.value = '';
-				this.blur();
-				break;
-			}
-		});
-
-		create.addEventListener('focus', function(ev) {
-			var cbox = findParent(this, 'li').querySelector('input[type="checkbox"]');
-			if (cbox) cbox.checked = true;
-			sb.setAttribute('locked-in', '');
-		});
-
-		create.addEventListener('blur', function(ev) {
-			var cbox = findParent(this, 'li').querySelector('input[type="checkbox"]');
-			if (cbox) cbox.checked = false;
-			sb.removeAttribute('locked-in');
-		});
-
-		var li = findParent(create, 'li');
-
-		li.setAttribute('unselectable', '');
-		li.addEventListener('click', function(ev) {
-			this.querySelector(sbox.create).focus();
-		});
-	}
+	var dl = new L.ui.Dropdown(sb, null, { name: sb.getAttribute('name') });
+	return dl.bind(sb);
 }
 
-cbi_dropdown_init.prototype = CBIDropdown;
-
 function cbi_update_table(table, data, placeholder) {
-	target = isElem(table) ? table : document.querySelector(table);
+	var target = isElem(table) ? table : document.querySelector(table);
 
 	if (!isElem(target))
 		return;
@@ -2163,6 +788,27 @@ function cbi_update_table(table, data, placeholder) {
 	});
 }
 
+function showModal(title, children)
+{
+	return L.showModal(title, children);
+}
+
+function hideModal()
+{
+	return L.hideModal();
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
+	document.addEventListener('validation-failure', function(ev) {
+		if (ev.target === document.activeElement)
+			L.showTooltip(ev);
+	});
+
+	document.addEventListener('validation-success', function(ev) {
+		if (ev.target === document.activeElement)
+			L.hideTooltip(ev);
+	});
+
 	document.querySelectorAll('.table').forEach(cbi_update_table);
 });

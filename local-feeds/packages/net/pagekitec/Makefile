@@ -10,10 +10,11 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=pagekitec
 PKG_REV:=0.91.171102
 PKG_VERSION:=$(PKG_REV)C
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_LICENSE:=Apache-2.0
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+PKG_MIRROR_HASH:=9e04b979cff827974ec9e9708daf116867bf1268cdad7dff4ad585172123f6b5
 PKG_SOURCE_URL:=https://github.com/pagekite/libpagekite.git
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_REV)
@@ -91,7 +92,7 @@ endef
 
 define Package/libpagekite/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/libpagekite.so* $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libpagekite.so* $(1)/usr/lib
 endef
 
 define Package/pagekitec/install

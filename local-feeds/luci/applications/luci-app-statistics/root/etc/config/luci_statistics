@@ -66,6 +66,9 @@ config statistics 'collectd_cpu'
 config statistics 'collectd_cpufreq'
 	option enable '0'
 
+config statistics 'collectd_curl'
+	option enable '0'
+
 config statistics 'collectd_df'
 	option enable '0'
 	option Devices '/dev/mtdblock/4'
@@ -125,6 +128,8 @@ config statistics 'collectd_load'
 
 config statistics 'collectd_memory'
 	option enable '1'
+	option ValuesAbsolute '1'
+	option ValuesPercentage '0'
 
 config statistics 'collectd_netlink'
 	option enable '0'
@@ -134,7 +139,7 @@ config statistics 'collectd_netlink'
 
 config statistics 'collectd_nut'
 	option enable '0'
-	option UPS 'myupsname'
+	list UPS 'myupsname'
 
 config statistics 'collectd_olsrd'
 	option enable '0'

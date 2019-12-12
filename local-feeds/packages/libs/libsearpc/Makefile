@@ -8,17 +8,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libsearpc
-PKG_VERSION:=6.2.2
-PKG_RELEASE=$(PKG_SOURCE_VERSION)-1
-PKG_LICENSE:=GPL-3.0
+PKG_VERSION:=3.1.0
+PKG_RELEASE=2
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/haiwen/libsearpc.git
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=8998e7b2c5587f0b94c48db24e2952d08def5add
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
-PKG_MIRROR_HASH:=207baa1fc63a60c117cf4985b60a18212b151fa070f208621633c3b53ab679bf
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/haiwen/libsearpc/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=cbd86d3c37b54ca2060ca537a07940fe3e98498abf345b2f3e1cec488230231a
+PKG_MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>
+
+PKG_LICENSE:=GPL-3.0
+PKG_LICENSE_FILES:=LICENSE.txt
+
 PKG_FIXUP:=autoreconf
+PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
@@ -29,8 +31,7 @@ define Package/libsearpc
     SECTION:=libs
     CATEGORY:=Libraries
     TITLE:=Seafile RPC Library
-    MAINTAINER:=Gergely Kiss <mail.gery@gmail.com>
-    URL:=http://seafile.com/
+    URL:=https://seafile.com
     DEPENDS:=+glib2 +jansson +python $(ICONV_DEPENDS)
 endef
 

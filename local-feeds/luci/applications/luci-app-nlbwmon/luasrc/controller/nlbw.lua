@@ -59,7 +59,7 @@ function action_data()
 
 	local args = { }
 	local mtype = http.formvalue("type") or "json"
-	local delim = http.formvalue("delim") or ";"
+	local delim = http.formvalue("delim") or ","
 	local period = http.formvalue("period")
 	local group_by = http.formvalue("group_by")
 	local order_by = http.formvalue("order_by")
@@ -92,6 +92,7 @@ function action_data()
 	end
 
 	http.prepare_content(types[mtype])
+	http.header("Content-Disposition", "attachment; filename=\"data.%s\"" % mtype)
 	exec("/usr/sbin/nlbw", args, http.write)
 end
 

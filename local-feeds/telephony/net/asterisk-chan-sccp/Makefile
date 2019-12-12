@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2016 - 2018 OpenWrt.org
+# Copyright (C) 2016 OpenWrt.org
 # Copyright (C) 2016 Cesnet, z.s.p.o.
 #
 # This is free software, licensed under the GNU General Public License v2.
@@ -9,14 +9,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=chan-sccp
-PKG_VERSION:=v4.3.0-20180322
-PKG_RELEASE:=1
+PKG_VERSION:=v4.3.2-20190411
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://github.com/chan-sccp/chan-sccp.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=69fdf95837727c104f2394644bd21f83c2e4a4a3
-PKG_MIRROR_HASH:=fa755b5d8186b3baac99c93dc13e493b67c5054d114fcbef0ee93d18df5b6fcd
+PKG_SOURCE_VERSION:=da59f2f073502645b34b458392a1fb11465f48cc
+PKG_MIRROR_HASH:=a449c3384b92ff79b2db4d6b4e8dc7a3fb668f4c0f1a65baa198578b0b953ab8
 PKG_SOURCE_PROTO:=git
 
 PKG_FIXUP:=autoreconf
@@ -30,14 +30,8 @@ PKG_INSTALL:=1
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
-
-# musl and glibc include their own iconv, but uclibc does not
-ifneq ($(CONFIG_USE_UCLIBC),)
-TARGET_CPPFLAGS+= \
-	-I$(STAGING_DIR)/usr/lib/libiconv-full/include
-TARGET_LDFLAGS+= \
-	-L$(STAGING_DIR)/usr/lib/libiconv-full/lib -liconv
-endif
+# chan-sccp needs iconv
+include $(INCLUDE_DIR)/nls.mk
 
 define Package/chan-sccp/Default
   SUBMENU:=Telephony
@@ -45,22 +39,20 @@ define Package/chan-sccp/Default
   CATEGORY:=Network
   TITLE:=SCCP channel support
   URL:=https://github.com/chan-sccp/chan-sccp
-  DEPENDS:=+USE_UCLIBC:libiconv-full +libltdl
-  PKG_BUILD_DEPENDS:=libiconv
+  DEPENDS:=$(ICONV_DEPENDS) +libltdl
 endef
 
-define Package/asterisk13-chan-sccp
+define Package/asterisk16-chan-sccp
 $(call Package/chan-sccp/Default)
-  DEPENDS+=asterisk13
-  VARIANT:=asterisk13
-  CONFLICTS:=asterisk13-chan-skinny
-endef
-
-define Package/asterisk15-chan-sccp
-$(call Package/chan-sccp/Default)
-  DEPENDS+=asterisk15
-  VARIANT:=asterisk15
-  CONFLICTS:=asterisk15-chan-skinny
+  DEPENDS += asterisk16 \
+	  +asterisk16-bridge-holding \
+	  +asterisk16-bridge-native-rtp \
+	  +asterisk16-bridge-simple \
+	  +asterisk16-bridge-softmix \
+	  +asterisk16-res-stasis-device-state \
+	  +asterisk16-voicemail
+  VARIANT:=asterisk16
+  CONFLICTS:=asterisk16-chan-skinny
 endef
 
 define Package/description/Default
@@ -69,8 +61,7 @@ Extended features include shared lines, presence / BLF, customizable
 feature buttons and custom device state.
 endef
 
-Package/asterisk13-chan-sccp/description = $(Package/description/Default)
-Package/asterisk15-chan-sccp/description = $(Package/description/Default)
+Package/asterisk16-chan-sccp/description = $(Package/description/Default)
 
 CONFIGURE_ARGS += \
 	--disable-debug \
@@ -78,20 +69,15 @@ CONFIGURE_ARGS += \
 	--enable-conference \
 	--enable-video
 
-ifeq ($(BUILD_VARIANT),asterisk13)
-  CONFIGURE_ARGS += --with-asterisk=$(STAGING_DIR)/usr/include/asterisk-13
-endif
-
-ifeq ($(BUILD_VARIANT),asterisk15)
-  CONFIGURE_ARGS += --with-asterisk=$(STAGING_DIR)/usr/include/asterisk-15
+ifeq ($(BUILD_VARIANT),asterisk16)
+  CONFIGURE_ARGS += --with-asterisk=$(STAGING_DIR)/usr/include/asterisk-16
 endif
 
 define Package/conffiles/Default
 /etc/asterisk/sccp.conf
 endef
 
-Package/asterisk13-chan-sccp/conffiles = $(Package/conffiles/Default)
-Package/asterisk15-chan-sccp/conffiles = $(Package/conffiles/Default)
+Package/asterisk16-chan-sccp/conffiles = $(Package/conffiles/Default)
 
 define Package/Install/Default
 	$(INSTALL_DIR) $(1)/etc/asterisk
@@ -100,8 +86,6 @@ define Package/Install/Default
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_sccp.so $(1)/usr/lib/asterisk/modules/
 endef
 
-Package/asterisk13-chan-sccp/install = $(Package/Install/Default)
-Package/asterisk15-chan-sccp/install = $(Package/Install/Default)
+Package/asterisk16-chan-sccp/install = $(Package/Install/Default)
 
-$(eval $(call BuildPackage,asterisk13-chan-sccp))
-$(eval $(call BuildPackage,asterisk15-chan-sccp))
+$(eval $(call BuildPackage,asterisk16-chan-sccp))
