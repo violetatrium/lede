@@ -39,7 +39,8 @@ glinet,gl-b1300)
 		"0u@eth0" "3:lan" "4:lan"
 	;;
 glinet,gl-b1300-bridge)
-	ucidef_set_interface_lan "eth0 eth1" "dhcp"
+        ucidef_set_interface_lan "eth0" "none"
+        ucidef_set_interface_wan "eth1" "none"
 	;;
 openmesh,a42 |\
 openmesh,a62)
