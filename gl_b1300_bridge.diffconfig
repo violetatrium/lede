@@ -12,3 +12,5 @@ CONFIG_PACKAGE_lldpd=y
 # CONFIG_PACKAGE_kmod-br-netfilter=y
 # CONFIG_DEFAULT_dnsmasq is not set
 # CONFIG_PACKAGE_dnsmasq is not set
+CONFIG_PACKAGE_ebtables=y
+CONFIG_PACKAGE_kmod-ebtables-ipv4=y
