@@ -27,8 +27,17 @@ export MINIM_DEFAULT_TARGET=archer_c7_v2
 The "archer_c7_v2" is the name of the hardware in the Minim system.
 
 
+Maintaining the Repository
+==========================
+
+The instructions below are for Minim engineers who have the necessary access
+to Minim cloud. The 3rd party integrators can use it as a reference.
+The officail support for 3rd party integrations is TBD. If you have
+interest please contact Minim for details.
+
+
 Adding hardware support
-=======================
+-----------------------
 
 1. Find the official release for the target hardware. Start here:
    https://downloads.lede-project.org/releases/19.07.3/targets/
@@ -58,7 +67,7 @@ Adding hardware support
 
 7. Use "git add" to add the new packages and/or feeds that were
    downloaded for the new hardware type to the cache and commit
-   all the canges for the new hardware in a single commit.
+   all the changes for the new hardware in a single commit.
 
 8. Go to the unum-v2 repository and make any changes required to make
    the Minim agent function properly for the new hardware type.
@@ -71,10 +80,10 @@ Adding hardware support
      ./files/lede_generic/features-gl_b1300.txt (for GlInet B1300)
    In case this README.txt is not kept up-to-date you might be able to find
    places where hardware kind specific changes are needed by grepping through
-   the code looking for hardware kind strings.
+   the code looking for existing hardware kind strings.
 
 9. Add the hardware kind to the cloud server and make code changes
-   in retroelk to treat the hardware kind config as UCI. There are
+   in Minim cloud to treat the hardware kind config as UCI. There are
    more details on adding hardware kind to the cloud in README file
    in unum-v2 repository.
 
@@ -87,7 +96,7 @@ Adding hardware support
 
 
 Upgrading to a new release
-==========================
+--------------------------
 
 1. Merge changes from the LEDE release branch tag.
 
