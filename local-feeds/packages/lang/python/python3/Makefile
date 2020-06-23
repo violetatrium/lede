@@ -14,12 +14,12 @@ PYTHON_VERSION:=$(PYTHON3_VERSION)
 PYTHON_VERSION_MICRO:=$(PYTHON3_VERSION_MICRO)
 
 PKG_NAME:=python3
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_VERSION:=$(PYTHON_VERSION).$(PYTHON_VERSION_MICRO)
 
 PKG_SOURCE:=Python-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://www.python.org/ftp/python/$(PKG_VERSION)
-PKG_HASH:=e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94
+PKG_HASH:=06a0a9f1bf0d8cd1e4121194d666c4e28ddae4dd54346de6c343206599f02136
 
 PKG_MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>, Jeffery To <jeffery.to@gmail.com>
 PKG_LICENSE:=Python/2.0
@@ -41,6 +41,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/Python-$(PKG_VERSION)
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/Python-$(PKG_VERSION)
 
 PKG_CONFIG_DEPENDS:= \
+	CONFIG_PACKAGE_python3-pkg-resources \
 	CONFIG_PACKAGE_python3-setuptools CONFIG_PACKAGE_python3-pip \
 	CONFIG_PYTHON3_BLUETOOTH_SUPPORT
 
@@ -126,6 +127,9 @@ define Package/python3/description
   It's python3-light + all other packages.
 endef
 
+TARGET_CONFIGURE_OPTS+= \
+	READELF="$(TARGET_CROSS)readelf"
+
 MAKE_FLAGS+=\
 	CROSS_COMPILE=yes \
 	LD="$(TARGET_CC)" \
@@ -172,6 +176,14 @@ define Build/Prepare
 endef
 
 ifdef CONFIG_PACKAGE_python3-setuptools
+PYTHON3_SETUPTOOLS_BUILD:=1
+endif
+
+ifdef CONFIG_PACKAGE_python3-pkg-resources
+PYTHON3_SETUPTOOLS_BUILD:=1
+endif
+
+ifeq ($(PYTHON3_SETUPTOOLS_BUILD),1)
 define Build/Compile/python3-setuptools
 	$(HOST_PYTHON3_PIP) \
 		--disable-pip-version-check \
@@ -275,6 +287,9 @@ define Py3Package/python3-base/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(LN) python$(PYTHON_VERSION) $(1)/usr/bin/python3
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libpython$(PYTHON_VERSION).so* $(1)/usr/lib/
+  # This depends on being called before filespec is processed
+	$(SED) 's|$(TARGET_AR)|ar|g;s|$(TARGET_CROSS)readelf|readelf|g;s|$(TARGET_CC)|gcc|g;s|$(TARGET_CXX)|g++|g' \
+		$(PKG_INSTALL_DIR)/usr/lib/python$(PYTHON3_VERSION)/_sysconfigdata.py
 endef
 
 Py3Package/python3-light/install:=:

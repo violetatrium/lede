@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-24 13:54+0000\n"
-"Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
+"PO-Revision-Date: 2020-04-08 23:38+0000\n"
+"Last-Translator: Florian L. <florian.ligneul@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsradicale/fr/>\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:268
 msgid ""
@@ -51,7 +51,7 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:80
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:341
 msgid "Authentication"
-msgstr ""
+msgstr "Authentification"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:87
 msgid ""
@@ -73,7 +73,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:190
 msgid "Boot delay"
-msgstr ""
+msgstr "Délai de démarrage"
 
 #: applications/luci-app-radicale/luasrc/controller/radicale.lua:23
 msgid "CalDAV/CardDAV"
@@ -95,10 +95,6 @@ msgid ""
 "to the client and/or to store data inside collections."
 msgstr ""
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:334
-msgid "Ciphers"
-msgstr ""
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:544
 msgid "Console Log level"
 msgstr ""
@@ -111,21 +107,13 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:574
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:596
 msgid "Critical"
-msgstr ""
+msgstr "Critique"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:707
 msgid ""
 "Cross-origin resource sharing (CORS) is a mechanism that allows restricted "
 "resources (e.g. fonts, JavaScript, etc.) on a web page to be requested from "
 "another domain outside the domain from which the resource originated."
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:491
-msgid "Custom"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:490
-msgid "Database"
 msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:548
@@ -140,7 +128,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:508
 msgid "Directory"
-msgstr ""
+msgstr "Répertoire"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:524
 msgid "Directory not exists/found !"
@@ -264,7 +252,7 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:533
 msgid "Logging"
-msgstr ""
+msgstr "Journalisation"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:235
 msgid "Logon message"
@@ -288,10 +276,6 @@ msgstr "Aucun"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:654
 msgid "Number of backup files of log to create."
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:335
-msgid "OPTIONAL: See python's ssl module for available ciphers"
 msgstr ""
 
 #: applications/luci-app-radicale/luasrc/view/radicale/tabmap_nsections.htm:50
@@ -520,10 +504,6 @@ msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:390
 msgid "crypt"
-msgstr ""
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:364
-msgid "custom"
 msgstr ""
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:357

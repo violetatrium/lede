@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-25 22:10+0100\n"
-"PO-Revision-Date: 2019-11-04 01:51+0000\n"
+"PO-Revision-Date: 2020-05-03 18:57+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsqos/pt/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: applications/luci-app-qos/luasrc/model/cbi/qos/qos.lua:23
 msgid "Calculate overhead"
@@ -46,7 +46,7 @@ msgstr "Ativar"
 
 #: applications/luci-app-qos/luasrc/model/cbi/qos/qos.lua:25
 msgid "Half-duplex"
-msgstr "Half-duplex"
+msgstr "Halbduplex"
 
 #: applications/luci-app-qos/luasrc/model/cbi/qos/qos.lua:12
 msgid "Interfaces"
@@ -78,7 +78,7 @@ msgstr "Host de origem"
 
 #: applications/luci-app-qos/luasrc/model/cbi/qos/qos.lua:39
 msgid "Target"
-msgstr "Host de destino"
+msgstr "Destino"
 
 #: applications/luci-app-qos/luasrc/model/cbi/qos/qos.lua:30
 msgid "Upload speed (kbit/s)"
@@ -101,7 +101,7 @@ msgstr "todos"
 
 #: applications/luci-app-qos/luasrc/model/cbi/qos/qos.lua:20
 msgid "default"
-msgstr "predefinido"
+msgstr "padrão"
 
 #: applications/luci-app-qos/luasrc/model/cbi/qos/qos.lua:41
 msgid "express"
@@ -118,33 +118,3 @@ msgstr "normal"
 #: applications/luci-app-qos/luasrc/model/cbi/qos/qos.lua:40
 msgid "priority"
 msgstr "prioridade"
-
-#~ msgid "Service"
-#~ msgstr "Serviço"
-
-#~ msgid "Downlink"
-#~ msgstr "Link para download"
-
-#~ msgid "Internet Connection"
-#~ msgstr "Ligação à Internet"
-
-#~ msgid "Uplink"
-#~ msgstr "Link para upload"
-
-#~ msgid "qos_connbytes"
-#~ msgstr "qos_connbytes"
-
-#~ msgid "Prioritization"
-#~ msgstr "Priorização"
-
-#~ msgid "source network / source host"
-#~ msgstr "rede de origem / host de origem"
-
-#~ msgid "target network / target host"
-#~ msgstr "rede de destino / host de destino"
-
-#~ msgid "portrange"
-#~ msgstr "faixa de portas"
-
-#~ msgid "Bytes sent"
-#~ msgstr "Bytes enviados"

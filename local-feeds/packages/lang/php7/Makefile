@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=php
-PKG_VERSION:=7.2.25
+PKG_VERSION:=7.2.31
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Michael Heimpold <mhei@heimpold.de>
@@ -17,7 +17,7 @@ PKG_CPE_ID:=cpe:/a:php:php
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=http://www.php.net/distributions/
-PKG_HASH:=746efeedc38e6ff7b1ec1432440f5fa801537adf6cd21e4afb3f040e5b0760a9
+PKG_HASH:=8beaa634bb878a96af9bc8643811ea46973f5f41ad2bfb6ab4cfd290e5a39806
 
 PKG_FIXUP:=libtool autoreconf
 PKG_BUILD_PARALLEL:=1
@@ -638,7 +638,7 @@ $(eval $(call BuildModule,json,JSON))
 $(eval $(call BuildModule,ldap,LDAP,+PACKAGE_php7-mod-ldap:libopenldap +PACKAGE_php7-mod-ldap:libsasl2))
 $(eval $(call BuildModule,mbstring,MBString))
 $(eval $(call BuildModule,mysqli,MySQL Improved Extension,+PACKAGE_php7-mod-mysqli:php7-mod-mysqlnd,30))
-$(eval $(call BuildModule,mysqlnd,MySQL Native Driver,+php7-mod-hash))
+$(eval $(call BuildModule,mysqlnd,MySQL Native Driver,+php7-mod-hash +PACKAGE_php7-mod-openssl:php7-mod-openssl))
 $(eval $(call BuildModule,opcache,OPcache,,,zend))
 $(eval $(call BuildModule,openssl,OpenSSL,+PACKAGE_php7-mod-openssl:libopenssl,15))
 $(eval $(call BuildModule,pcntl,PCNTL))

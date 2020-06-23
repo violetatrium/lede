@@ -20,7 +20,7 @@
 	"luci-access": {
 		"description": "Grant access to basic LuCI procedures",
 		"read": {
-			"cgi-io": [ "backup", "download" ],
+			"cgi-io": [ "backup", "download", "exec" ],
 			"file": {
 				"/": [ "list" ],
 				"/*": [ "list" ],
@@ -38,7 +38,26 @@
 				"/proc/sys/kernel/hostname": [ "read" ],
 				"/proc/sys/net/netfilter/nf_conntrack_*": [ "read" ],
 				"/proc/mounts": [ "read" ],
-				"/usr/lib/lua/luci/version.lua": [ "read" ]
+				"/usr/lib/lua/luci/version.lua": [ "read" ],
+				"/bin/dmesg -r": [ "exec" ],
+				"/bin/ping *": [ "exec" ],
+				"/bin/ping6 *": [ "exec" ],
+				"/bin/traceroute *": [ "exec" ],
+				"/bin/traceroute6 *": [ "exec" ],
+				"/sbin/ip -4 neigh show": [ "exec" ],
+				"/sbin/ip -4 route show table all": [ "exec" ],
+				"/sbin/ip -6 neigh show": [ "exec" ],
+				"/sbin/ip -6 route show table all": [ "exec" ],
+				"/sbin/logread -e ^": [ "exec" ],
+				"/usr/sbin/logread -e ^": [ "exec" ],
+				"/usr/bin/ping *": [ "exec" ],
+				"/usr/bin/ping6 *": [ "exec" ],
+				"/usr/bin/traceroute *": [ "exec" ],
+				"/usr/bin/traceroute6 *": [ "exec" ],
+				"/usr/bin/nslookup *": [ "exec" ],
+				"/usr/libexec/luci-peeraddr": [ "exec" ],
+				"/usr/sbin/iptables --line-numbers -w -nvxL -t *": [ "exec" ],
+				"/usr/sbin/ip6tables --line-numbers -w -nvxL -t *": [ "exec" ]
 			},
 			"ubus": {
 				"file": [ "list", "read", "stat" ],
@@ -58,6 +77,7 @@
 			"file": {
 				"/etc/crontabs/root": [ "write" ],
 				"/etc/dropbear/authorized_keys": [ "write" ],
+				"/etc/init.d/firewall restart": [ "exec" ],
 				"/etc/luci-uploads/*": [ "write" ],
 				"/etc/rc.local": [ "write" ],
 				"/etc/sysupgrade.conf": [ "write" ],
@@ -73,7 +93,9 @@
 				"/bin/umount": [ "exec" ],
 				"/tmp/backup.tar.gz": [ "write" ],
 				"/tmp/firmware.bin": [ "write" ],
-				"/tmp/upload.ipk": [ "write" ]
+				"/tmp/upload.ipk": [ "write" ],
+				"/usr/sbin/iptables -Z": [ "exec" ],
+				"/usr/sbin/ip6tables -Z": [ "exec" ]
 			},
 			"ubus": {
 				"file": [ "write", "remove", "exec" ],

@@ -1,28 +1,37 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2020-01-15 10:47+0000\n"
+"Last-Translator: olimpiumarius <oliver_magnum44@yahoo.com>\n"
+"Language-Team: Romanian <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsbanip/ro/>\n"
 "Language: ro\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:89
 msgid "ASN Overview"
-msgstr ""
+msgstr "ASN Prezentare generală"
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:90
 msgid "ASN Prefixes"
-msgstr ""
+msgstr "ASN Prefixe"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:74
 msgid "ASN/Country"
-msgstr ""
+msgstr "ASN / Țară"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:139
 msgid "Additional trigger delay in seconds before banIP processing begins."
 msgstr ""
+"Întârziere suplimentară declanșare in secunde înainte de începerea "
+"procesării banIP."
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:21
 msgid "Advanced"
-msgstr ""
+msgstr "Avansat"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:24
 msgid "Automatic WAN Interface Detection"
@@ -31,7 +40,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:94
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:138
 msgid "Backup Directory"
-msgstr ""
+msgstr "Director copie de siguranţă"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:115
 msgid ""
@@ -39,6 +48,8 @@ msgid ""
 "permanently in the local blacklist. Disable this option to prevent the local "
 "save."
 msgstr ""
+"Lista Neagră este stocata temporar în IPSet și salvata permanent în lista "
+"neagră locală. Dezactivați această opțiune pentru a preveni salvarea locală."
 
 #: applications/luci-app-banip/luasrc/view/banip/ipsetview.htm:45
 msgid "Check the current available IPSets."
@@ -67,7 +78,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:72
 msgid "Description"
-msgstr ""
+msgstr "Descriere"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:134
 msgid "Download Options"
@@ -75,7 +86,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:126
 msgid "Download Utility"
-msgstr ""
+msgstr "Utilitar descărcare"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:126
 msgid "Download Utility, RT Monitor"
@@ -83,15 +94,15 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:22
 msgid "Edit Blacklist"
-msgstr ""
+msgstr "Editare listă neagră"
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:24
 msgid "Edit Configuration"
-msgstr ""
+msgstr "Editare configuraţie"
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:23
 msgid "Edit Whitelist"
-msgstr ""
+msgstr "Editare listă albă"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:20
 msgid "Enable banIP"
@@ -107,7 +118,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:80
 msgid "Extra Options"
-msgstr ""
+msgstr "Opțiuni suplimentare"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:12
 msgid ""
@@ -149,7 +160,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/configuration_tab.lua:9
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:10
 msgid "Input file not found, please check your configuration."
-msgstr ""
+msgstr "Fișierul de intrare nu a fost găsit, vă rugăm verificaţi configuraţia."
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:166
 msgid "LAN Forward Chain IPv4"
@@ -169,16 +180,16 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:144
 msgid "Last Run"
-msgstr ""
+msgstr "Ultima rulare"
 
 #: applications/luci-app-banip/luasrc/view/banip/ipsetview.htm:59
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:97
 msgid "Load"
-msgstr ""
+msgstr "Incărcare"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:81
 msgid "Loading"
-msgstr ""
+msgstr "Încărcare"
 
 #: applications/luci-app-banip/luasrc/view/banip/ipsetview.htm:27
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:58
@@ -217,7 +228,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:17
 msgid "Overview"
-msgstr ""
+msgstr "Prezentare generală"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/blacklist_tab.lua:32
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:32
@@ -230,7 +241,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/configuration_tab.lua:18
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:19
 msgid "Please edit this file directly in a terminal session."
-msgstr ""
+msgstr "Vă rugăm editaţi acest fişier intr-o sesiune de terminal."
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:19
 msgid "RIPE-Lookup"
@@ -239,7 +250,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:18
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:153
 msgid "Refresh"
-msgstr ""
+msgstr "Reîmprospătare"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:151
 msgid "Refresh IPSets"
@@ -282,7 +293,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/configuration_tab.lua:26
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:27
 msgid "Save"
-msgstr ""
+msgstr "Salvează"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:108
 msgid "Select the SSH daemon for logfile parsing, to detect break-in events."
@@ -420,7 +431,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:138
 msgid "Trigger Delay"
-msgstr ""
+msgstr "Intârzierea declanșării"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:83
 msgid "Verbose Debug Logging"
@@ -428,7 +439,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:20
 msgid "View Logfile"
-msgstr ""
+msgstr "Vezi fișierul log"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:156
 msgid "WAN Forward Chain IPv4"

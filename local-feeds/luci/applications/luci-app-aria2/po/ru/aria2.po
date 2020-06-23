@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: LuCI: aria2\n"
 "POT-Creation-Date: 2017-11-30 23:45+0300\n"
-"PO-Revision-Date: 2018-01-31 18:33+0300\n"
-"Language-Team: http://cyber-place.ru\n"
-"MIME-Version: 1.0\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
-"Last-Translator: Vladimir aka sunny <picfun@ya.ru>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"PO-Revision-Date: 2020-04-19 00:53+0000\n"
+"Last-Translator: sergio <sergio+it@outerface.net>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsaria2/ru/>\n"
 "Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 "Project-Info: Это технический перевод, не дословный. Главное-удобный русский "
 "интерфейс, все проверялось в графическом режиме, совместим с другими apps\n"
 
@@ -93,7 +94,7 @@ msgstr "Папка расположения<br />сonfig файла"
 
 #: applications/luci-app-aria2/luasrc/controller/aria2.lua:21
 msgid "Configuration"
-msgstr ""
+msgstr "Конфигурация"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:230
 msgid "Connect timeout"
@@ -135,7 +136,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:69
 msgid "Download directory"
-msgstr ""
+msgstr "Папка для загрузки"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/files.lua:26
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/files.lua:36
@@ -164,7 +165,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:77
 msgid "Enable logging"
-msgstr ""
+msgstr "Включить ведение системного журнала"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:305
 msgid "Enable peer exchange"
@@ -308,11 +309,11 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/view/aria2/log_template.htm:48
 msgid "Loading"
-msgstr ""
+msgstr "Загрузка"
 
 #: applications/luci-app-aria2/luasrc/controller/aria2.lua:27
 msgid "Log"
-msgstr ""
+msgstr "Системный журнал"
 
 #: applications/luci-app-aria2/luasrc/view/aria2/log_template.htm:45
 msgid "Log Data"
@@ -320,7 +321,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:80
 msgid "Log file"
-msgstr ""
+msgstr "Файл журнала приложения"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:85
 msgid "Log level"
@@ -385,7 +386,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:454
 msgid "None"
-msgstr ""
+msgstr "Ничего"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:89
 msgid "Notice"
@@ -417,7 +418,7 @@ msgstr "Префикс ID пира"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:203
 msgid "Private key"
-msgstr ""
+msgstr "Приватный ключ"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:177
 msgid "Proxy password"
@@ -494,7 +495,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:61
 msgid "Run daemon as user"
-msgstr "Запуск демона<br />от имени пользователя"
+msgstr "Запуск демона с правами пользователя"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:315
 msgid "Sava metadata"
@@ -609,7 +610,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:35
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:483
 msgid "Settings in this section will be added to config file."
@@ -709,7 +710,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:236
 msgid "Timeout"
-msgstr ""
+msgstr "Тайм-аут"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:117
 msgid "Token"
@@ -801,117 +802,3 @@ msgstr ""
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:456
 msgid "trunc"
 msgstr ""
-
-#~ msgid "\"Falloc\" is not available in all cases."
-#~ msgstr "'Falloc' возможен не всегда."
-
-#~ msgid "<abbr title=\"Distributed Hash Table\">DHT</abbr> enabled"
-#~ msgstr "<abbr title=\"Распределенная Hash таблица\">DHT</abbr> включена"
-
-#~ msgid "Additional Bt tracker enabled"
-#~ msgstr "Дополнительный<br />Bt tracker включен"
-
-#~ msgid "Aria2 Settings"
-#~ msgstr "Настройка Aria2"
-
-#~ msgid "Aria2 Status"
-#~ msgstr "Состояние Aria2"
-
-#~ msgid ""
-#~ "Aria2 is a multi-protocol &amp; multi-source download utility, here you "
-#~ "can configure the settings."
-#~ msgstr ""
-#~ "Aria2 - это мульти-протокольная и мульти-платформенная утилита загрузки, "
-#~ "здесь вы сможете ее настроить."
-
-#~ msgid "Autosave session interval"
-#~ msgstr "Интервал сессии автосохранения"
-
-#~ msgid "BitTorrent Settings"
-#~ msgstr "Настройки BitTorrent-а"
-
-#~ msgid "Default download directory"
-#~ msgstr "Папка для загрузки<br />файлов по умолчанию"
-
-#~ msgid "Enable log"
-#~ msgstr "Включить ведение системного журнала"
-
-#~ msgid "Falloc"
-#~ msgstr "Falloc"
-
-#~ msgid "Files and Locations"
-#~ msgstr "Файлы и папки"
-
-#~ msgid "General Settings"
-#~ msgstr "Основные настройки"
-
-#~ msgid "List of additional Bt tracker"
-#~ msgstr "Список дополнительных BT tracker-ов"
-
-#~ msgid "List of extra settings"
-#~ msgstr "Список дополнительных настроек"
-
-#~ msgid "Max number of peers per torrent"
-#~ msgstr "Максимальное число<br />пиров на торрент-файл"
-
-#~ msgid "Off"
-#~ msgstr "Выключено"
-
-#~ msgid "Open WebUI-Aria2"
-#~ msgstr "Открыть WebUI-Aria2"
-
-#~ msgid "Open YAAW"
-#~ msgstr "Открыть YAAW"
-
-#~ msgid "Overall download limit"
-#~ msgstr "Общее ограничение<br />скорости загрузки"
-
-#~ msgid "Overall speed limit enabled"
-#~ msgstr "Общее ограничение скорости<br /> для утилиты включено"
-
-#~ msgid "Overall upload limit"
-#~ msgstr "Общее ограничение<br />скорости раздачи"
-
-#~ msgid "Per task download limit"
-#~ msgstr "Ограничить скорость загрузки"
-
-#~ msgid "Per task speed limit enabled"
-#~ msgstr "Ограничить скорость для одной задачи включено"
-
-#~ msgid "Per task upload limit"
-#~ msgstr "Ограничить скорость раздачи"
-
-#~ msgid "Prealloc"
-#~ msgstr "Предварительно"
-
-#~ msgid "Preallocation"
-#~ msgstr "Предварительное<br />распределение<br />места под файл"
-
-#~ msgid "RPC Token"
-#~ msgstr "Токен для доступа к удаленному управлению (RPC)"
-
-#~ msgid "Sec"
-#~ msgstr "Секунды"
-
-#~ msgid "Task Settings"
-#~ msgstr "Настройки задач"
-
-#~ msgid "Trunc"
-#~ msgstr "Сокращать"
-
-#~ msgid "User agent value"
-#~ msgstr "Агент пользователя"
-
-#~ msgid "View Json-RPC URL"
-#~ msgstr "Показать URL Json-RPC"
-
-#~ msgid "in bytes, You can append K or M."
-#~ msgstr ""
-#~ "Дисковый кэш в байтах. Вы можете добавить суффикс K (кило) или М (мега)."
-
-#~ msgid "in bytes/sec, You can append K or M."
-#~ msgstr ""
-#~ "в байтах/секундах. Вы можете добавить суффикс K (кило) или М (мега)."
-
-#~ msgid "Log file is in the config file dir."
-#~ msgstr "Файл системного журнала находится в папке с config файлом."

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2019-10-17 00:46+0000\n"
-"Last-Translator: Paul Spooren <mail@aparcar.org>\n"
+"PO-Revision-Date: 2020-04-30 05:51+0000\n"
+"Last-Translator: Sandro Stross <sandro.stross@gmx.at>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsnut/de/>\n"
 "Language: de\n"
@@ -10,53 +10,55 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9\n"
+"X-Generator: Weblate 4.0.2\n"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:216
 msgid "Additional Shutdown Time(s)"
-msgstr ""
+msgstr "Zusätzliche Abschaltzeit(en)"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:37
 msgid "Addresses on which to listen"
-msgstr ""
+msgstr "Adressen, auf die Sie lauschen möchten"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:23
 msgid "Allowed actions"
-msgstr ""
+msgstr "Erlaubte Aktionen"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_cgi.lua:20
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:188
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:217
 msgid "As configured by NUT"
-msgstr ""
+msgstr "Wie von NUT konfiguriert"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:150
 msgid "Bytes to read from interrupt pipe"
-msgstr ""
+msgstr "Bytes zum Lesen aus der Interrupt-Pipe"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:174
 msgid "CA Certificate path"
-msgstr ""
+msgstr "CA Zertifikatspfad"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:73
 msgid "Certificate file (SSL)"
-msgstr ""
+msgstr "Zertifikatsdatei (SSL)"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:63
 msgid "Communications lost message"
 msgstr ""
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:60
+#, fuzzy
 msgid "Communications restored message"
-msgstr ""
+msgstr "Wiederhergestellte Nachricht"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_cgi.lua:35
 msgid "Control UPS via CGI"
-msgstr ""
+msgstr "Steuerung der USV über CGI"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:43
+#, fuzzy
 msgid "Deadtime"
-msgstr ""
+msgstr "Totzeit"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:87
 msgid "Default for UPSes without this field."
@@ -72,7 +74,7 @@ msgstr ""
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:129
 msgid "Description (Display)"
-msgstr ""
+msgstr "Beschreibung (Anzeige)"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_cgi.lua:32
 msgid "Display name"
@@ -84,19 +86,19 @@ msgstr ""
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:132
 msgid "Driver"
-msgstr ""
+msgstr "Treiber"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:114
 msgid "Driver Configuration"
-msgstr ""
+msgstr "Treiberkonfiguration"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:77
 msgid "Driver Global Settings"
-msgstr ""
+msgstr "Globale Treibereinstellungen"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:83
 msgid "Driver Path"
-msgstr ""
+msgstr "Treiberpfad"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:212
 msgid "Driver Shutdown Order"
@@ -132,15 +134,15 @@ msgstr ""
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:158
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:166
 msgid "Execute notify command"
-msgstr ""
+msgstr "Benachrichtigungsbefehl ausführen"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:26
 msgid "Forced Shutdown"
-msgstr ""
+msgstr "Erzwungenes Herunterfahren"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:57
 msgid "Forced shutdown message"
-msgstr ""
+msgstr "Meldung zum erzwungenen Herunterfahren"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:10
 msgid "Global Settings"
@@ -148,7 +150,7 @@ msgstr "Globale Einstellungen"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_cgi.lua:13
 msgid "Go to NUT CGI"
-msgstr ""
+msgstr "Zum NUT CGI gehen"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_cgi.lua:16
 msgid "Host"
@@ -156,7 +158,7 @@ msgstr "Host"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_cgi.lua:23
 msgid "Hostname or IP address"
-msgstr ""
+msgstr "Hostname oder IP-Adresse"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:191
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:220
@@ -169,7 +171,7 @@ msgstr ""
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:41
 msgid "IP Address"
-msgstr ""
+msgstr "IP-Adresse"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:95
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:104
@@ -182,7 +184,7 @@ msgstr ""
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:160
 #: applications/luci-app-nut/luasrc/model/cbi/nut_monitor.lua:168
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorieren"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:142
 msgid "Ignore Low Battery"
@@ -434,11 +436,11 @@ msgstr ""
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:96
 msgid "Retry Delay"
-msgstr ""
+msgstr "Verzögerung bei Wiederholungsversuchen"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:32
 msgid "Role"
-msgstr ""
+msgstr "Rolle"
 
 #: applications/luci-app-nut/luasrc/model/cbi/nut_server.lua:80
 msgid "Run drivers in a chroot(2) environment"

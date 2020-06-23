@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-19 19:36+0200\n"
-"PO-Revision-Date: 2012-04-09 08:12+0200\n"
-"Last-Translator: Kentaro <kentaro.matsuyama@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2020-02-19 20:00+0000\n"
+"Last-Translator: INAGAKI Hiroshi <musashino.open@gmail.com>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsopenvpn/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.0.4\n"
+"X-Generator: Weblate 3.11\n"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:821
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:824
@@ -147,10 +148,6 @@ msgstr ""
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:514
 msgid "Connection retry interval"
 msgstr "再接続間隔"
-
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:47
-msgid "Daemonize after initialization"
-msgstr "初期化後にデーモン化する"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:232
 msgid "Delay n seconds after connection"
@@ -300,10 +297,6 @@ msgstr ""
 msgid "Exit on TLS negotiation failure"
 msgstr ""
 
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:753
-msgid "Get PEM password from controlling tty before we daemonize"
-msgstr ""
-
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:572
 msgid "HMAC authentication for packets"
 msgstr ""
@@ -397,7 +390,7 @@ msgstr ""
 #: applications/luci-app-openvpn/luasrc/controller/openvpn.lua:8
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn.lua:10
 msgid "OpenVPN"
-msgstr "OpenVPN"
+msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn.lua:11
 msgid "OpenVPN instances"
@@ -405,10 +398,6 @@ msgstr "OpenVPN 設定"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:83
 msgid "Optimize TUN/TAP/UDP writes"
-msgstr ""
-
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:51
-msgid "Output to syslog and do not daemonize"
 msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/view/openvpn/pageswitch.htm:11
@@ -545,10 +534,6 @@ msgstr ""
 msgid "Route subnet to client"
 msgstr ""
 
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:59
-msgid "Run as an inetd or xinetd server"
-msgstr ""
-
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:144
 msgid "Run script cmd on client connection"
 msgstr ""
@@ -582,17 +567,9 @@ msgstr ""
 msgid "Send notification to peer on disconnect"
 msgstr ""
 
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:35
-msgid "Set GID to group"
-msgstr ""
-
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:265
 msgid "Set TCP/UDP MTU"
 msgstr "TCP/UDP のMTUを設定"
-
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:31
-msgid "Set UID to user"
-msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:396
 msgid "Set aside a pool of subnets"
@@ -803,10 +780,6 @@ msgstr ""
 msgid "Write log to file"
 msgstr ""
 
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:75
-msgid "Write process ID to file"
-msgstr ""
-
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:95
 msgid "Write status to file every n seconds"
 msgstr ""
@@ -827,21 +800,3 @@ msgstr ""
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn.lua:111
 msgid "yes (%i)"
 msgstr "はい (%i)"
-
-#~ msgid "Invalid"
-#~ msgstr "無効"
-
-#~ msgid "Make tun device IPv6 capable"
-#~ msgstr "tun デバイスでIPv6機能を有効にする"
-
-#~ msgid "Cryptography"
-#~ msgstr "暗号設定"
-
-#~ msgid "Networking"
-#~ msgstr "ネットワーク"
-
-#~ msgid "Service"
-#~ msgstr "サービス"
-
-#~ msgid "VPN"
-#~ msgstr "VPN"

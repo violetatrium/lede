@@ -1,38 +1,38 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-05 01:57+0000\n"
-"Last-Translator: Paul Spooren <mail@aparcar.org>\n"
+"PO-Revision-Date: 2020-04-01 19:11+0000\n"
+"Last-Translator: CE4 <chregger@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsunbound/de/>\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:96
 msgid "(root)"
-msgstr ""
+msgstr "(root)"
 
-#: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:201
+#: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:202
 msgid ", and <var>%s</var> entries"
-msgstr ""
+msgstr ", und <var>%s</var> Einträge"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:172
 msgid ", and try <var>%s</var>"
-msgstr ""
+msgstr ", und versuche <var>%s</var>"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:78
 msgid "AXFR"
-msgstr ""
+msgstr "AXFR"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:67
 msgid "Accept queries only from local subnets"
-msgstr ""
+msgstr "Nur Abfragen von lokalen Subnetzen akzeptieren"
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:214
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:215
 msgid "Adblock domain list is too large to display in LuCI."
-msgstr ""
+msgstr "Die Adblock-Domain-Liste ist zu groß, um in LuCI angezeigt zu werden."
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:46
 msgid "Advanced"
@@ -40,15 +40,16 @@ msgstr "Fortgeschritten"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:245
 msgid "Aggressive"
-msgstr ""
+msgstr "Aggressiv"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zone-details.lua:34
 msgid "Allow open recursion when record not in zone"
 msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zone-details.lua:38
+#, fuzzy
 msgid "Authoritative (zone file)"
-msgstr ""
+msgstr "Autoritativ (Zonendatei)"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:41
 msgid "Basic"
@@ -76,7 +77,7 @@ msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:47
 msgid "DHCP"
-msgstr ""
+msgstr "DHCP"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:139
 msgid "DHCP Link"
@@ -106,7 +107,7 @@ msgstr ""
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:233
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:243
 msgid "Default"
-msgstr ""
+msgstr "Standardeinstellung"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:164
 msgid "Denied (nxdomain)"
@@ -136,12 +137,12 @@ msgstr ""
 msgid "EDNS Size"
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/model/cbi/unbound/manual.lua:14
+#: applications/luci-app-unbound/luasrc/model/cbi/unbound/manual.lua:15
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/uciedit.lua:14
 msgid "Edit '"
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/model/cbi/unbound/server.lua:14
+#: applications/luci-app-unbound/luasrc/model/cbi/unbound/server.lua:15
 msgid "Edit 'server:' clause options for 'include:"
 msgstr ""
 
@@ -151,7 +152,7 @@ msgid ""
 "recursion."
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/model/cbi/unbound/extended.lua:14
+#: applications/luci-app-unbound/luasrc/model/cbi/unbound/extended.lua:15
 msgid "Edit clauses such as 'forward-zone:' for 'include:"
 msgstr ""
 
@@ -177,15 +178,15 @@ msgstr "Aktivieren"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:101
 msgid "Enable DNS64"
-msgstr ""
+msgstr "DNS64 aktivieren"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:71
 msgid "Enable DNSSEC"
-msgstr ""
+msgstr "DNSSEC aktivieren"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:53
 msgid "Enable Unbound"
-msgstr ""
+msgstr "Unbound aktivieren"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:211
 msgid "Enable access for unbound-control"
@@ -233,7 +234,7 @@ msgstr ""
 
 #: applications/luci-app-unbound/luasrc/controller/unbound.lua:65
 msgid "Files"
-msgstr ""
+msgstr "Dateien"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:98
 msgid "Filter Entire Subnet"
@@ -287,12 +288,12 @@ msgstr ""
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:177
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:189
 msgid "Hostname, All Addresses"
-msgstr ""
+msgstr "Hostname, alle Adressen"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:176
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:188
 msgid "Hostname, Primary Address"
-msgstr ""
+msgstr "Hostname, primäre Adresse"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:173
 msgid "How to enter the LAN or local network router in DNS"
@@ -324,7 +325,7 @@ msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:199
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorieren"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:179
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:191
@@ -337,7 +338,7 @@ msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:237
 msgid "Large"
-msgstr ""
+msgstr "Groß"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:120
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:281
@@ -398,11 +399,11 @@ msgstr ""
 
 #: applications/luci-app-unbound/luasrc/controller/unbound.lua:41
 msgid "Log"
-msgstr ""
+msgstr "Protokoll"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:57
 msgid "Manual Conf"
-msgstr ""
+msgstr "Manuelle Konfiguration"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:236
 msgid "Medium"
@@ -419,15 +420,15 @@ msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:175
 msgid "No Entry"
-msgstr ""
+msgstr "Kein Eintrag"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:96
 msgid "No Filter"
-msgstr ""
+msgstr "Kein Filter"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:141
 msgid "No Link"
-msgstr ""
+msgstr "Kein Link"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:213
 msgid "No Remote Control"
@@ -456,7 +457,7 @@ msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:244
 msgid "Passive"
-msgstr ""
+msgstr "Passiv"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zone-details.lua:60
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zone-details.lua:66
@@ -559,7 +560,7 @@ msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:235
 msgid "Small"
-msgstr ""
+msgstr "Klein"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:166
 msgid "Static (local only)"
@@ -568,7 +569,7 @@ msgstr ""
 #: applications/luci-app-unbound/luasrc/controller/unbound.lua:47
 #: applications/luci-app-unbound/luasrc/controller/unbound.lua:59
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
 #: applications/luci-app-unbound/luasrc/controller/unbound.lua:38
 msgid "Status"
@@ -594,42 +595,42 @@ msgstr ""
 msgid "TTL Minimum"
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:103
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:104
 msgid "This could display more statistics with the unbound-control package."
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:186
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:197
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:222
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:187
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:198
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:223
 msgid "This shows '"
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:173
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:174
 msgid ""
 "This shows 'ubound-control dump_cache' for auditing records including DNSSEC."
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:137
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:138
 msgid ""
 "This shows Unbound 'local-data:' entries from default, .conf, or control."
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:149
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:150
 msgid ""
 "This shows Unbound 'local-zone:' entries from default, .conf, or control."
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:125
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:126
 msgid "This shows Unbound self reported performance statistics."
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:113
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:114
 msgid "This shows syslog filtered for events involving Unbound."
 msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:234
 msgid "Tiny"
-msgstr ""
+msgstr "Winzig"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:167
 msgid "Transparent (local/global)"
@@ -646,7 +647,7 @@ msgstr "Typ"
 
 #: applications/luci-app-unbound/luasrc/controller/unbound.lua:26
 msgid "Unbound"
-msgstr ""
+msgstr "Unbound"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:25
 msgid ""
@@ -659,13 +660,13 @@ msgstr ""
 msgid "Unbound Control App"
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/controller/unbound.lua:166
+#: applications/luci-app-unbound/luasrc/controller/unbound.lua:167
 msgid "Unbound cache is too large to display in LuCI."
 msgstr ""
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:81
 msgid "Undefined"
-msgstr ""
+msgstr "Undefiniert"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zone-details.lua:51
 msgid "Use 'resolv.conf.auto'"
@@ -728,7 +729,7 @@ msgstr ""
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:126
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/configure.lua:287
 msgid "never"
-msgstr ""
+msgstr "nie"
 
 #: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:118
 msgid "prefetch zone files for"
@@ -742,7 +743,7 @@ msgstr ""
 msgid "unknown action for"
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:205
+#: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:206
 msgid "use <var>%s</var> nameservers"
 msgstr ""
 
@@ -750,6 +751,6 @@ msgstr ""
 msgid "use nameservers"
 msgstr ""
 
-#: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:164
+#: applications/luci-app-unbound/luasrc/model/cbi/unbound/zones.lua:165
 msgid "with default certificate for <var>%s</var>"
 msgstr ""

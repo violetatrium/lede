@@ -16,7 +16,7 @@ PKG_RELEASE:=1
 
 PKG_SOURCE:=Python-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://www.python.org/ftp/python/$(PKG_VERSION)
-PKG_HASH:=4d43f033cdbd0aa7b7023c81b0e986fd11e653b5248dac9144d508f11812ba41
+PKG_HASH:=b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
 
 PKG_LICENSE:=Python/2.0
 PKG_LICENSE_FILES:=LICENSE Doc/copyright.rst Doc/license.rst Modules/_ctypes/darwin/LICENSE Modules/_ctypes/libffi/LICENSE Modules/_ctypes/libffi_osx/LICENSE Modules/expat/COPYING
@@ -39,6 +39,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/Python-$(PKG_VERSION)
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/Python-$(PKG_VERSION)
 
 PKG_CONFIG_DEPENDS:= \
+	CONFIG_PACKAGE_python-pkg-resources \
 	CONFIG_PACKAGE_python-setuptools CONFIG_PACKAGE_python-pip \
 	CONFIG_PYTHON_BLUETOOTH_SUPPORT
 
@@ -169,6 +170,14 @@ define Build/Prepare
 endef
 
 ifdef CONFIG_PACKAGE_python-setuptools
+PYTHON_SETUPTOOLS_BUILD:=1
+endif
+
+ifdef CONFIG_PACKAGE_python-pkg-resources
+PYTHON_SETUPTOOLS_BUILD:=1
+endif
+
+ifeq ($(PYTHON_SETUPTOOLS_BUILD),1)
 define Build/Compile/python-setuptools
 	$(HOST_PYTHON_PIP) \
 		--disable-pip-version-check \
@@ -280,6 +289,8 @@ define PyPackage/python-base/install
 	$(LN) python$(PYTHON_VERSION) $(1)/usr/bin/python
 	$(LN) python$(PYTHON_VERSION) $(1)/usr/bin/python2
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libpython$(PYTHON_VERSION).so* $(1)/usr/lib/
+	$(SED) 's|$(TARGET_AR)|ar|g;s|$(TARGET_RANLIB)|ranlib|g;s|$(TARGET_CC)|gcc|g;s|$(TARGET_CXX)|g++|g' \
+		$(PKG_INSTALL_DIR)/usr/lib/python$(PYTHON_VERSION)/_sysconfigdata.py
 endef
 
 PyPackage/python-light/install:=:

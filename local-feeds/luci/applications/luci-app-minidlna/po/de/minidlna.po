@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2019-10-23 09:53+0000\n"
-"Last-Translator: Paul Spooren <mail@aparcar.org>\n"
+"PO-Revision-Date: 2020-03-05 08:06+0000\n"
+"Last-Translator: Tobias Strobel <me@strobeltobias.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsminidlna/de/>\n"
 "Language: de\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-minidlna/luasrc/model/cbi/minidlna.lua:16
 msgid "Advanced Settings"
@@ -102,7 +102,7 @@ msgstr "Zu bedienende Netzwerkschnittstellen."
 
 #: applications/luci-app-minidlna/luasrc/model/cbi/minidlna.lua:106
 msgid "Notify interval"
-msgstr "Ankündigunsintervall"
+msgstr "Benachrichtigungsintervall"
 
 #: applications/luci-app-minidlna/luasrc/model/cbi/minidlna.lua:107
 msgid "Notify interval in seconds."
@@ -161,6 +161,8 @@ msgstr ""
 msgid ""
 "Set this to allow serving content outside the media root (via symlinks)."
 msgstr ""
+"Stellen Sie dies so ein, dass die Bereitstellung von Inhalten außerhalb des "
+"Medienstamms (über Symlinks) ermöglicht wird."
 
 #: applications/luci-app-minidlna/luasrc/model/cbi/minidlna.lua:88
 msgid ""
@@ -246,15 +248,3 @@ msgstr "miniDLNA-Status"
 #: applications/luci-app-minidlna/luasrc/model/cbi/minidlna.lua:119
 msgid "miniSSDP socket"
 msgstr "miniSSDP-Socket"
-
-#~ msgid "Network interfaces to serve, comma delimited list."
-#~ msgstr ""
-#~ "Lister dee bedienten Netzwerkschnittstellen als Komma-getrennte Liste."
-
-#~ msgid ""
-#~ "This is a list of file names to check for when searching for album art. "
-#~ "Note: names must be delimited with a forward slash '/'"
-#~ msgstr ""
-#~ "Dies ist eine Liste von zu prüfenden Dateinamen wenn nach Album-Covern "
-#~ "gesucht wird. Hinweis: Namen müssen mit einem Schrägstrich ('/') getrennt "
-#~ "werden."

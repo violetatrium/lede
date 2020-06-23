@@ -1,20 +1,27 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2020-04-19 00:53+0000\n"
+"Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsbanip/ru/>\n"
 "Language: ru\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:89
 msgid "ASN Overview"
-msgstr ""
+msgstr "Обзор автономный системы"
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:90
 msgid "ASN Prefixes"
-msgstr ""
+msgstr "Префиксы ASN"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:74
 msgid "ASN/Country"
-msgstr ""
+msgstr "ASN/страна"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:139
 msgid "Additional trigger delay in seconds before banIP processing begins."
@@ -22,16 +29,16 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:21
 msgid "Advanced"
-msgstr ""
+msgstr "Дополнительно"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:24
 msgid "Automatic WAN Interface Detection"
-msgstr ""
+msgstr "Автоматическое определение WAN интерфейса"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:94
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:138
 msgid "Backup Directory"
-msgstr ""
+msgstr "Папка для резервных копий"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:115
 msgid ""
@@ -67,7 +74,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:72
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:134
 msgid "Download Options"
@@ -75,7 +82,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:126
 msgid "Download Utility"
-msgstr ""
+msgstr "Утилита для скачивания"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:126
 msgid "Download Utility, RT Monitor"
@@ -83,15 +90,15 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:22
 msgid "Edit Blacklist"
-msgstr ""
+msgstr "Редактировать Черный список"
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:24
 msgid "Edit Configuration"
-msgstr ""
+msgstr "Редактировать config файл"
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:23
 msgid "Edit Whitelist"
-msgstr ""
+msgstr "Редактировать Белый список"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:20
 msgid "Enable banIP"
@@ -100,6 +107,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:84
 msgid "Enable verbose debug logging in case of any processing error."
 msgstr ""
+"Включить ведение подробного журнала для отладки в случае ошибок обработки."
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:82
 msgid "Enter IP/CIDR/ASN/ISO"
@@ -107,19 +115,23 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:80
 msgid "Extra Options"
-msgstr ""
+msgstr "Дополнительные настройки"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:12
 msgid ""
 "For further information <a href=\"%s\" target=\"_blank\">check the online "
 "documentation</a>"
 msgstr ""
+"Для получения дополнительной информации <a href=\"%s\" target=\"_blank\"> "
+"смотрите онлайн документацию</a>"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:102
 msgid ""
 "For further performance improvements you can raise this value, e.g. '8' or "
 "'16' should be safe."
 msgstr ""
+"<br />Для повышения производительности вы можете увеличить это значение, "
+"например значения '8' или '16' должны быть безопасными."
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:88
 msgid "Geo Location"
@@ -149,7 +161,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/configuration_tab.lua:9
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:10
 msgid "Input file not found, please check your configuration."
-msgstr ""
+msgstr "Config файл не найден, пожалуйста, проверьте ваши настройки."
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:166
 msgid "LAN Forward Chain IPv4"
@@ -169,16 +181,16 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:144
 msgid "Last Run"
-msgstr ""
+msgstr "Последний запуск"
 
 #: applications/luci-app-banip/luasrc/view/banip/ipsetview.htm:59
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:97
 msgid "Load"
-msgstr ""
+msgstr "Загрузка"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:81
 msgid "Loading"
-msgstr ""
+msgstr "Загрузка"
 
 #: applications/luci-app-banip/luasrc/view/banip/ipsetview.htm:27
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:58
@@ -195,7 +207,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:87
 msgid "Low Priority Service"
-msgstr ""
+msgstr "Низкий приоритет службы"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:28
 msgid "Manual WAN Interface Selection"
@@ -203,7 +215,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:100
 msgid "Max. Download Queue"
-msgstr ""
+msgstr "Макс. очередь загрузки"
 
 #: applications/luci-app-banip/luasrc/view/banip/ipsetview.htm:34
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:65
@@ -214,10 +226,12 @@ msgstr ""
 msgid ""
 "Options for further tweaking in case the defaults are not suitable for you."
 msgstr ""
+"Возможные варианты детальной настройки, если значения по умолчанию не "
+"подходят для вас."
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:17
 msgid "Overview"
-msgstr ""
+msgstr "Обзор"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/blacklist_tab.lua:32
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:32
@@ -230,7 +244,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/configuration_tab.lua:18
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:19
 msgid "Please edit this file directly in a terminal session."
-msgstr ""
+msgstr "Редактируйте данный файл только в терминале."
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:19
 msgid "RIPE-Lookup"
@@ -239,7 +253,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:18
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:153
 msgid "Refresh"
-msgstr ""
+msgstr "Обновить"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:151
 msgid "Refresh IPSets"
@@ -248,7 +262,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:21
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:160
 msgid "Reload"
-msgstr ""
+msgstr "Перезапустить"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:158
 msgid "Reload IPSet Sources"
@@ -256,7 +270,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:112
 msgid "Runtime Information"
-msgstr ""
+msgstr "Информация о состоянии"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:171
 msgid "SRC Target IPv4"
@@ -282,7 +296,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/configuration_tab.lua:26
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:27
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:108
 msgid "Select the SSH daemon for logfile parsing, to detect break-in events."
@@ -349,6 +363,8 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:18
 msgid "The file size is too large for online editing in LuCI (&ge; 100 KB)."
 msgstr ""
+"Этот файл слишком большой для редактирования в Web-интерфейсе LuCI (&ge; 100 "
+"KB)."
 
 #: applications/luci-app-banip/luasrc/view/banip/logview.htm:31
 msgid "The syslog output, pre-filtered for banIP related messages only."
@@ -357,6 +373,8 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:89
 msgid "This change requires a manual service stop/re-start to take effect."
 msgstr ""
+"Это изменение требует ручной остановки и повторного запуска, чтобы вступить "
+"в силу."
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:40
 msgid "This data call gives access to various data sources maintained by IANA."
@@ -420,15 +438,15 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:138
 msgid "Trigger Delay"
-msgstr ""
+msgstr "Задержка запуска"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:83
 msgid "Verbose Debug Logging"
-msgstr ""
+msgstr "Подробный журнал отладки"
 
 #: applications/luci-app-banip/luasrc/controller/banip.lua:20
 msgid "View Logfile"
-msgstr ""
+msgstr "Показать системный журнал"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:156
 msgid "WAN Forward Chain IPv4"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-10-22 08:49+0000\n"
+"PO-Revision-Date: 2020-05-02 10:21+0000\n"
 "Last-Translator: Franco Castillo <castillofrancodamian@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsvnstat/es/>\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: applications/luci-app-vnstat/luasrc/controller/vnstat.lua:6
 #: applications/luci-app-vnstat/luasrc/controller/vnstat.lua:10
@@ -25,7 +25,7 @@ msgstr "Tráfico diario"
 #: applications/luci-app-vnstat/luasrc/controller/vnstat.lua:5
 #: applications/luci-app-vnstat/luasrc/controller/vnstat.lua:9
 msgid "Graphs"
-msgstr "Gráficas"
+msgstr "Gráficos"
 
 #: applications/luci-app-vnstat/luasrc/view/vnstat.htm:67
 msgid "Hourly traffic"
@@ -83,6 +83,3 @@ msgid ""
 msgstr ""
 "VnStat es un monitor de tráfico de red para Linux que mantiene un registro "
 "del trafico de red de la interfaz o interfaces seleccionadas."
-
-#~ msgid "The VnStat service has been restarted."
-#~ msgstr "El servicio VnStat ha sido reiniciado"

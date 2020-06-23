@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-10 03:40+0200\n"
-"PO-Revision-Date: 2019-10-25 17:55+0000\n"
-"Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
+"PO-Revision-Date: 2020-04-05 09:35+0000\n"
+"Last-Translator: Hydci <giogio59@live.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationstinyproxy/fr/>\n"
 "Language: fr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:219
 msgid ""
@@ -41,9 +41,8 @@ msgid "Allowed connect ports"
 msgstr "Ports de connexion autorisés"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:47
-#, fuzzy
 msgid "Bind address"
-msgstr "Adresse de liaison"
+msgstr "Lier l'adresse"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:149
 msgid ""
@@ -133,7 +132,7 @@ msgstr "Filtrage et ACLs"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:11
 msgid "General settings"
-msgstr "Paramètres généraux"
+msgstr "Réglages généraux"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:97
 msgid "Group"
@@ -169,11 +168,11 @@ msgstr ""
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:39
 msgid "Listen address"
-msgstr "Adresse en écoute"
+msgstr "Adresse d'écoute"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:31
 msgid "Listen port"
-msgstr "Port en écoute"
+msgstr "Puerto de escucha"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:73
 msgid "Log file"
@@ -246,7 +245,7 @@ msgstr ""
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:218
 msgid "Policy"
-msgstr "Action"
+msgstr "Politique"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:12
 msgid "Privacy settings"
@@ -337,7 +336,7 @@ msgstr "Statut Tinyproxy"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:6
 msgid "Tinyproxy is a small and fast non-caching HTTP(S)-Proxy"
-msgstr "Tinyproxy is a small and fast non-caching HTTP(S)-Proxy"
+msgstr "Tinyproxy est un petit HTTP(S)-Proxy sans cache rapide"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:211
 msgid "Upstream Proxies"
@@ -375,75 +374,3 @@ msgstr "Envoyer les messages à syslog plutôt que dans un fichier-journal"
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:107
 msgid "X-Tinyproxy header"
 msgstr "Entête X-Tinyproxy"
-
-#~ msgid "Allow access from"
-#~ msgstr "Allow access from"
-
-#~ msgid "Allowed headers for anonymous proxy"
-#~ msgstr "Allowed headers for anonymous proxy"
-
-#~ msgid "Bind outgoing traffic to address"
-#~ msgstr "Lier le trafic sortant à l'adresse ip"
-
-#~ msgid "Ports allowed for CONNECT method"
-#~ msgstr "Ports allowed for CONNECT method"
-
-#~ msgid "0 = disabled, empty = all"
-#~ msgstr "0 = disabled, empty = all"
-
-#~ msgid "Error document"
-#~ msgstr "Fichier d'erreur"
-
-#~ msgid "Filter list"
-#~ msgstr "Liste de filtres"
-
-#~ msgid "Case sensitive filters"
-#~ msgstr "Case sensitive filters"
-
-#~ msgid "Filter list is a whitelist"
-#~ msgstr "Filter list is a whitelist"
-
-#~ msgid "Extended regular expression filters"
-#~ msgstr "Extended regular expression filters"
-
-#~ msgid "Filter URLs instead of domains"
-#~ msgstr "Filter URLs instead of domains"
-
-#~ msgid "Listen on address"
-#~ msgstr "Listen on address"
-
-#~ msgid "Logfile"
-#~ msgstr "Chemin du fichier de log"
-
-#~ msgid "Maximum number of clients"
-#~ msgstr "Nombre maximum de clients"
-
-#~ msgid "Maximum requests per thread"
-#~ msgstr "Maximum de connexion par processus"
-
-#~ msgid "Spare servers to start with"
-#~ msgstr "Nombre de processus serveur lancés au demarrage"
-
-#~ msgid "Statistic document"
-#~ msgstr "Fichier de statistiques"
-
-#~ msgid "Write to syslog"
-#~ msgstr "Écrire dans le journal système (Syslog)"
-
-#~ msgid "Connection Timeout"
-#~ msgstr "Délai de connexion"
-
-#~ msgid "Value of Via-Header"
-#~ msgstr "Valeur de l'entête \"VIA\" utilisée comme nom d'hôte"
-
-#~ msgid "Include client IP"
-#~ msgstr "Inclure l'ip du client"
-
-#~ msgid "Upstream Control"
-#~ msgstr "Upstream Control"
-
-#~ msgid "Type"
-#~ msgstr "Type"
-
-#~ msgid "Upstream Proxy"
-#~ msgstr "Proxy"

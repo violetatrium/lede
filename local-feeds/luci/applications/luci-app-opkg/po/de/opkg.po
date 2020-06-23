@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-26 17:57+0200\n"
-"PO-Revision-Date: 2019-10-23 09:53+0000\n"
-"Last-Translator: Paul Spooren <mail@aparcar.org>\n"
+"PO-Revision-Date: 2020-03-05 08:06+0000\n"
+"Last-Translator: Tobias Strobel <me@strobeltobias.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsopkg/de/>\n"
 "Language: de\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-opkg/luasrc/view/opkg.htm:112
 msgid "Actions"
@@ -38,7 +38,7 @@ msgstr ""
 "Einstellungen und die <em>customfeeds.conf</em>-Datei für benutzerdefinierte "
 "Repository-Einträge verwendet werden. Der Inhalt der anderen "
 "Konfigurationsdateien kann zwar geändert werden, wird aber überlicherweise "
-"bei Systemupdates zurückgesetzt."
+"bei <em>Systemupdates</em> zurückgesetzt."
 
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:599
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:644
@@ -134,7 +134,7 @@ msgstr "Lade Paketinformationen…"
 
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:799
 msgid "MD5"
-msgstr ""
+msgstr "MD5"
 
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:638
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:795
@@ -237,7 +237,7 @@ msgstr "Zurücksetzen"
 
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:800
 msgid "SHA256"
-msgstr ""
+msgstr "SHA256"
 
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:690
 msgid "Save"
@@ -307,7 +307,7 @@ msgstr "Aktualisieren…"
 
 #: applications/luci-app-opkg/luasrc/view/opkg.htm:115
 msgid "Upload Package…"
-msgstr ""
+msgstr "Paket hochladen…"
 
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:585
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:720
@@ -339,10 +339,3 @@ msgstr "ca. %.1024mB komprimiert"
 #: applications/luci-app-opkg/htdocs/luci-static/resources/view/opkg.js:705
 msgid "~%.1024mB installed"
 msgstr "ca. %.1024mB installiert"
-
-#~ msgid ""
-#~ "Require version %h %h,\n"
-#~ "installed %h"
-#~ msgstr ""
-#~ "Benötige Version %h %h,\n"
-#~ "aber %h installiert"

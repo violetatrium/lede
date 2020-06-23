@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-10-30 03:21+0000\n"
-"Last-Translator: ssantos <ssantos@web.de>\n"
+"PO-Revision-Date: 2020-04-10 05:54+0000\n"
+"Last-Translator: ce4 <chregger@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationssplash/de/>\n"
 "Language: de\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:65
 #: applications/luci-app-splash/luasrc/view/splash_splash/splash.htm:13
@@ -72,8 +72,8 @@ msgstr ""
 msgid ""
 "Become an active member of this community and help by operating your own node"
 msgstr ""
-"Werde ein aktives Mitglied unserer Community und hilf, indem du selber einen "
-"Access Point betreibst."
+"Werde ein aktives Mitglied unserer Community und hilf, indem du selbst einen "
+"Access Point betreibst"
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:62
 msgid "Blacklist"
@@ -123,7 +123,7 @@ msgstr ""
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:15
 msgid "Clients download speed is limited to this value (kbyte/s)"
 msgstr ""
-"Downloadgeschwindigkeit von Clients auf diesen Wert limitieren (kbyte/s) "
+"Downloadgeschwindigkeit von Clients auf diesen Wert limitieren (kbyte/s)"
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:10
 msgid ""
@@ -135,8 +135,7 @@ msgstr ""
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:14
 msgid "Clients upload speed is limited to this value (kbyte/s)"
-msgstr ""
-"Uploadgeschwindigkeit von Clients auf diesen Wert limitieren (kbyte/s) "
+msgstr "Uploadgeschwindigkeit von Clients auf diesen Wert limitieren (kbyte/s)"
 
 #: applications/luci-app-splash/luasrc/view/splash/blocked.htm:15
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:54
@@ -168,11 +167,11 @@ msgstr "Downloadbegrenzung"
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splashtext.lua:12
 msgid "Edit the complete splash text"
-msgstr "Bearbeiten des kompletten Splash-Textes."
+msgstr "Bearbeiten des kompletten Splash-Textes"
 
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:121
 msgid "Fair Use Policy"
-msgstr "Fair Use Policy"
+msgstr "Fair-Use-Richtlinie"
 
 #: applications/luci-app-splash/luasrc/model/cbi/splash/splash.lua:29
 msgid "Firewall zone"
@@ -265,7 +264,7 @@ msgstr "Netzwerk"
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:147
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:261
 msgid "No clients connected"
-msgstr "Keine Clients verbunden."
+msgstr "Keine Clients verbunden"
 
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:78
 msgid ""
@@ -456,7 +455,7 @@ msgstr "Vorübergehend geblockt"
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:230
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:231
 msgid "unknown"
-msgstr "Unbekannt"
+msgstr "unbekannt"
 
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:83
 msgid "use filesharing applications on this network"
@@ -464,18 +463,10 @@ msgstr "Filesharing betreiben"
 
 #: applications/luci-app-splash/luasrc/view/splash/splash.htm:84
 msgid "waste bandwidth with unnecessary downloads or streams"
-msgstr "Bandbreite durch unnötige Downloads oder Streams zu verschwenden."
+msgstr "Bandbreite durch unnötige Downloads oder Streams zu verschwenden"
 
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:165
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:167
 #: applications/luci-app-splash/luasrc/view/admin_status/splash.htm:241
 msgid "whitelisted"
 msgstr "erlaubt"
-
-#~ msgid ""
-#~ "Hosts and Networks that are listed here are excluded from splashing, i.e. "
-#~ "they are always allowed."
-#~ msgstr ""
-#~ "Rechner und Netzwerke die hier aufgeführt sind werden vom Splashvorgang "
-#~ "ausgenommen, d.h. sie dürfen das Netzwerk immer und ohne "
-#~ "Authentifizierung benutzen."

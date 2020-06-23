@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-10 03:41+0200\n"
-"PO-Revision-Date: 2019-10-22 08:50+0000\n"
+"PO-Revision-Date: 2020-05-02 10:21+0000\n"
 "Last-Translator: Franco Castillo <castillofrancodamian@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationstinyproxy/es/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:219
 msgid ""
@@ -42,7 +42,7 @@ msgstr "Puertos permitidos"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:47
 msgid "Bind address"
-msgstr "Dirección de asociación"
+msgstr "Dirección de enlace"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:149
 msgid ""
@@ -160,11 +160,11 @@ msgstr ""
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:39
 msgid "Listen address"
-msgstr "Dirección de escucha"
+msgstr "Escuchar dirección"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:31
 msgid "Listen port"
-msgstr "Puerto de escucha"
+msgstr "Puerto"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:73
 msgid "Log file"
@@ -256,7 +256,7 @@ msgid ""
 "are discarded. Leave empty to disable header filtering"
 msgstr ""
 "Especifica los nombres de encabezado HTTP que están autorizados a pasar, "
-"todos los demás se descartan. Deje vacío para deshabilitar el filtrado de "
+"todos los demás se descartan. Deje vacío para desactivar el filtrado de "
 "encabezado"
 
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:32
@@ -360,75 +360,3 @@ msgstr ""
 #: applications/luci-app-tinyproxy/luasrc/model/cbi/tinyproxy.lua:107
 msgid "X-Tinyproxy header"
 msgstr "Cabecera X-Tinyproxy"
-
-#~ msgid "Allow access from"
-#~ msgstr "Permitir acceso desde"
-
-#~ msgid "Allowed headers for anonymous proxy"
-#~ msgstr "Encabezados permitidos de proxies anónimos"
-
-#~ msgid "Bind outgoing traffic to address"
-#~ msgstr "Ligar tráfico de salida a la dirección"
-
-#~ msgid "Ports allowed for CONNECT method"
-#~ msgstr "Puertos permitidos para el método CONNECT"
-
-#~ msgid "0 = disabled, empty = all"
-#~ msgstr "0 = Deshabilitado, vacío = todos"
-
-#~ msgid "Error document"
-#~ msgstr "Error en documento"
-
-#~ msgid "Filter list"
-#~ msgstr "Lista de filtros"
-
-#~ msgid "Case sensitive filters"
-#~ msgstr "Filtros de mayúsculas y minúsculas "
-
-#~ msgid "Filter list is a whitelist"
-#~ msgstr "La Lista de Filtros es una lista blanca"
-
-#~ msgid "Extended regular expression filters"
-#~ msgstr "Filtros extendido para expresiones regulares"
-
-#~ msgid "Filter URLs instead of domains"
-#~ msgstr "Filtrar URLs en vez de dominios"
-
-#~ msgid "Listen on address"
-#~ msgstr "Escuchar en dirección"
-
-#~ msgid "Logfile"
-#~ msgstr "Logfile"
-
-#~ msgid "Maximum number of clients"
-#~ msgstr "Número máximo de clientes"
-
-#~ msgid "Maximum requests per thread"
-#~ msgstr "Máximas peticiones por hilo"
-
-#~ msgid "Spare servers to start with"
-#~ msgstr "Spare servers to start with"
-
-#~ msgid "Statistic document"
-#~ msgstr "Documento de estadística"
-
-#~ msgid "Write to syslog"
-#~ msgstr "Escribir al syslog"
-
-#~ msgid "Connection Timeout"
-#~ msgstr "Tiempo agotado para la conexión"
-
-#~ msgid "Value of Via-Header"
-#~ msgstr "Valor para Via-Header"
-
-#~ msgid "Include client IP"
-#~ msgstr "Incluir IP del cliente"
-
-#~ msgid "Upstream Control"
-#~ msgstr "Control de subida (upstream)"
-
-#~ msgid "Type"
-#~ msgstr "Tipo"
-
-#~ msgid "Upstream Proxy"
-#~ msgstr "Proxy de subida (upstream)"

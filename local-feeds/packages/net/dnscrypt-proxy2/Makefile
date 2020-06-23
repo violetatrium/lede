@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 CZ.NIC, z. s. p. o. (https://www.nic.cz/)
+# Copyright (C) 2019-2020 CZ.NIC, z. s. p. o. (https://www.nic.cz/)
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dnscrypt-proxy2
-PKG_VERSION:=2.0.29
+PKG_VERSION:=2.0.42
 PKG_RELEASE:=1
 
 PKG_SOURCE:=dnscrypt-proxy-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/jedisct1/dnscrypt-proxy/tar.gz/$(PKG_VERSION)?
-PKG_HASH:=5c18f0c9d6a89b64d532c98e2bd976f98211a715399c7a1ee81a22c5485673b9
+PKG_SOURCE_URL:=https://codeload.github.com/DNSCrypt/dnscrypt-proxy/tar.gz/$(PKG_VERSION)?
+PKG_HASH:=c000ca4e159c6606cb3476ea9e34ed64b5c46c710d70cc5651f14f1125c8d352
 PKG_BUILD_DIR:=$(BUILD_DIR)/dnscrypt-proxy-$(PKG_VERSION)
 
 PKG_MAINTAINER:=Josef Schlehofer <josef.schlehofer@nic.cz>
@@ -24,7 +24,7 @@ PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
 
-GO_PKG:=github.com/jedisct1/dnscrypt-proxy
+GO_PKG:=github.com/DNSCrypt/dnscrypt-proxy
 
 include $(INCLUDE_DIR)/package.mk
 include ../../lang/golang/golang-package.mk
@@ -33,7 +33,7 @@ define Package/dnscrypt-proxy2
   SECTION:=net
   CATEGORY:=Network
   TITLE:=Flexible DNS proxy with encrypted DNS protocols
-  URL:=https://github.com/jedisct1/dnscrypt-proxy
+  URL:=https://github.com/DNSCrypt/dnscrypt-proxy
   DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
   CONFLICTS:=dnscrypt-proxy
 endef

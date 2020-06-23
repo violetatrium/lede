@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zabbix
-PKG_VERSION:=4.0.11
-PKG_RELEASE:=1
+PKG_VERSION:=4.0.16
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=@SF/zabbix
-PKG_HASH:=b0af25c31c622d14cb7780db5941d76579b9f9a6ee449613d847b0b505628409
+PKG_HASH:=a8d7e18230e62a7bd3fd9af5830a2b1b22818468b5da3deb673865ce40dc4d42
 
 PKG_MAINTAINER:=Etienne CHAMPETIER <champetier.etienne@gmail.com>
 PKG_LICENSE:=GPL-2.0
@@ -21,8 +21,7 @@ PKG_LICENSE_FILES:=COPYING
 PKG_CPE_ID:=cpe:/a:zabbix:zabbix
 
 PKG_INSTALL:=1
-
-PKG_FIXUP:=autoreconf
+PKG_BUILD_PARALLEL:=1
 
 PKG_CONFIG_DEPENDS:= \
   CONFIG_ZABBIX_GNUTLS \
@@ -162,6 +161,9 @@ CONFIGURE_ARGS+= \
 	--with-zlib=$(STAGING_DIR)/usr/include \
 	$(if $(CONFIG_ZABBIX_GNUTLS),--with-gnutls="$(STAGING_DIR)/usr") \
 	$(if $(CONFIG_ZABBIX_OPENSSL),--with-openssl="$(STAGING_DIR)/usr")
+
+CONFIGURE_VARS += \
+	ac_cv_header_sys_sysinfo_h=no
 
 MAKE_FLAGS += ARCH="linux"
 

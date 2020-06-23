@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: LuCI: radicale\n"
 "POT-Creation-Date: 2018-01-08 23:00+0300\n"
-"PO-Revision-Date: 2018-01-24 14:59+0300\n"
-"Language-Team: http://cyber-place.ru\n"
-"MIME-Version: 1.0\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
-"Last-Translator: Vladimir aka sunny <picfun@ya.ru>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"PO-Revision-Date: 2020-04-19 00:53+0000\n"
+"Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsradicale/ru/>\n"
 "Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 "Project-Info: Это технический перевод, не дословный. Главное-удобный русский "
 "интерфейс, все проверялось в графическом режиме, совместим с другими apps\n"
 
@@ -27,7 +28,7 @@ msgid ""
 "'Hostname:Port' or 'IPv4:Port' or '[IPv6]:Port' Radicale should listen on"
 msgstr ""
 "Задайте 'Имя_хоста:порт' или 'IPv4-адрес:порт' или 'IPv6-адрес:порт' - адрес "
-"и порт для входящих соединений сервера Radicale."
+"и порт для входящих соединений сервера Radicale"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:272
 msgid "AUTO"
@@ -110,10 +111,6 @@ msgstr ""
 "Выбранный здесь стандарт кодирования текстов, будет использоваться вместо "
 "'UTF-8' для ответов клиенту и/или для хранения данных внутри коллекций."
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:334
-msgid "Ciphers"
-msgstr "Алгоритмы шифрования"
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:544
 msgid "Console Log level"
 msgstr "Запись событий консоли"
@@ -140,14 +137,6 @@ msgstr ""
 "запрашиваемой из другого домена, за пределами домена, из которого был создан "
 "ресурс."
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:491
-msgid "Custom"
-msgstr "Пользовательский"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:490
-msgid "Database"
-msgstr "База данных"
-
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:548
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:570
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:592
@@ -156,8 +145,7 @@ msgstr "Отладка"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:191
 msgid "Delay (in seconds) during system boot before Radicale start"
-msgstr ""
-"Задержка (в секундах) во время загрузки системы перед стартом Radicale."
+msgstr "Задержка (в секундах) во время загрузки системы перед стартом Radicale"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:508
 msgid "Directory"
@@ -173,7 +161,7 @@ msgstr "Папка требуется !"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:611
 msgid "Directory where the rotating log-files are stored"
-msgstr "Папка в которой хранятся перезаписываемые файлы системного журнала."
+msgstr "Папка в которой хранятся перезаписываемые файлы системного журнала"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:193
 msgid "During delay ifup-events are not monitored !"
@@ -187,7 +175,7 @@ msgstr "Включить HTTPS"
 msgid ""
 "Enable/Disable auto-start of Radicale on system start-up and interface events"
 msgstr ""
-"Автоматический запуск Radicale сервера при загрузке прошивки устройства."
+"Автоматический запуск Radicale сервера при загрузке прошивки устройства"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:676
 msgid "Encoding"
@@ -314,15 +302,9 @@ msgstr "Ничего"
 msgid "Number of backup files of log to create."
 msgstr "Количество резервных копий журнала."
 
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:335
-msgid "OPTIONAL: See python's ssl module for available ciphers"
-msgstr ""
-"Необязательно: используйте SSL python модуль для применения доступных "
-"алгоритмов шифрования."
-
 #: applications/luci-app-radicale/luasrc/view/radicale/tabmap_nsections.htm:50
 msgid "One or more missing/invalid fields on tab"
-msgstr "Одно или несколько отсутствующих/недопустимых полей на странице."
+msgstr "Одно или несколько отсутствующих/недопустимых полей на странице"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:436
 msgid "Owner allow write, authenticated users allow read"
@@ -356,7 +338,7 @@ msgstr "Обновите текущую версию!"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:225
 msgid "Port numbers below 1024 (Privileged ports) are not supported"
-msgstr "Номера портов менее 1024 (привилегированные порты) не поддерживаются."
+msgstr "Номера портов менее 1024 (привилегированные порты) не поддерживаются"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:309
 msgid "Private key file"
@@ -387,7 +369,7 @@ msgstr "Файл регулярного выражения (RegExp)"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:56
 msgid "Reload"
-msgstr "Перезагрузить"
+msgstr "Перезапустить"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:688
 msgid "Response Encoding"
@@ -444,12 +426,12 @@ msgstr "Программный пакет '%s' устарел."
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:26
 msgid "Software update required"
-msgstr "Требуется обновление программного обеспечения."
+msgstr "Требуется обновление программного обеспечения"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:164
 #: applications/luci-app-radicale/luasrc/view/radicale/btn_startstop.htm:10
 msgid "Start"
-msgstr "Старт"
+msgstr "Запустить"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:155
 msgid "Start / Stop"
@@ -457,7 +439,7 @@ msgstr "Старт / Стоп"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:156
 msgid "Start/Stop Radicale server"
-msgstr "Запуск и остановка сервера Radicale."
+msgstr "Запуск и остановка сервера Radicale"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:473
 msgid "Storage"
@@ -537,7 +519,7 @@ msgid ""
 "WARNING: Only 'File-system' is documented and tested by Radicale development"
 msgstr ""
 "ВНИМАНИЕ: только 'Файловая система' документирована и протестирована "
-"сообществом Radicale."
+"сообществом Radicale"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:550
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:572
@@ -564,10 +546,6 @@ msgstr ""
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:390
 msgid "crypt"
 msgstr "crypt"
-
-#: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:364
-msgid "custom"
-msgstr "пользовательский"
 
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:357
 #: applications/luci-app-radicale/luasrc/model/cbi/radicale.lua:400

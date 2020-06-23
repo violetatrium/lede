@@ -1,8 +1,14 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2020-03-11 23:49+0000\n"
+"Last-Translator: Koli <lukas.koluch@gmail.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsmjpg-streamer/cs/>\n"
 "Language: cs\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:217
 msgid "Allow ringbuffer to exceed limit by this amount"
@@ -28,17 +34,13 @@ msgstr ""
 msgid "Blink"
 msgstr ""
 
-#: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:207
-msgid "Check to save the stream to an mjpeg file"
-msgstr ""
-
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:220
 msgid "Command to run"
 msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:43
 msgid "Device"
-msgstr ""
+msgstr "Zařízení"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:77
 msgid "Do not initialize dynctrls of Linux-UVC driver"
@@ -54,15 +56,15 @@ msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:12
 msgid "Enable MJPG-streamer"
-msgstr ""
+msgstr "Povolit MJPG-streamer"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:69
 msgid "Enable YUYV format"
-msgstr ""
+msgstr "Povolit formát YUYV"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:12
 msgid "Enabled"
-msgstr ""
+msgstr "Zapnuto"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:217
 msgid "Exceed"
@@ -74,17 +76,13 @@ msgid ""
 "first parameter to your script."
 msgstr ""
 
-#: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:36
-msgid "File input"
-msgstr ""
-
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:34
 msgid "File output"
 msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:203
 msgid "Folder"
-msgstr ""
+msgstr "Složka"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:108
 msgid "Folder that contains webpages"
@@ -96,7 +94,7 @@ msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:8
 msgid "General"
-msgstr ""
+msgstr "Obecné nastavení"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:33
 msgid "HTTP output"
@@ -128,23 +126,19 @@ msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/controller/mjpg-streamer.lua:12
 msgid "MJPG-streamer"
-msgstr ""
+msgstr "MJPG-streamer"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:213
 msgid "Max. number of pictures to hold"
 msgstr ""
 
-#: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:207
-msgid "Mjpeg output"
-msgstr ""
-
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:81
 msgid "Off"
-msgstr ""
+msgstr "Vypnuto"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:80
 msgid "On"
-msgstr ""
+msgstr "Zapnuto"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:20
 msgid "Output plugin"
@@ -152,7 +146,7 @@ msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:102
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:29
 msgid "Plugin settings"
@@ -160,11 +154,11 @@ msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:91
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:51
 msgid "Resolution"
-msgstr ""
+msgstr "Rozlišení"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:213
 msgid "Ring buffer size"
@@ -192,7 +186,7 @@ msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:91
 msgid "TCP port for this HTTP server"
-msgstr ""
+msgstr "TCP port pro tento HTTP server"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:35
 msgid "UVC input"
@@ -200,7 +194,7 @@ msgstr ""
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:98
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: applications/luci-app-mjpg-streamer/luasrc/model/cbi/mjpg-streamer.lua:108
 msgid "WWW folder"
@@ -210,3 +204,5 @@ msgstr ""
 msgid ""
 "mjpg streamer is a streaming application for Linux-UVC compatible webcams"
 msgstr ""
+"mjpg streamer je streamingová aplikace pro webové kamery kompatibilní s "
+"Linux-UVC"

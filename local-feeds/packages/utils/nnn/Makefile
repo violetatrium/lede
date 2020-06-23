@@ -1,12 +1,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nnn
-PKG_VERSION:=2.7
+PKG_VERSION:=3.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/jarun/nnn/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=0592c7cbcf2cf66cacac49e9204636480820b1bc74e4187dd7ee06945a6d07c5
+PKG_HASH:=04db6d6710ce1232c779bf70137a86557e486614e20327717122bb63f36348f7
 
 PKG_MAINTAINER:=Josef Schlehofer <pepe.schlehofer@gmail.com>
 PKG_LICENSE:=BSD-2-Clause
@@ -21,7 +21,7 @@ define Package/nnn
   CATEGORY:=Utilities
   TITLE:=Full-featured terminal file manager
   URL:=https://github.com/jarun/nnn
-  DEPENDS:=+libncurses +libreadline +findutils-xargs
+  DEPENDS:=+libncurses +libreadline
 endef
 
 define Package/nnn/description

@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=django
-PKG_VERSION:=1.11.26
+PKG_VERSION:=1.11.29
 PKG_RELEASE:=1
 
 PKG_SOURCE:=Django-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://files.pythonhosted.org/packages/source/D/Django
-PKG_HASH:=861db7f82436ab43e1411832ed8dca81fc5fc0f7c2039c7e07a080a63092fb44
+PKG_HASH:=4200aefb6678019a0acf0005cd14cfce3a5e6b9b90d06145fcdd2e474ad4329c
 PKG_BUILD_DIR=$(BUILD_DIR)/Django-$(PKG_VERSION)
 
 PKG_MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>

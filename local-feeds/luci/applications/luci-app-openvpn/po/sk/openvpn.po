@@ -1,12 +1,16 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: PACKAGE VERSION\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-04-04 17:34+0000\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsopenvpn/sk/>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:821
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:824
@@ -23,7 +27,7 @@ msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/view/openvpn/cbi-select-input-add.htm:92
 msgid "Add"
-msgstr ""
+msgstr "Pridať"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:224
 msgid "Add route after establishing connection"
@@ -143,10 +147,6 @@ msgstr ""
 msgid "Connection retry interval"
 msgstr ""
 
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:47
-msgid "Daemonize after initialization"
-msgstr ""
-
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:232
 msgid "Delay n seconds after connection"
 msgstr ""
@@ -261,7 +261,7 @@ msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn.lua:104
 msgid "Enabled"
-msgstr ""
+msgstr "Zapnuté"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:749
 msgid "Encrypt and authenticate all control channel packets with the key"
@@ -293,10 +293,6 @@ msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:741
 msgid "Exit on TLS negotiation failure"
-msgstr ""
-
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:753
-msgid "Get PEM password from controlling tty before we daemonize"
 msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:572
@@ -392,7 +388,7 @@ msgstr ""
 #: applications/luci-app-openvpn/luasrc/controller/openvpn.lua:8
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn.lua:10
 msgid "OpenVPN"
-msgstr ""
+msgstr "OpenVPN"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn.lua:11
 msgid "OpenVPN instances"
@@ -402,13 +398,9 @@ msgstr ""
 msgid "Optimize TUN/TAP/UDP writes"
 msgstr ""
 
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:51
-msgid "Output to syslog and do not daemonize"
-msgstr ""
-
 #: applications/luci-app-openvpn/luasrc/view/openvpn/pageswitch.htm:11
 msgid "Overview"
-msgstr ""
+msgstr "Prehľad"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:673
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-basic.lua:73
@@ -449,11 +441,11 @@ msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn.lua:141
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn.lua:156
 msgid "Protocol"
-msgstr ""
+msgstr "Protokol"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:529
 msgid "Proxy timeout in seconds"
@@ -540,10 +532,6 @@ msgstr ""
 msgid "Route subnet to client"
 msgstr ""
 
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:59
-msgid "Run as an inetd or xinetd server"
-msgstr ""
-
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:144
 msgid "Run script cmd on client connection"
 msgstr ""
@@ -558,7 +546,7 @@ msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-file.lua:37
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-file.lua:61
 msgid ""
@@ -577,16 +565,8 @@ msgstr ""
 msgid "Send notification to peer on disconnect"
 msgstr ""
 
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:35
-msgid "Set GID to group"
-msgstr ""
-
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:265
 msgid "Set TCP/UDP MTU"
-msgstr ""
-
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:31
-msgid "Set UID to user"
 msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:396
@@ -769,7 +749,7 @@ msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/view/openvpn/cbi-select-input-add.htm:104
 msgid "Upload"
-msgstr ""
+msgstr "Odovzdať"
 
 #: applications/luci-app-openvpn/luasrc/view/openvpn/cbi-select-input-add.htm:104
 msgid "Upload ovpn file"
@@ -796,10 +776,6 @@ msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:63
 msgid "Write log to file"
-msgstr ""
-
-#: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:75
-msgid "Write process ID to file"
 msgstr ""
 
 #: applications/luci-app-openvpn/luasrc/model/cbi/openvpn-advanced.lua:95

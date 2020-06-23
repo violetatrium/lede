@@ -94,8 +94,25 @@ function sfh(s) {
 	return (0x100000000 + hash).toString(16).substr(1);
 }
 
-function _(s) {
-	return (window.TR && TR[sfh(s)]) || s;
+var plural_function = null;
+
+function trimws(s) {
+	return String(s).trim().replace(/[ \t\n]+/g, ' ');
+}
+
+function _(s, c) {
+	var k = (c != null ? trimws(c) + '\u0001' : '') + trimws(s);
+	return (window.TR && TR[sfh(k)]) || s;
+}
+
+function N_(n, s, p, c) {
+	if (plural_function == null && window.TR)
+		plural_function = new Function('n', (TR['00000000'] || 'plural=(n != 1);') + 'return +plural');
+
+	var i = plural_function ? plural_function(n) : (n != 1),
+	    k = (c != null ? trimws(c) + '\u0001' : '') + trimws(s) + '\u0002' + i.toString();
+
+	return (window.TR && TR[sfh(k)]) || (i ? p : s);
 }
 
 
@@ -714,6 +731,9 @@ if (typeof(window.CustomEvent) !== 'function') {
 }
 
 function cbi_dropdown_init(sb) {
+	if (sb && L.dom.findClassInstance(sb) instanceof L.ui.Dropdown)
+		return;
+
 	var dl = new L.ui.Dropdown(sb, null, { name: sb.getAttribute('name') });
 	return dl.bind(sb);
 }

@@ -1,5 +1,7 @@
 'use strict';
 'require rpc';
+'require request';
+'require baseclass';
 
 /**
  * @typedef {Object} FileStatEntry
@@ -108,6 +110,40 @@ function handleRpcReply(expect, rc) {
 	return rc;
 }
 
+function handleCgiIoReply(res) {
+	if (!res.ok || res.status != 200) {
+		var e = new Error(res.statusText);
+		switch (res.status) {
+		case 400:
+			e.name = 'InvalidArgumentError';
+			break;
+
+		case 403:
+			e.name = 'PermissionError';
+			break;
+
+		case 404:
+			e.name = 'NotFoundError';
+			break;
+
+		default:
+			e.name = 'Error';
+		}
+		throw e;
+	}
+
+	switch (this.type) {
+	case 'blob':
+		return res.blob();
+
+	case 'json':
+		return res.json();
+
+	default:
+		return res.text();
+	}
+}
+
 /**
  * @class fs
  * @memberof LuCI
@@ -118,7 +154,7 @@ function handleRpcReply(expect, rc) {
  * To import the class in views, use `'require fs'`, to import it in
  * external JavaScript, use `L.require("fs").then(...)`.
  */
-var FileSystem = L.Class.extend(/** @lends LuCI.fs.prototype */ {
+var FileSystem = baseclass.extend(/** @lends LuCI.fs.prototype */ {
 	/**
 	 * Obtains a listing of the specified directory.
 	 *
@@ -293,6 +329,100 @@ var FileSystem = L.Class.extend(/** @lends LuCI.fs.prototype */ {
 
 			return lines;
 		});
+	},
+
+	/**
+	 * Read the contents of the given file and return them, bypassing ubus.
+	 *
+	 * This function will read the requested file through the cgi-io
+	 * helper applet at `/cgi-bin/cgi-download` which bypasses the ubus rpc
+	 * transport. This is useful to fetch large file contents which might
+	 * exceed the ubus message size limits or which contain binary data.
+	 *
+	 * The cgi-io helper will enforce the same access permission rules as
+	 * the ubus based read call.
+	 *
+	 * @param {string} path
+	 * The file path to read.
+	 *
+	 * @param {string} [type=text]
+	 * The expected type of read file contents. Valid values are `text` to
+	 * interpret the contents as string, `json` to parse the contents as JSON
+	 * or `blob` to return the contents as Blob instance.
+	 *
+	 * @returns {Promise<*>}
+	 * Returns a promise resolving with the file contents interpreted according
+	 * to the specified type or rejecting with an error stating the failure
+	 * reason.
+	 */
+	read_direct: function(path, type) {
+		var postdata = 'sessionid=%s&path=%s'
+			.format(encodeURIComponent(L.env.sessionid), encodeURIComponent(path));
+
+		return request.post(L.env.cgi_base + '/cgi-download', postdata, {
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			responseType: (type == 'blob') ? 'blob' : 'text'
+		}).then(handleCgiIoReply.bind({ type: type }));
+	},
+
+	/**
+	 * Execute the specified command, bypassing ubus.
+	 *
+	 * Note: The `command` must be either the path to an executable,
+	 * or a basename without arguments in which case it will be searched
+	 * in $PATH. If specified, the values given in `params` will be passed
+	 * as arguments to the command.
+	 *
+	 * This function will invoke the requested commands through the cgi-io
+	 * helper applet at `/cgi-bin/cgi-exec` which bypasses the ubus rpc
+	 * transport. This is useful to fetch large command outputs which might
+	 * exceed the ubus message size limits or which contain binary data.
+	 *
+	 * The cgi-io helper will enforce the same access permission rules as
+	 * the ubus based exec call.
+	 *
+	 * @param {string} command
+	 * The command to invoke.
+	 *
+	 * @param {string[]} [params]
+	 * The arguments to pass to the command.
+	 *
+	 * @param {string} [type=text]
+	 * The expected output type of the invoked program. Valid values are
+	 * `text` to interpret the output as string, `json` to parse the output
+	 * as JSON or `blob` to return the output as Blob instance.
+	 *
+	 * @param {boolean} [latin1=false]
+	 * Whether to encode the command line as Latin1 instead of UTF-8. This
+	 * is usually not needed but can be useful for programs that cannot
+	 * handle UTF-8 input.
+	 *
+	 * @returns {Promise<*>}
+	 * Returns a promise resolving with the command stdout output interpreted
+	 * according to the specified type or rejecting with an error stating the
+	 * failure reason.
+	 */
+	exec_direct: function(command, params, type, latin1) {
+		var cmdstr = String(command)
+			.replace(/\\/g, '\\\\').replace(/(\s)/g, '\\$1');
+
+		if (Array.isArray(params))
+			for (var i = 0; i < params.length; i++)
+				cmdstr += ' ' + String(params[i])
+					.replace(/\\/g, '\\\\').replace(/(\s)/g, '\\$1');
+
+		if (latin1)
+			cmdstr = escape(cmdstr).replace(/\+/g, '%2b');
+		else
+			cmdstr = encodeURIComponent(cmdstr);
+
+		var postdata = 'sessionid=%s&command=%s'
+			.format(encodeURIComponent(L.env.sessionid), cmdstr);
+
+		return request.post(L.env.cgi_base + '/cgi-exec', postdata, {
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			responseType: (type == 'blob') ? 'blob' : 'text'
+		}).then(handleCgiIoReply.bind({ type: type }));
 	}
 });
 

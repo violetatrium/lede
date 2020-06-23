@@ -1,19 +1,19 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-24 13:54+0000\n"
-"Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
+"PO-Revision-Date: 2020-04-08 23:37+0000\n"
+"Last-Translator: Florian L. <florian.ligneul@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsnft-qos/fr/>\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:136
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:155
 msgid "Bytes Total"
-msgstr ""
+msgstr "Total octets"
 
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:141
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:160
@@ -22,7 +22,7 @@ msgstr "Récupération des données…"
 
 #: applications/luci-app-nft-qos/luasrc/model/cbi/nft-qos/nft-qos.lua:224
 msgid "Comment"
-msgstr ""
+msgstr "Commentaire"
 
 #: applications/luci-app-nft-qos/luasrc/model/cbi/nft-qos/nft-qos.lua:48
 msgid "Default Download Rate"
@@ -91,12 +91,12 @@ msgstr ""
 #: applications/luci-app-nft-qos/luasrc/model/cbi/nft-qos/nft-qos.lua:121
 #: applications/luci-app-nft-qos/luasrc/model/cbi/nft-qos/nft-qos.lua:158
 msgid "Hostname"
-msgstr ""
+msgstr "Nom d'hôte"
 
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:134
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:153
 msgid "IP Address"
-msgstr ""
+msgstr "Adresse IP"
 
 #: applications/luci-app-nft-qos/luasrc/model/cbi/nft-qos/nft-qos.lua:126
 #: applications/luci-app-nft-qos/luasrc/model/cbi/nft-qos/nft-qos.lua:163
@@ -143,7 +143,7 @@ msgstr ""
 
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:65
 msgid "No information available"
-msgstr ""
+msgstr "Information indisponible"
 
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:137
 #: applications/luci-app-nft-qos/luasrc/view/nft-qos/rate.htm:156
@@ -183,7 +183,7 @@ msgstr ""
 
 #: applications/luci-app-nft-qos/luasrc/model/cbi/nft-qos/nft-qos.lua:221
 msgid "Service"
-msgstr ""
+msgstr "Service"
 
 #: applications/luci-app-nft-qos/luasrc/model/cbi/nft-qos/nft-qos.lua:116
 msgid "Static QoS-Download Rate"

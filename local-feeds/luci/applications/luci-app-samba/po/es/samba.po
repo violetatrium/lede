@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-10 03:41+0200\n"
-"PO-Revision-Date: 2019-10-31 02:44+0000\n"
+"PO-Revision-Date: 2020-02-25 09:44+0000\n"
 "Last-Translator: Franco Castillo <castillofrancodamian@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationssamba/es/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-samba/luasrc/model/cbi/samba.lua:64
 msgid "Allow guests"
@@ -57,7 +57,7 @@ msgstr "Configuración general"
 
 #: applications/luci-app-samba/luasrc/model/cbi/samba.lua:13
 msgid "Hostname"
-msgstr "Nombre de host"
+msgstr "Nombre del host"
 
 #: applications/luci-app-samba/luasrc/model/cbi/samba.lua:75
 msgid "Mask for new directories"
@@ -74,19 +74,19 @@ msgstr "Nombre"
 #: applications/luci-app-samba/luasrc/controller/samba.lua:14
 #: applications/luci-app-samba/luasrc/model/cbi/samba.lua:5
 msgid "Network Shares"
-msgstr "Samba"
+msgstr "Recursos compartidos de red"
 
 #: applications/luci-app-samba/luasrc/model/cbi/samba.lua:46
 msgid "Path"
-msgstr "Dirección"
+msgstr "Ruta"
 
 #: applications/luci-app-samba/luasrc/model/cbi/samba.lua:40
 msgid ""
 "Please add directories to share. Each directory refers to a folder on a "
 "mounted device."
 msgstr ""
-"Añada directorios que compartir. Cada directorio hace referencia a una "
-"carpeta en un dispositivo montado."
+"Por favor agregue directorios para compartir. Cada directorio hace "
+"referencia a una carpeta en un dispositivo montado."
 
 #: applications/luci-app-samba/luasrc/model/cbi/samba.lua:53
 msgid "Read-only"
@@ -109,18 +109,9 @@ msgid ""
 msgstr ""
 "Esto es el contenido del archivo «/etc/samba/smb.conf.template» a partir del "
 "cual se generará su configuración de Samba. No deben cambiarse los valores "
-"delimitados por plecas («|»); estos reciben sus valores de la pestaña «"
-"Configuración general»."
+"delimitados por plecas («|»); estos reciben sus valores de la pestaña "
+"«Configuración general»."
 
 #: applications/luci-app-samba/luasrc/model/cbi/samba.lua:15
 msgid "Workgroup"
 msgstr "Grupo de trabajo"
-
-#~ msgid "Shared Directory"
-#~ msgstr "Directorio compatido"
-
-#~ msgid "Physical Path"
-#~ msgstr "Ruta Física"
-
-#~ msgid "optional"
-#~ msgstr "opcional"

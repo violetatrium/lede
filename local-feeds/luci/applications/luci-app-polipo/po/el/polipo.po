@@ -3,19 +3,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-28 02:08+0200\n"
-"PO-Revision-Date: 2012-03-18 15:29+0200\n"
-"Last-Translator: Vasilis <acinonyx@openwrt.gr>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2020-04-25 16:36+0000\n"
+"Last-Translator: george k <norhorn@gmail.com>\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationspolipo/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 
 #: applications/luci-app-polipo/luasrc/model/cbi/polipo.lua:121
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Ρυθμίσεις για προχωρημένους"
 
 #: applications/luci-app-polipo/luasrc/model/cbi/polipo.lua:35
 msgid "Allowed clients"
@@ -33,7 +34,7 @@ msgstr ""
 
 #: applications/luci-app-polipo/luasrc/controller/polipo.lua:13
 msgid "Configuration"
-msgstr ""
+msgstr "Διαμόρφωση"
 
 #: applications/luci-app-polipo/luasrc/model/cbi/polipo.lua:11
 msgid "DNS and Query Settings"
@@ -216,7 +217,7 @@ msgstr ""
 
 #: applications/luci-app-polipo/luasrc/controller/polipo.lua:12
 msgid "Status"
-msgstr ""
+msgstr "Κατάσταση"
 
 #: applications/luci-app-polipo/luasrc/model/cbi/polipo.lua:99
 msgid "Syslog facility"
@@ -263,4 +264,4 @@ msgstr ""
 
 #: applications/luci-app-polipo/luasrc/model/cbi/polipo.lua:16
 msgid "enable"
-msgstr ""
+msgstr "ενεργοποίηση"

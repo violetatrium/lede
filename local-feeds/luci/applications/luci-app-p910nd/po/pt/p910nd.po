@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-26 19:03+0200\n"
-"PO-Revision-Date: 2019-11-02 16:04+0000\n"
+"PO-Revision-Date: 2020-05-02 10:21+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsp910nd/pt/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: applications/luci-app-p910nd/luasrc/model/cbi/p910nd.lua:47
 msgid "Bidirectional mode"
@@ -20,7 +20,7 @@ msgstr "Modo bidirecional"
 
 #: applications/luci-app-p910nd/luasrc/model/cbi/p910nd.lua:20
 msgid "Device"
-msgstr "Dispositivo"
+msgstr "Aparelho"
 
 #: applications/luci-app-p910nd/luasrc/model/cbi/p910nd.lua:10
 msgid ""
@@ -58,6 +58,3 @@ msgstr "ativar"
 #: applications/luci-app-p910nd/luasrc/model/cbi/p910nd.lua:9
 msgid "p910nd - Printer server"
 msgstr "P910nd - Servidor de impressão"
-
-#~ msgid "p910nd listens on port 910+N. E.g. 9100 for the first printer."
-#~ msgstr "p910nd escuta na porta 910+N. Ex. 9100 para a primeira impressora."

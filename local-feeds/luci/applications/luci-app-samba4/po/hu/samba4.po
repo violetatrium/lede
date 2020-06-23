@@ -1,175 +1,177 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2012-04-06 10:56+0200\n"
-"Last-Translator: juhosg <juhosg@openwrt.org>\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-03-31 13:27+0000\n"
+"Last-Translator: Tamas Szanto <taszanto@gmail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationssamba4/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.0-dev\n"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:97
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:101
 msgid "Allow guests"
-msgstr "Vendég hozzáférés"
+msgstr "Vendégek engedélyezése"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:94
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:48
+msgid "Allow legacy (insecure) protocols/authentication."
+msgstr "Régi, már nem biztonságos protokollok és autentikáció engedélyezése."
+
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:49
+msgid ""
+"Allow legacy smb(v1)/Lanman connections, needed for older devices without "
+"smb(v2.1/3) support."
+msgstr ""
+"Régi SMB v1/Lanman kapcsolatok engedélyezése, SMB v2.1/3-at nem támogató "
+"eszközökhöz."
+
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:98
 msgid "Allowed users"
 msgstr "Engedélyezett felhasználók"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:128
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:132
 msgid "Apple Time-machine share"
-msgstr ""
+msgstr "Apple Time Machine megosztás"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:81
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:85
 msgid "Browse-able"
-msgstr ""
+msgstr "Tallózható"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:113
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:117
 msgid "Create mask"
 msgstr "Létrehozási maszk"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:38
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:39
 msgid "Description"
 msgstr "Leírás"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:119
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:123
 msgid "Directory mask"
-msgstr "Könyvtár maszk"
+msgstr "Könyvtármaszk"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:51
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:55
 msgid "Disable Active Directory Domain Controller"
-msgstr ""
+msgstr "Active Directory-tartományvezérlő letiltása"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:48
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:52
 msgid "Disable Netbios"
-msgstr ""
+msgstr "Netbios letiltása"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:54
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:58
 msgid "Disable Winbind"
-msgstr ""
+msgstr "Winbind letiltása"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:30
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:31
 msgid "Edit Template"
 msgstr "Sablon szerkesztése"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:58
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:62
 msgid "Edit the template that is used for generating the samba configuration."
 msgstr ""
-"Itt szerkesztheti a sablont, ami a végleges samba konfiguráció "
-"elkészítéséhez kerül felhasználásra."
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:44
-msgid "Enable macOS compatible shares"
-msgstr ""
+"A sablon szerkesztése, amely a samba beállításainak előállításához kerül "
+"felhasználásra."
 
 #: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:45
+msgid "Enable macOS compatible shares"
+msgstr "MacOS kompatibilis megosztások engedélyezése"
+
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:46
 msgid ""
 "Enables Apple's AAPL extension globally and adds macOS compatibility options "
 "to all shares."
 msgstr ""
+"Globálisan engedélyezi az Apple AAPL kiterjesztését, és macOS kompatibilis "
+"beállításokat ad az összes megosztáshoz."
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:92
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:96
 msgid "Force Root"
-msgstr ""
+msgstr "Rendszergazda kényszerítése"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:41
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:42
 msgid "Force synchronous I/O"
-msgstr ""
+msgstr "Szinkron I/O kényszerítése"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:29
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:30
 msgid "General Settings"
 msgstr "Általános beállítások"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:103
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:107
 msgid "Guests only"
-msgstr ""
+msgstr "Csak vendégek"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:108
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:112
 msgid "Inherit owner"
-msgstr ""
-
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:32
-msgid "Interface"
-msgstr ""
+msgstr "Tulajdonos öröklése"
 
 #: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:33
+msgid "Interface"
+msgstr "Csatoló"
+
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:34
 msgid "Listen only on the given interface or, if unspecified, on lan"
 msgstr ""
+"Figyelés csak a megadott csatolón, vagy a helyi hálózaton, ha nincs megadva"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:75
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:79
 msgid "Name"
 msgstr "Név"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:21
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:22
 #: applications/luci-app-samba4/luasrc/controller/samba4.lua:10
 msgid "Network Shares"
 msgstr "Hálózati megosztások"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:42
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:43
 msgid ""
 "On lower-end devices may increase speeds, by forceing synchronous I/O "
 "instead of the default asynchronous."
 msgstr ""
+"Az alsóbb kategóriás eszközökön növelheti a sebességet a szinkron I/O "
+"kényszerítésével az alapértelmezett aszinkron helyett."
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:76
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:80
 msgid "Path"
-msgstr "Elérési út"
+msgstr "Útvonal"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:71
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:75
 msgid ""
 "Please add directories to share. Each directory refers to a folder on a "
 "mounted device."
 msgstr ""
+"Adja hozzá a megosztandó könyvtárakat. Minden egyes könyvtár egy csatolt "
+"eszközön lévő mappára hivatkozik."
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:86
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:90
 msgid "Read-only"
 msgstr "Csak olvasható"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:70
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:74
 msgid "Shared Directories"
 msgstr "Megosztott könyvtárak"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:59
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:63
 msgid ""
 "This is the content of the file '/etc/samba/smb.conf.template' from which "
 "your samba configuration will be generated. Values enclosed by pipe symbols "
 "('|') should not be changed. They get their values from the 'General "
 "Settings' tab."
 msgstr ""
-"Itt látható a /etc/samba/smb.conf.template file tartalma, ami a samba "
-"konfiguráció előállításához kerül felhasználásra. A pipe szimbólumok ('|') "
-"közé zárt értékek módosítása nem szükséges, az értéküket az általános "
-"beállítások fülről kapják."
+"Ez az „/etc/samba/smb.conf.template” fájl tartalma, amelyből a samba "
+"beállításai előállításra kerülnek. A cső szimbólumokkal („|”) közrezárt "
+"értékeket nem szabad módosítani. Az értéküket az „Általános beállítások” "
+"lapról kapják."
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:130
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:134
 msgid "Time-machine size in GB"
-msgstr ""
+msgstr "Time Machine mérete GB-ban"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:125
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:129
 msgid "Vfs objects"
-msgstr ""
+msgstr "Vfs objektumok"
 
-#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:35
+#: applications/luci-app-samba4/htdocs/luci-static/resources/view/samba4.js:36
 msgid "Workgroup"
 msgstr "Munkacsoport"
-
-#~ msgid ""
-#~ "Allow system users to reach their home directories via network shares"
-#~ msgstr ""
-#~ "A rendszerfelhasználók hálózati megosztáson keresztül hozzáférhetnek a "
-#~ "home könyvtárukhoz."
-
-#~ msgid "Hostname"
-#~ msgstr "Gépnév"
-
-#~ msgid "Share home-directories"
-#~ msgstr "Home könyvtárak megosztása"
-
-#~ msgid "Mask for new directories"
-#~ msgstr "Új könyvtárak maszkja"
-
-#~ msgid "Mask for new files"
-#~ msgstr "Új fájlok maszkja"

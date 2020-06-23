@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-10 03:41+0200\n"
-"PO-Revision-Date: 2019-10-22 08:50+0000\n"
+"PO-Revision-Date: 2020-05-02 10:21+0000\n"
 "Last-Translator: Franco Castillo <castillofrancodamian@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsupnp/es/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: applications/luci-app-upnp/luasrc/model/cbi/upnp/upnp.lua:81
 msgid ""
@@ -88,7 +88,7 @@ msgstr "UUID del dispositivo"
 
 #: applications/luci-app-upnp/luasrc/model/cbi/upnp/upnp.lua:44
 msgid "Downlink"
-msgstr "Velocidad de bajada"
+msgstr "Enlace descendente"
 
 #: applications/luci-app-upnp/luasrc/model/cbi/upnp/upnp.lua:38
 msgid "Enable IGDv1 mode"
@@ -200,32 +200,9 @@ msgstr "Desconocido"
 
 #: applications/luci-app-upnp/luasrc/model/cbi/upnp/upnp.lua:47
 msgid "Uplink"
-msgstr "Velocidad de subida"
+msgstr "Enlace ascendente"
 
 #: applications/luci-app-upnp/luasrc/model/cbi/upnp/upnp.lua:45
 #: applications/luci-app-upnp/luasrc/model/cbi/upnp/upnp.lua:48
 msgid "Value in KByte/s, informational only"
 msgstr "Valor en KBytes/s (sólo informativo)"
-
-#~ msgid "Delete Redirect"
-#~ msgstr "Borrar redirección"
-
-#~ msgid ""
-#~ "UPNP allows clients in the local network to automatically configure the "
-#~ "router."
-#~ msgstr ""
-#~ "UPnP permite que los puestos de la red local configuren automáticamente "
-#~ "el router."
-
-#~ msgid "enable"
-#~ msgstr "activar"
-
-#~ msgid "Log output"
-#~ msgstr "Loguear salida"
-
-#~ msgid ""
-#~ "UPNP should only be enabled if absolutely necessary as it can result in "
-#~ "high security risks for your network."
-#~ msgstr ""
-#~ "UPNP sólo deberia habilitarse si es abasolutamente necesario ya que puede "
-#~ "comprometer la seguridad de su red."

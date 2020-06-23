@@ -134,7 +134,8 @@ body {
 	font-weight: normal;
 	line-height: 18px;
 	color: #404040;
-	padding: 58px 5px 5px 5px;
+	padding: 18px 5px 5px 5px;
+	margin-top: 40px;
 }
 
 .container {
@@ -493,6 +494,8 @@ select,
 	border-radius: 3px;
 	position: relative;
 	pointer-events: none;
+	overflow: hidden;
+	word-break: break-all;
 }
 
 .cbi-dynlist > .item::after {
@@ -757,7 +760,6 @@ textarea[readonly] {
  * Repeatable UI elements outside the base styles provided from the scaffolding
  * ---------------------------------------------------------------------------- */
 header {
-	height: 40px;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -1196,7 +1198,6 @@ footer {
 	background: #fff;
 	box-shadow: 0 0 3px #444;
 	padding: 1em 1em .5em 1em;
-	max-height: 2400px;
 	min-width: 270px;
 }
 
@@ -1301,7 +1302,7 @@ body.modal-overlay-active #modal_overlay {
 }
 
 .cbi-input-invalid,
-.cbi-input-invalid.cbi-dropdown,
+.cbi-input-invalid.cbi-dropdown:not(.btn):not(.cbi-button),
 .cbi-input-invalid.cbi-dropdown:not([open]) > ul > li,
 .cbi-value-error input {
 	color: #f00;
@@ -1346,6 +1347,10 @@ body.modal-overlay-active #modal_overlay {
 	display: table;
 	content: "";
 	clear: both;
+}
+
+.cbi-page-actions > * {
+	vertical-align: middle;
 }
 
 .cbi-page-actions > :not([method="post"]):not(.cbi-button-apply):not(.cbi-button-negative):not(.cbi-button-save):not(.cbi-button-reset) {
@@ -1771,7 +1776,8 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 	margin: .25em 0;
 }
 
-.label {
+.label,
+header [data-indicator] {
 	padding: 1px 3px 2px;
 	font-size: 9.75px;
 	font-weight: bold;
@@ -1781,6 +1787,11 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 	background-color: #bfbfbf;
 	border-radius: 3px;
 	text-shadow: none;
+	margin-left: .4em;
+}
+
+header [data-indicator][data-clickable] {
+	cursor: pointer;
 }
 
 a.label:link,
@@ -1804,16 +1815,13 @@ a.label:hover {
 	background-color: #46a546;
 }
 
-.label.notice {
+.label.notice,
+header [data-indicator][data-style="active"] {
 	background-color: #62cffc;
 }
 
 /* LuCI specific items */
 .hidden { display: none }
-
-#xhr_poll_status {
-	  cursor: pointer;
-}
 
 form.inline { display: inline; margin-bottom: 0; }
 
@@ -2023,6 +2031,8 @@ table table td,
 
 .network-status-table .ifacebox-body > div {
 	margin: -.125em;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 #dsl_status_table .ifacebox-body span > strong {
@@ -2087,6 +2097,21 @@ div.cbi-value var,
 .td.cbi-value-field var {
 	font-style: italic;
 	color: #0069d6;
+}
+
+div.cbi-value var[data-tooltip],
+.td.cbi-value-field var[data-tooltip],
+div.cbi-value var.cbi-tooltip-container,
+.td.cbi-value-field var.cbi-tooltip-container {
+	cursor: help;
+	border-bottom: 1px dotted #0069d6;
+}
+
+div.cbi-value var.cbi-tooltip-container,
+.td.cbi-value-field var.cbi-tooltip-container .cbi-tooltip {
+	font-style: normal;
+	white-space: normal;
+	color: #444;
 }
 
 #modal_overlay > .modal.uci-dialog,
@@ -2198,7 +2223,6 @@ div.cbi-value var,
 	background: #fff;
 	box-shadow: 0 0 3px #444;
 	padding: 1em 1em .5em 1em;
-	max-height: 2400px;
 	min-width: 270px;
 }
 
@@ -2381,4 +2405,25 @@ html body.apply-overlay-active {
 
 .fade-out {
 	animation: fade-out .4s ease;
+}
+
+.assoclist .ifacebadge {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	white-space: normal;
+	text-align: center;
+}
+
+.assoclist .ifacebadge > img {
+	margin: .2em;
+}
+
+.assoclist .td:nth-of-type(3),
+.assoclist .td:nth-of-type(5) {
+	width: 25%;
+}
+
+.assoclist .td:nth-of-type(6) button {
+	word-break: normal;
 }

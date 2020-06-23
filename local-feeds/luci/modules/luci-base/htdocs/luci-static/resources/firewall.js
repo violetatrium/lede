@@ -5,7 +5,7 @@
 
 
 function initFirewallState() {
-	return uci.load('firewall');
+	return L.resolveDefault(uci.load('firewall'));
 }
 
 function parseEnum(s, values) {
@@ -154,8 +154,8 @@ Firewall = L.Class.extend({
 
 			if (section != null && section['.type'] == 'zone') {
 				found = true;
-				name = zone.name;
-				uci.remove('firewall', zone['.name']);
+				name = section.name;
+				uci.remove('firewall', section['.name']);
 			}
 			else if (name != null) {
 				var sections = uci.sections('firewall', 'zone');
@@ -362,13 +362,13 @@ Zone = AbstractFirewallItem.extend({
 		if (newNetworks.length > 0)
 			this.set('network', newNetworks.join(' '));
 		else
-			this.set('network', ' ');
+			this.set('network', null);
 
 		return (newNetworks.length < oldNetworks.length);
 	},
 
 	getNetworks: function() {
-		return L.toArray(this.get('network') || this.get('name'));
+		return L.toArray(this.get('network'));
 	},
 
 	clearNetworks: function() {
@@ -493,7 +493,7 @@ Zone = AbstractFirewallItem.extend({
 
 		uci.set('firewall', sid, 'src', this.getName());
 
-		return new Redirect(sid);
+		return new Rule(sid);
 	},
 
 	getColor: function(forName) {

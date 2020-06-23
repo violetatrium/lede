@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2019-11-02 16:06+0000\n"
+"PO-Revision-Date: 2020-05-02 10:21+0000\n"
 "Last-Translator: Franco Castillo <castillofrancodamian@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsmwan3/es/>\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:171
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:187
@@ -89,7 +89,7 @@ msgid ""
 "the link to be deemed up"
 msgstr ""
 "Valores aceptables: 1-100. Esta cantidad de direcciones IP de seguimiento "
-"debe responder para que el enlace se considere activo."
+"debe responder para que el enlace se considere activo"
 
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/memberconfig.lua:30
 msgid "Acceptable values: 1-1000. Defaults to 1 if not set"
@@ -139,13 +139,13 @@ msgstr "Crítico"
 msgid "Debug"
 msgstr "Depurar"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:29
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/rule.lua:81
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:29
 msgid "Destination address"
 msgstr "Dirección de destino"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:33
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/rule.lua:87
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:33
 msgid "Destination port"
 msgstr "Puerto de destino"
 
@@ -178,8 +178,8 @@ msgstr ""
 msgid "Emergency"
 msgstr "Emergencia"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:22
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interface.lua:160
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:22
 msgid "Enabled"
 msgstr "Activado"
 
@@ -247,8 +247,8 @@ msgstr "Hotplug ifup"
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/globalsconfig.lua:45
 msgid "How often should rtmon update the interface routing table"
 msgstr ""
-"¿Con qué frecuencia debe rtmon actualizar la tabla de enrutamiento de la "
-"interfaz?"
+"Con qué frecuencia debe rtmon actualizar la tabla de enrutamiento de la "
+"interfaz"
 
 #: applications/luci-app-mwan3/luasrc/view/mwan/status_detail.htm:29
 #: applications/luci-app-mwan3/luasrc/view/mwan/status_diagnostics.htm:56
@@ -277,8 +277,8 @@ msgid "Initial state"
 msgstr "Estado inicial"
 
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interface.lua:150
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/memberconfig.lua:18
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/member.lua:27
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/memberconfig.lua:18
 #: applications/luci-app-mwan3/luasrc/view/mwan/status_detail.htm:10
 #: applications/luci-app-mwan3/luasrc/view/mwan/status_diagnostics.htm:10
 #: applications/luci-app-mwan3/luasrc/view/mwan/status_diagnostics.htm:62
@@ -287,13 +287,13 @@ msgstr "Estado inicial"
 msgid "Interface"
 msgstr "Interfaz"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:209
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interface.lua:208
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:209
 msgid "Interface down"
 msgstr "Bajar interfaz"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:223
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interface.lua:219
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:223
 msgid "Interface up"
 msgstr "Levantar interfaz"
 
@@ -319,8 +319,8 @@ msgstr "Mantener el intervalo de falla"
 msgid "Keep ping failure interval during failure state"
 msgstr "Mantener el intervalo de falla de ping durante el estado de falla"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policyconfig.lua:25
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policy.lua:75
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policyconfig.lua:25
 msgid "Last resort"
 msgstr "Último recurso"
 
@@ -465,10 +465,10 @@ msgstr ""
 msgid "Members assigned"
 msgstr "Miembros asignados"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:244
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interface.lua:230
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/memberconfig.lua:25
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:244
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/member.lua:33
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/memberconfig.lua:25
 msgid "Metric"
 msgstr "Métrica"
 
@@ -511,7 +511,7 @@ msgstr "No se han definido Hosts de seguimiento para la interfaz %s."
 
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/globalsconfig.lua:36
 msgid "Notice"
-msgstr "Nota"
+msgstr "Aviso"
 
 #: applications/luci-app-mwan3/luasrc/controller/mwan3.lua:60
 msgid "Notification"
@@ -520,12 +520,12 @@ msgstr "Notificación"
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:29
 #: applications/luci-app-mwan3/luasrc/view/mwan/overview_status_interface.htm:42
 msgid "Offline"
-msgstr "Fuera de línea"
+msgstr "Desconectado"
 
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:28
 #: applications/luci-app-mwan3/luasrc/view/mwan/overview_status_interface.htm:34
 msgid "Online"
-msgstr "En línea"
+msgstr "Conectado"
 
 #: applications/luci-app-mwan3/luasrc/controller/mwan3.lua:182
 #: applications/luci-app-mwan3/luasrc/controller/mwan3.lua:186
@@ -540,8 +540,8 @@ msgstr "Recuento de ping"
 msgid "Ping default gateway"
 msgstr "Ping a puerta de enlace predeterminada"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:158
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interface.lua:192
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:158
 msgid "Ping interval"
 msgstr "Intervalo de ping"
 
@@ -579,26 +579,26 @@ msgid ""
 "spaces<br />Names must be 15 characters or less<br />Policies may not share "
 "the same name as configured interfaces, members or rules"
 msgstr ""
-"Las políticas son perfiles que agrupan a uno o más miembros que controlan la "
-"forma en que MWAN distribuye el tráfico<br />Las interfaces de los miembros "
-"con métricas más bajas se utilizan primero<br />Las interfaces de los "
-"miembros con la misma métrica tendrán carga equilibrada. más tráfico para "
-"aquellos con mayor peso<br />Los nombres pueden contener caracteres AZ, az, "
-"0-9, _ y sin espacios<br />Los nombres deben tener 15 caracteres o menos<br /"
-">Las políticas no pueden compartir el mismo nombre que interfaces "
-"configuradas, miembros o reglas"
+"Las políticas son perfiles que agrupan a uno o más miembros que controlan "
+"cómo MWAN distribuye el tráfico<br/>Las interfaces de miembros con métricas "
+"más bajas se usan primero<br/>Las interfaces de miembros con la misma "
+"métrica serán de carga equilibrada<br/>Las interfaces de miembros con carga "
+"equilibrada se distribuyen más tráfico para aquellos con mayor peso<br/>Los "
+"nombres pueden contener caracteres AZ, az, 0-9, _ y sin espacios<br/>Los "
+"nombres deben tener 15 caracteres o menos<br/>Las políticas pueden no "
+"compartir el mismo nombre que interfaces configuradas, miembros o reglas"
 
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policy.lua:51
 msgid "Policy"
 msgstr "Política"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:66
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/rule.lua:99
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:66
 msgid "Policy assigned"
 msgstr "Política asignada"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:36
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/rule.lua:93
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:36
 msgid "Protocol"
 msgstr "Protocolo"
 
@@ -662,13 +662,13 @@ msgstr ""
 "Segundos. Valores aceptables: 1-1000000. El valor predeterminado es 600 si "
 "no se establece"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:22
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/rule.lua:69
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:22
 msgid "Source address"
 msgstr "Dirección de origen"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:26
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/rule.lua:75
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:26
 msgid "Source port"
 msgstr "Puerto de origen"
 
@@ -747,13 +747,13 @@ msgstr ""
 msgid "Tracking hostname or IP address"
 msgstr "Seguimiento de nombre de host o dirección IP"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:40
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interface.lua:170
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:40
 msgid "Tracking method"
 msgstr "Método de seguimiento"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:58
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interface.lua:181
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/interfaceconfig.lua:58
 msgid "Tracking reliability"
 msgstr "Fiabilidad de seguimiento"
 
@@ -830,8 +830,8 @@ msgstr "Esperando a que se complete el comando..."
 msgid "Warning"
 msgstr "Advertencia"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/memberconfig.lua:29
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/member.lua:39
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/memberconfig.lua:29
 msgid "Weight"
 msgstr "Peso"
 
@@ -847,8 +847,8 @@ msgstr ""
 msgid "Yes"
 msgstr "Si"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policyconfig.lua:29
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policy.lua:80
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policyconfig.lua:29
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:73
 msgid "blackhole (drop)"
 msgstr "agujero negro (caída)"
@@ -857,8 +857,8 @@ msgstr "agujero negro (caída)"
 msgid "connected (mwan3)"
 msgstr "conectado (mwan3)"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policyconfig.lua:30
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policy.lua:82
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policyconfig.lua:30
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:74
 msgid "default (use main routing table)"
 msgstr "predeterminado (usar tabla de enrutamiento principal)"
@@ -875,20 +875,8 @@ msgstr "Interfaz abajo (netifd)"
 msgid "ifup (netifd)"
 msgstr "Interfaz arriba (netifd)"
 
-#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policyconfig.lua:28
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policy.lua:84
+#: applications/luci-app-mwan3/luasrc/model/cbi/mwan/policyconfig.lua:28
 #: applications/luci-app-mwan3/luasrc/model/cbi/mwan/ruleconfig.lua:72
 msgid "unreachable (reject)"
 msgstr "inalcanzable (rechazar)"
-
-#~ msgid "always"
-#~ msgstr "siempre"
-
-#~ msgid "ifdown"
-#~ msgstr "ifdown"
-
-#~ msgid "ifup"
-#~ msgstr "ifup"
-
-#~ msgid "never"
-#~ msgstr "nunca"

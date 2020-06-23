@@ -114,7 +114,6 @@ GO_PKG_WORK_DIR:=$(PKG_BUILD_DIR)/$(GO_PKG_WORK_DIR_NAME)
 
 GO_PKG_BUILD_DIR:=$(GO_PKG_WORK_DIR)/build
 GO_PKG_CACHE_DIR:=$(GO_PKG_WORK_DIR)/cache
-GO_PKG_TMP_DIR:=$(GO_PKG_WORK_DIR)/tmp
 
 GO_PKG_BUILD_BIN_DIR:=$(GO_PKG_BUILD_DIR)/bin$(if \
   $(GO_HOST_TARGET_DIFFERENT),/$(GO_OS)_$(GO_ARCH))
@@ -170,8 +169,7 @@ GoPackage/has_binaries=$(call GoPackage/is_dir_not_empty,$(GO_PKG_BUILD_BIN_DIR)
 define GoPackage/Build/Configure
 	( \
 		cd $(PKG_BUILD_DIR) ; \
-		mkdir -p $(GO_PKG_BUILD_DIR)/bin $(GO_PKG_BUILD_DIR)/src \
-			$(GO_PKG_CACHE_DIR) $(GO_PKG_TMP_DIR) ; \
+		mkdir -p $(GO_PKG_BUILD_DIR)/bin $(GO_PKG_BUILD_DIR)/src $(GO_PKG_CACHE_DIR) ; \
 		\
 		files=$$$$($(FIND) ./ \
 			-type d -a \( -path './.git' -o -path './$(GO_PKG_WORK_DIR_NAME)' \) -prune -o \
@@ -249,7 +247,7 @@ define GoPackage/Build/Compile
 		cd $(GO_PKG_BUILD_DIR) ; \
 		export GOPATH=$(GO_PKG_BUILD_DIR) \
 			GOCACHE=$(GO_PKG_CACHE_DIR) \
-			GOTMPDIR=$(GO_PKG_TMP_DIR) \
+			GOENV=off \
 			GOROOT_FINAL=$(GO_TARGET_ROOT) \
 			CC=$(TARGET_CC) \
 			CXX=$(TARGET_CXX) \
@@ -275,7 +273,7 @@ define GoPackage/Build/Compile
 			mips|mipsle)     installsuffix="$(GO_MIPS)" ;; \
 			mips64|mips64le) installsuffix="$(GO_MIPS64)" ;; \
 			esac ; \
-			ldflags="all=-linkmode external -extldflags '$(TARGET_LDFLAGS)'" ; \
+			ldflags="-linkmode external -extldflags '$(TARGET_LDFLAGS:-z%=-Wl,-z,%)'" ; \
 			pkg_gcflags="$(GO_PKG_GCFLAGS)" ; \
 			pkg_ldflags="$(GO_PKG_LDFLAGS)" ; \
 			for def in $(GO_PKG_LDFLAGS_X); do \
@@ -284,10 +282,10 @@ define GoPackage/Build/Compile
 			go install \
 				$$$${installsuffix:+-installsuffix $$$$installsuffix} \
 				-trimpath \
-				-ldflags "$$$$ldflags" \
+				-ldflags "all=$$$$ldflags" \
 				-v \
 				$$$${pkg_gcflags:+-gcflags "$$$$pkg_gcflags"} \
-				$$$${pkg_ldflags:+-ldflags "$$$$pkg_ldflags"} \
+				$$$${pkg_ldflags:+-ldflags "$$$$pkg_ldflags $$$$ldflags"} \
 				$(1) \
 				$$$$targets ; \
 			retval=$$$$? ; \

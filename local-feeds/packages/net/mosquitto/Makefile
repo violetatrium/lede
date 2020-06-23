@@ -9,7 +9,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mosquitto
-PKG_VERSION:=1.6.7
+PKG_VERSION:=1.6.9
 PKG_RELEASE:=1
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE.txt
@@ -17,8 +17,7 @@ PKG_CPE_ID:=cpe:/a:eclipse:mosquitto
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://mosquitto.org/files/source/
-PKG_HASH:=bcd31a8fbbd053fee328986fadd8666d3058357ded56b9782f7d4f19931d178e
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_HASH:=412979b2db0a0020bd02fa64f0a0de9e7000b84462586e32b67f29bb1f6c1685
 
 include $(INCLUDE_DIR)/package.mk
 

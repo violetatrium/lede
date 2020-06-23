@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-25 18:00+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2020-03-07 12:33+0000\n"
+"Last-Translator: Giuseppe Valitutto <valituttogiuseppe@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsbanip/it/>\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:89
 msgid "ASN Overview"
@@ -73,7 +73,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:72
 msgid "Description"
-msgstr ""
+msgstr "Descrizione"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:134
 msgid "Download Options"
@@ -81,7 +81,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:126
 msgid "Download Utility"
-msgstr ""
+msgstr "Utilità di Scaricamento"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:126
 msgid "Download Utility, RT Monitor"
@@ -128,6 +128,8 @@ msgid ""
 "For further performance improvements you can raise this value, e.g. '8' or "
 "'16' should be safe."
 msgstr ""
+"Per mingliorare le performance in futuro puoi aumentare questo valore, '8' o "
+"'16' dovrebbero essere sicuri."
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:88
 msgid "Geo Location"
@@ -182,11 +184,11 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/view/banip/ipsetview.htm:59
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:97
 msgid "Load"
-msgstr ""
+msgstr "Carico"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:81
 msgid "Loading"
-msgstr ""
+msgstr "Caricamento"
 
 #: applications/luci-app-banip/luasrc/view/banip/ipsetview.htm:27
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:58
@@ -203,7 +205,7 @@ msgstr ""
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:87
 msgid "Low Priority Service"
-msgstr ""
+msgstr "Serviio a bassa priorità"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:28
 msgid "Manual WAN Interface Selection"
@@ -247,7 +249,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:18
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:153
 msgid "Refresh"
-msgstr ""
+msgstr "Ricaricare"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:151
 msgid "Refresh IPSets"
@@ -256,7 +258,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:21
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:160
 msgid "Reload"
-msgstr ""
+msgstr "Aggiorna"
 
 #: applications/luci-app-banip/luasrc/view/banip/runtime.htm:158
 msgid "Reload IPSet Sources"
@@ -290,7 +292,7 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/configuration_tab.lua:26
 #: applications/luci-app-banip/luasrc/model/cbi/banip/whitelist_tab.lua:27
 msgid "Save"
-msgstr ""
+msgstr "Salva"
 
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:108
 msgid "Select the SSH daemon for logfile parsing, to detect break-in events."
@@ -365,6 +367,8 @@ msgstr ""
 #: applications/luci-app-banip/luasrc/model/cbi/banip/overview_tab.lua:89
 msgid "This change requires a manual service stop/re-start to take effect."
 msgstr ""
+"Per rendere effettiva questa modifica è necessario arrestare/riavviare il "
+"servizio manualmente."
 
 #: applications/luci-app-banip/luasrc/view/banip/ripeview.htm:40
 msgid "This data call gives access to various data sources maintained by IANA."

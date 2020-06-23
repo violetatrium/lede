@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=strongswan
-PKG_VERSION:=5.8.0
+PKG_VERSION:=5.8.2
 PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://download.strongswan.org/ https://download2.strongswan.org/
-PKG_HASH:=15b1e10c7dd6253ab5d791fe9b9cb84624e24c118aecd9b90251b4e60daa0933
+PKG_HASH:=86900ddbe7337c923dadf2c8339ae8ed2b9158e3691745884d08ae534677430e
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_MAINTAINER:=Stijn Tintel <stijn@linux-ipv6.be>
 PKG_CPE_ID:=cpe:/a:strongswan:strongswan
@@ -514,6 +514,10 @@ define Package/strongswan-scepclient/install
 	$(CP) $(PKG_INSTALL_DIR)/etc/strongswan.d/scepclient.conf $(1)/etc/strongswan.d/
 	$(INSTALL_DIR) $(1)/usr/lib/ipsec
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/ipsec/scepclient $(1)/usr/lib/ipsec/
+endef
+
+define Package/strongswan-swanctl/conffiles
+/etc/swanctl/
 endef
 
 define Package/strongswan-swanctl/install

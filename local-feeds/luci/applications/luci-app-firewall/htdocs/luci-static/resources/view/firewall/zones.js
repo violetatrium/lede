@@ -1,12 +1,14 @@
 'use strict';
+'require view';
 'require rpc';
 'require uci';
 'require form';
 'require network';
 'require firewall';
+'require tools.firewall as fwtool';
 'require tools.widgets as widgets';
 
-return L.view.extend({
+return view.extend({
 	callConntrackHelpers: rpc.declare({
 		object: 'luci',
 		method: 'getConntrackHelpers',
@@ -21,6 +23,13 @@ return L.view.extend({
 	},
 
 	render: function(data) {
+		if (fwtool.checkLegacySNAT())
+			return fwtool.renderMigration();
+		else
+			return this.renderZones(data);
+	},
+
+	renderZones: function(data) {
 		var ctHelpers = data[0],
 		    fwDefaults = data[1],
 		    m, s, o, inp, out;
@@ -73,6 +82,12 @@ return L.view.extend({
 		s.addremove = true;
 		s.anonymous = true;
 		s.sortable  = true;
+
+		s.handleRemove = function(section_id, ev) {
+			return firewall.deleteZone(section_id).then(L.bind(function() {
+				return this.super('handleRemove', [section_id, ev]);
+			}, this));
+		};
 
 		s.tab('general', _('General Settings'));
 		s.tab('advanced', _('Advanced Settings'));
@@ -137,6 +152,9 @@ return L.view.extend({
 		o = s.taboption('general', widgets.NetworkSelect, 'network', _('Covered networks'));
 		o.modalonly = true;
 		o.multiple = true;
+		o.cfgvalue = function(section_id) {
+			return uci.get('firewall', section_id, 'network');
+		};
 		o.write = function(section_id, formvalue) {
 			var name = uci.get('firewall', section_id, 'name'),
 			    cfgvalue = this.cfgvalue(section_id);
@@ -159,9 +177,6 @@ return L.view.extend({
 					for (var i = 1; i < zone_networks.length; i++)
 						zone_networks[0].addNetwork(zone_networks[i].getName());
 			});
-		};
-		o.remove = function(section_id) {
-			return uci.set('firewall', section_id, 'network', ' ');
 		};
 
 		o = s.taboption('advanced', form.DummyValue, '_advancedinfo');

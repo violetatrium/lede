@@ -1,8 +1,15 @@
 msgid ""
 msgstr ""
+"PO-Revision-Date: 2020-03-29 21:22+0000\n"
+"Last-Translator: Cristian Ionescu <joker_op@yahoo.com>\n"
+"Language-Team: Romanian <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsaria2/ro/>\n"
 "Language: ro\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:296
 msgid "<abbr title=\"Local Peer Discovery\">LPD</abbr> enabled"
@@ -74,7 +81,7 @@ msgstr ""
 #: applications/luci-app-aria2/luasrc/view/aria2/log_template.htm:49
 #: applications/luci-app-aria2/luasrc/view/aria2/settings_header.htm:29
 msgid "Collecting data..."
-msgstr ""
+msgstr "Colectare date..."
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:73
 msgid "Config file directory"
@@ -82,7 +89,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/controller/aria2.lua:21
 msgid "Configuration"
-msgstr ""
+msgstr "Configurare"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:230
 msgid "Connect timeout"
@@ -153,7 +160,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:77
 msgid "Enable logging"
-msgstr ""
+msgstr "Activează fișierul log"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:305
 msgid "Enable peer exchange"
@@ -165,11 +172,11 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:58
 msgid "Enabled"
-msgstr ""
+msgstr "Activat"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:91
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 #: applications/luci-app-aria2/luasrc/model/cbi/aria2/config.lua:44
 msgid "Error: Can't find aria2c in PATH, please reinstall aria2."
@@ -297,7 +304,7 @@ msgstr ""
 
 #: applications/luci-app-aria2/luasrc/view/aria2/log_template.htm:48
 msgid "Loading"
-msgstr ""
+msgstr "Încărcare"
 
 #: applications/luci-app-aria2/luasrc/controller/aria2.lua:27
 msgid "Log"

@@ -37,7 +37,12 @@
 
 #include "multipart_parser.h"
 
+#ifndef O_TMPFILE
+#define O_TMPFILE	(020000000 | O_DIRECTORY)
+#endif
+
 #define READ_BLOCK 4096
+#define POST_LIMIT 131072
 
 enum part {
 	PART_UNKNOWN,
@@ -223,55 +228,86 @@ urldecode(char *buf)
 	return true;
 }
 
-static bool
+static char *
 postdecode(char **fields, int n_fields)
 {
-	char *p;
 	const char *var;
-	static char buf[1024];
-	int i, len, field, found = 0;
+	char *p, *postbuf;
+	int i, field, found = 0;
+	ssize_t len = 0, rlen = 0, content_length = 0;
 
 	var = getenv("CONTENT_TYPE");
 
 	if (!var || strncmp(var, "application/x-www-form-urlencoded", 33))
-		return false;
+		return NULL;
 
-	memset(buf, 0, sizeof(buf));
+	var = getenv("CONTENT_LENGTH");
 
-	if ((len = read(0, buf, sizeof(buf) - 1)) > 0)
+	if (!var)
+		return NULL;
+
+	content_length = strtol(var, &p, 10);
+
+	if (p == var || content_length <= 0 || content_length >= POST_LIMIT)
+		return NULL;
+
+	postbuf = calloc(1, content_length + 1);
+
+	if (postbuf == NULL)
+		return NULL;
+
+	for (len = 0; len < content_length; )
 	{
-		for (p = buf, i = 0; i <= len; i++)
-		{
-			if (buf[i] == '=')
-			{
-				buf[i] = 0;
+		rlen = read(0, postbuf + len, content_length - len);
 
-				for (field = 0; field < (n_fields * 2); field += 2)
+		if (rlen <= 0)
+			break;
+
+		len += rlen;
+	}
+
+	if (len < content_length)
+	{
+		free(postbuf);
+		return NULL;
+	}
+
+	for (p = postbuf, i = 0; i <= len; i++)
+	{
+		if (postbuf[i] == '=')
+		{
+			postbuf[i] = 0;
+
+			for (field = 0; field < (n_fields * 2); field += 2)
+			{
+				if (!strcmp(p, fields[field]))
 				{
-					if (!strcmp(p, fields[field]))
-					{
-						fields[field + 1] = buf + i + 1;
-						found++;
-					}
+					fields[field + 1] = postbuf + i + 1;
+					found++;
 				}
 			}
-			else if (buf[i] == '&' || buf[i] == '\0')
-			{
-				buf[i] = 0;
+		}
+		else if (postbuf[i] == '&' || postbuf[i] == '\0')
+		{
+			postbuf[i] = 0;
 
-				if (found >= n_fields)
-					break;
+			if (found >= n_fields)
+				break;
 
-				p = buf + i + 1;
-			}
+			p = postbuf + i + 1;
 		}
 	}
 
 	for (field = 0; field < (n_fields * 2); field += 2)
+	{
 		if (!urldecode(fields[field + 1]))
-			return false;
+		{
+			free(postbuf);
+			return NULL;
+		}
+	}
 
-	return (found >= n_fields);
+	return postbuf;
 }
 
 static char *
@@ -404,32 +440,44 @@ filecopy(void)
 		return response(false, "No file data received");
 	}
 
-	if (lseek(st.tempfd, 0, SEEK_SET) < 0)
+	snprintf(buf, sizeof(buf), "/proc/self/fd/%d", st.tempfd);
+
+	if (unlink(st.filename) < 0 && errno != ENOENT)
 	{
 		close(st.tempfd);
-		return response(false, "Failed to rewind temp file");
+		return response(false, "Failed to unlink existing file");
 	}
 
-	st.filefd = open(st.filename, O_CREAT | O_TRUNC | O_WRONLY, 0600);
-
-	if (st.filefd < 0)
+	if (linkat(AT_FDCWD, buf, AT_FDCWD, st.filename, AT_SYMLINK_FOLLOW) < 0)
 	{
-		close(st.tempfd);
-		return response(false, "Failed to open target file");
-	}
-
-	while ((len = read(st.tempfd, buf, sizeof(buf))) > 0)
-	{
-		if (write(st.filefd, buf, len) != len)
+		if (lseek(st.tempfd, 0, SEEK_SET) < 0)
 		{
 			close(st.tempfd);
-			close(st.filefd);
-			return response(false, "I/O failure while writing target file");
+			return response(false, "Failed to rewind temp file");
 		}
+
+		st.filefd = open(st.filename, O_CREAT | O_TRUNC | O_WRONLY, 0600);
+
+		if (st.filefd < 0)
+		{
+			close(st.tempfd);
+			return response(false, "Failed to open target file");
+		}
+
+		while ((len = read(st.tempfd, buf, sizeof(buf))) > 0)
+		{
+			if (write(st.filefd, buf, len) != len)
+			{
+				close(st.tempfd);
+				close(st.filefd);
+				return response(false, "I/O failure while writing target file");
+			}
+		}
+
+		close(st.filefd);
 	}
 
 	close(st.tempfd);
-	close(st.filefd);
 
 	if (chmod(st.filename, st.filemode))
 		return response(false, "Failed to chmod target file");
@@ -478,8 +526,6 @@ header_value(multipart_parser *p, const char *data, size_t len)
 static int
 data_begin_cb(multipart_parser *p)
 {
-	char tmpname[24] = "/tmp/luci-upload.XXXXXX";
-
 	if (st.parttype == PART_FILEDATA)
 	{
 		if (!st.sessionid)
@@ -491,12 +537,10 @@ data_begin_cb(multipart_parser *p)
 		if (!session_access(st.sessionid, "file", st.filename, "write"))
 			return response(false, "Access to path denied by ACL");
 
-		st.tempfd = mkstemp(tmpname);
+		st.tempfd = open("/tmp", O_TMPFILE | O_RDWR, S_IRUSR | S_IWUSR);
 
 		if (st.tempfd < 0)
 			return response(false, "Failed to create temporary file");
-
-		unlink(tmpname);
 	}
 
 	return 0;
@@ -658,6 +702,14 @@ main_upload(int argc, char *argv[])
 	return 0;
 }
 
+static void
+free_charp(char **ptr)
+{
+	free(*ptr);
+}
+
+#define autochar __attribute__((__cleanup__(free_charp))) char
+
 static int
 main_download(int argc, char **argv)
 {
@@ -668,7 +720,7 @@ main_download(int argc, char **argv)
 	struct stat s;
 	int rfd;
 
-	postdecode(fields, 4);
+	autochar *post = postdecode(fields, 4);
 
 	if (!fields[1] || !session_access(fields[1], "cgi-io", "download", "read"))
 		return failure(403, 0, "Download permission denied");
@@ -706,29 +758,39 @@ main_download(int argc, char **argv)
 	if (fields[5])
 		printf("Content-Disposition: attachment; filename=\"%s\"\r\n", fields[5]);
 
-	printf("Content-Length: %llu\r\n\r\n", size);
-	fflush(stdout);
+	if (size > 0) {
+		printf("Content-Length: %llu\r\n\r\n", size);
+		fflush(stdout);
 
-	while (size > 0) {
-		len = sendfile(1, rfd, NULL, size);
+		while (size > 0) {
+			len = sendfile(1, rfd, NULL, size);
 
-		if (len == -1) {
-			if (errno == ENOSYS || errno == EINVAL) {
-				while ((len = read(rfd, buf, sizeof(buf))) > 0)
-					fwrite(buf, len, 1, stdout);
+			if (len == -1) {
+				if (errno == ENOSYS || errno == EINVAL) {
+					while ((len = read(rfd, buf, sizeof(buf))) > 0)
+						fwrite(buf, len, 1, stdout);
 
-				fflush(stdout);
-				break;
+					fflush(stdout);
+					break;
+				}
+
+				if (errno == EINTR || errno == EAGAIN)
+					continue;
 			}
 
-			if (errno == EINTR || errno == EAGAIN)
-				continue;
+			if (len <= 0)
+				break;
+
+			size -= len;
 		}
+	}
+	else {
+		printf("\r\n");
 
-		if (len <= 0)
-			break;
+		while ((len = read(rfd, buf, sizeof(buf))) > 0)
+			fwrite(buf, len, 1, stdout);
 
-		size -= len;
+		fflush(stdout);
 	}
 
 	close(rfd);
@@ -749,7 +811,9 @@ main_backup(int argc, char **argv)
 	char hostname[64] = { 0 };
 	char *fields[] = { "sessionid", NULL };
 
-	if (!postdecode(fields, 1) || !session_access(fields[1], "cgi-io", "backup", "read"))
+	autochar *post = postdecode(fields, 1);
+
+	if (!fields[1] || !session_access(fields[1], "cgi-io", "backup", "read"))
 		return failure(403, 0, "Backup permission denied");
 
 	if (pipe(fds))
@@ -778,6 +842,8 @@ main_backup(int argc, char **argv)
 		return -1;
 
 	default:
+		close(fds[1]);
+
 		now = time(NULL);
 		strftime(datestr, sizeof(datestr) - 1, "%Y-%m-%d", localtime(&now));
 
@@ -798,7 +864,238 @@ main_backup(int argc, char **argv)
 		waitpid(pid, &status, 0);
 
 		close(fds[0]);
+
+		return 0;
+	}
+}
+
+
+static const char *
+lookup_executable(const char *cmd)
+{
+	size_t plen = 0, clen = strlen(cmd) + 1;
+	static char path[PATH_MAX];
+	char *search, *p;
+	struct stat s;
+
+	if (!stat(cmd, &s) && S_ISREG(s.st_mode))
+		return cmd;
+
+	search = getenv("PATH");
+
+	if (!search)
+		search = "/bin:/usr/bin:/sbin:/usr/sbin";
+
+	p = search;
+
+	do {
+		if (*p != ':' && *p != '\0')
+			continue;
+
+		plen = p - search;
+
+		if ((plen + clen) >= sizeof(path))
+			continue;
+
+		strncpy(path, search, plen);
+		sprintf(path + plen, "/%s", cmd);
+
+		if (!stat(path, &s) && S_ISREG(s.st_mode))
+			return path;
+
+		search = p + 1;
+	} while (*p++);
+
+	return NULL;
+}
+
+static char **
+parse_command(const char *cmdline)
+{
+	const char *p = cmdline, *s;
+	char **argv = NULL, *out;
+	size_t arglen = 0;
+	int argnum = 0;
+	bool esc;
+
+	while (isspace(*cmdline))
+		cmdline++;
+
+	for (p = cmdline, s = p, esc = false; p; p++) {
+		if (esc) {
+			esc = false;
+		}
+		else if (*p == '\\' && p[1] != 0) {
+			esc = true;
+		}
+		else if (isspace(*p) || *p == 0) {
+			if (p > s) {
+				argnum += 1;
+				arglen += sizeof(char *) + (p - s) + 1;
+			}
+
+			s = p + 1;
+		}
+
+		if (*p == 0)
+			break;
+	}
+
+	if (arglen == 0)
+		return NULL;
+
+	argv = calloc(1, arglen + sizeof(char *));
+
+	if (!argv)
+		return NULL;
+
+	out = (char *)argv + sizeof(char *) * (argnum + 1);
+	argv[0] = out;
+
+	for (p = cmdline, s = p, esc = false, argnum = 0; p; p++) {
+		if (esc) {
+			esc = false;
+			*out++ = *p;
+		}
+		else if (*p == '\\' && p[1] != 0) {
+			esc = true;
+		}
+		else if (isspace(*p) || *p == 0) {
+			if (p > s) {
+				*out++ = ' ';
+				argv[++argnum] = out;
+			}
+
+			s = p + 1;
+		}
+		else {
+			*out++ = *p;
+		}
+
+		if (*p == 0)
+			break;
+	}
+
+	argv[argnum] = NULL;
+	out[-1] = 0;
+
+	return argv;
+}
+
+static int
+main_exec(int argc, char **argv)
+{
+	char *fields[] = { "sessionid", NULL, "command", NULL, "filename", NULL, "mimetype", NULL };
+	int i, devnull, status, fds[2];
+	bool allowed = false;
+	ssize_t len = 0;
+	const char *exe;
+	char *p, **args;
+	pid_t pid;
+
+	autochar *post = postdecode(fields, 4);
+
+	if (!fields[1] || !session_access(fields[1], "cgi-io", "exec", "read"))
+		return failure(403, 0, "Exec permission denied");
+
+	for (p = fields[5]; p && *p; p++)
+		if (!isalnum(*p) && !strchr(" ()<>@,;:[]?.=%-", *p))
+			return failure(400, 0, "Invalid characters in filename");
+
+	for (p = fields[7]; p && *p; p++)
+		if (!isalnum(*p) && !strchr(" .;=/-", *p))
+			return failure(400, 0, "Invalid characters in mimetype");
+
+	args = fields[3] ? parse_command(fields[3]) : NULL;
+
+	if (!args)
+		return failure(400, 0, "Invalid command parameter");
+
+	/* First check if we find an ACL match for the whole cmdline ... */
+	allowed = session_access(fields[1], "file", args[0], "exec");
+
+	/* Now split the command vector... */
+	for (i = 1; args[i]; i++)
+		args[i][-1] = 0;
+
+	/* Find executable... */
+	exe = lookup_executable(args[0]);
+
+	if (!exe) {
+		free(args);
+		return failure(404, 0, "Executable not found");
+	}
+
+	/* If there was no ACL match, check for a match on the executable */
+	if (!allowed && !session_access(fields[1], "file", exe, "exec")) {
+		free(args);
+		return failure(403, 0, "Access to command denied by ACL");
+	}
+
+	if (pipe(fds)) {
+		free(args);
+		return failure(500, errno, "Failed to spawn pipe");
+	}
+
+	switch ((pid = fork()))
+	{
+	case -1:
+		free(args);
+		close(fds[0]);
 		close(fds[1]);
+		return failure(500, errno, "Failed to fork process");
+
+	case 0:
+		devnull = open("/dev/null", O_RDWR);
+
+		if (devnull > -1) {
+			dup2(devnull, 0);
+			dup2(devnull, 2);
+			close(devnull);
+		}
+		else {
+			close(0);
+			close(2);
+		}
+
+		dup2(fds[1], 1);
+		close(fds[0]);
+		close(fds[1]);
+
+		if (chdir("/") < 0) {
+			free(args);
+			return failure(500, errno, "Failed chdir('/')");
+		}
+
+		if (execv(exe, args) < 0) {
+			free(args);
+			return failure(500, errno, "Failed execv(...)");
+		}
+
+		return -1;
+
+	default:
+		close(fds[1]);
+
+		printf("Status: 200 OK\r\n");
+		printf("Content-Type: %s\r\n",
+		       fields[7] ? fields[7] : "application/octet-stream");
+
+		if (fields[5])
+			printf("Content-Disposition: attachment; filename=\"%s\"\r\n",
+			       fields[5]);
+
+		printf("\r\n");
+		fflush(stdout);
+
+		do {
+			len = splice(fds[0], NULL, 1, NULL, READ_BLOCK, SPLICE_F_MORE);
+		} while (len > 0);
+
+		waitpid(pid, &status, 0);
+
+		close(fds[0]);
+		free(args);
 
 		return 0;
 	}
@@ -812,6 +1109,8 @@ int main(int argc, char **argv)
 		return main_download(argc, argv);
 	else if (strstr(argv[0], "cgi-backup"))
 		return main_backup(argc, argv);
+	else if (strstr(argv[0], "cgi-exec"))
+		return main_exec(argc, argv);
 
 	return -1;
 }

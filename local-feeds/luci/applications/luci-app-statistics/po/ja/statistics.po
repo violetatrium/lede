@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-19 19:36+0200\n"
-"PO-Revision-Date: 2019-10-17 07:01+0000\n"
-"Last-Translator: Scott Anecito <scott.anecito@protonmail.com>\n"
+"PO-Revision-Date: 2020-02-19 20:00+0000\n"
+"Last-Translator: INAGAKI Hiroshi <musashino.open@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/openwrt/"
 "luciapplicationsstatistics/ja/>\n"
 "Language: ja\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.9\n"
+"X-Generator: Weblate 3.11\n"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/apcups.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/apcups.lua:7
@@ -21,11 +21,11 @@ msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/apcups.lua:5
 msgid "APCUPS Plugin Configuration"
-msgstr ""
+msgstr "APCUPS プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/memory.lua:15
 msgid "Absolute values"
-msgstr ""
+msgstr "絶対値"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:70
 msgid "Action (target)"
@@ -50,7 +50,7 @@ msgstr "通知コマンドの追加"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/ping.lua:24
 msgid "Address family"
-msgstr ""
+msgstr "アドレス ファミリ"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/openvpn.lua:23
 msgid "Aggregate number of connected users"
@@ -58,7 +58,7 @@ msgstr "接続ユーザー数の総計"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/collectd.lua:24
 msgid "Base Directory"
-msgstr "ベース・ディレクトリ"
+msgstr "ベース ディレクトリ"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/netlink.lua:24
 msgid "Basic monitoring"
@@ -67,10 +67,12 @@ msgstr "基本モニタリング"
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpu.lua:18
 msgid "By setting this, CPU is not aggregate of all processors on the system"
 msgstr ""
+"この設定により、 CPU はシステム上のすべてのプロセッサーの総計ではなくなりま"
+"す。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/contextswitch.lua:4
 msgid "CPU Context Switches Plugin Configuration"
-msgstr ""
+msgstr "CPU コンテキストスイッチ プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/cpufreq.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/cpufreq.lua:9
@@ -95,11 +97,11 @@ msgstr "CSV プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:91
 msgid "Cache collected data for"
-msgstr "収集されたデータをキャッシュする"
+msgstr "収集データのキャッシュ期間"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:78
 msgid "Cache flush interval"
-msgstr ""
+msgstr "キャッシュ クリア間隔"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:59
 msgid "Chain"
@@ -121,7 +123,7 @@ msgstr ""
 msgid "Collectd Settings"
 msgstr "Collectd 設定"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/collectd.lua:9
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/collectd.lua:10
 msgid ""
 "Collectd is a small daemon for collecting data from various sources through "
 "different plugins. On this page you can change general settings for the "
@@ -133,7 +135,7 @@ msgstr ""
 #: applications/luci-app-statistics/luasrc/statistics/plugins/conntrack.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/conntrack.lua:7
 msgid "Conntrack"
-msgstr "Conntrack"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/conntrack.lua:5
 msgid "Conntrack Plugin Configuration"
@@ -142,7 +144,7 @@ msgstr "Conntrack プラグイン設定"
 #: applications/luci-app-statistics/luasrc/statistics/plugins/contextswitch.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/contextswitch.lua:6
 msgid "Context Switches"
-msgstr ""
+msgstr "コンテキストスイッチ"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/df.lua:5
 msgid "DF Plugin Configuration"
@@ -151,7 +153,7 @@ msgstr "DF プラグイン設定"
 #: applications/luci-app-statistics/luasrc/statistics/plugins/dns.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/dns.lua:7
 msgid "DNS"
-msgstr "DNS"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/dns.lua:8
 msgid "DNS Plugin Configuration"
@@ -163,7 +165,7 @@ msgstr "データの収集間隔"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/collectd.lua:40
 msgid "Datasets definition file"
-msgstr "データベース定義ファイル"
+msgstr "データセット定義ファイル"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:96
 msgid "Destination ip range"
@@ -171,7 +173,7 @@ msgstr "対象IPの範囲"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/collectd.lua:32
 msgid "Directory for collectd plugins"
-msgstr "collectd プラグインディレクトリ"
+msgstr "collectd プラグイン ディレクトリ"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/collectd.lua:28
 msgid "Directory for sub-configurations"
@@ -179,12 +181,12 @@ msgstr "サブ設定ディレクトリ"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/disk.lua:5
 msgid "Disk Plugin Configuration"
-msgstr "ディスクプラグイン設定"
+msgstr "ディスク プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/df.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/df.lua:7
 msgid "Disk Space Usage"
-msgstr "ディスクスペース使用量"
+msgstr "ディスク スペース使用量"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/disk.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/disk.lua:7
@@ -197,11 +199,11 @@ msgstr "ホストを表示 »"
 
 #: applications/luci-app-statistics/luasrc/view/public_statistics/graph.htm:23
 msgid "Display timespan »"
-msgstr "時間帯表示 »"
+msgstr "期間表示 »"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/email.lua:5
 msgid "E-Mail Plugin Configuration"
-msgstr "E-メールプラグイン設定"
+msgstr "E-メール プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/email.lua:7
 msgid "Email"
@@ -209,7 +211,7 @@ msgstr "Eメール"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/thermal.lua:19
 msgid "Empty value = monitor all"
-msgstr "空の値 = 全てをモニターする"
+msgstr "空の値 = 全てを監視する"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/curl.lua:17
 msgid "Enable"
@@ -218,8 +220,8 @@ msgstr "有効"
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/apcups.lua:14
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/conntrack.lua:10
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/contextswitch.lua:11
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpufreq.lua:11
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpu.lua:12
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpufreq.lua:11
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/csv.lua:15
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/curl.lua:8
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/df.lua:15
@@ -249,7 +251,7 @@ msgstr "有効"
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/unixsock.lua:15
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/uptime.lua:10
 msgid "Enable this plugin"
-msgstr "プラグイン設定を有効にする"
+msgstr "このプラグインを有効化"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/entropy.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/entropy.lua:7
@@ -281,13 +283,17 @@ msgstr ""
 msgid "Firewall"
 msgstr "ファイアウォール"
 
+#: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/ip6tables.lua:7
+msgid "Firewall (IPv6)"
+msgstr "ファイアウォール (IPv6)"
+
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:100
 msgid "Flush cache after"
-msgstr ""
+msgstr "指定時間後のキャッシュ クリア"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:71
 msgid "Forwarding between listen and server addresses"
-msgstr ""
+msgstr "待ち受けアドレスとサーバー アドレス間の転送"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/openvpn.lua:29
 msgid "Gather compression statistics"
@@ -310,7 +316,7 @@ msgstr "グラフ"
 msgid "Group"
 msgstr "グループ"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/exec.lua:23
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/exec.lua:24
 msgid ""
 "Here you can define external commands which will be started by collectd in "
 "order to read certain values. The values will be read from stdout."
@@ -318,7 +324,7 @@ msgstr ""
 "ここでは、特定の値を読み込むためにcollectによって順番に開始される外部コマンド"
 "を設定することができます。値は標準出力から読み込まれます。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/exec.lua:51
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/exec.lua:52
 msgid ""
 "Here you can define external commands which will be started by collectd when "
 "certain threshold values have been reached. The values leading to invocation "
@@ -328,13 +334,12 @@ msgstr ""
 "定することができます。呼び出しにつながる値は、呼び出されたプログラムの標準入"
 "力に送られます。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:35
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:36
 msgid ""
 "Here you can define various criteria by which the monitored iptables rules "
 "are selected."
 msgstr ""
-"ここでは、モニターするiptable規則が選択される様々な基準を設定することができま"
-"す。"
+"ここでは、監視するiptable規則が選択される様々な基準を設定することができます。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/sensors.lua:86
 msgid "Hold Ctrl to select multiple items or to deselect entries."
@@ -380,16 +385,15 @@ msgstr "割込み"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/ping.lua:38
 msgid "Interval for pings"
-msgstr "ping間隔"
+msgstr "ping 間隔"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:18
 msgid "Iptables Plugin Configuration"
-msgstr "Iptables プラグイン設定"
+msgstr "iptables プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iwinfo.lua:16
 msgid "Leave unselected to automatically determine interfaces to monitor."
-msgstr ""
-"モニターするインターフェースを自動的に決定するには、未選択のままにします。"
+msgstr "監視するインターフェースを自動的に決定するには、未選択のままにします。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:33
 msgid "Listen host"
@@ -437,11 +441,11 @@ msgstr "メモリー プラグイン設定"
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/sensors.lua:118
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/thermal.lua:24
 msgid "Monitor all except specified"
-msgstr "設定値以外の全てのインターフェースをモニターする"
+msgstr "設定値以外の全てのインターフェースを監視する"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/tcpconns.lua:19
 msgid "Monitor all local listen ports"
-msgstr "ローカルの全待ち受けポートをモニターする"
+msgstr "ローカルの全待ち受けポートを監視する"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/sensors.lua:74
 msgid "Monitor all sensors"
@@ -449,53 +453,53 @@ msgstr "全てのセンサーをモニターする"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/thermal.lua:18
 msgid "Monitor device(s) / thermal zone(s)"
-msgstr ""
+msgstr "監視するデバイス / サーマル ゾーン"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/df.lua:19
 msgid "Monitor devices"
-msgstr "デバイスをモニターする"
+msgstr "監視するデバイス"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/disk.lua:19
 msgid "Monitor disks and partitions"
-msgstr "ディスクとパーティションをモニターする"
+msgstr "監視するディスクとパーティション"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/df.lua:31
 msgid "Monitor filesystem types"
-msgstr "ファイルシステム タイプをモニターする"
+msgstr "監視するファイルシステム タイプ"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/apcups.lua:18
 msgid "Monitor host"
-msgstr ""
+msgstr "監視するホスト"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/ping.lua:19
 msgid "Monitor hosts"
-msgstr "ホストをモニターする"
+msgstr "監視するホスト"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/dns.lua:22
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/interface.lua:22
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iwinfo.lua:15
 msgid "Monitor interfaces"
-msgstr "モニターするインターフェースの設定"
+msgstr "監視するインターフェース"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/irq.lua:20
 msgid "Monitor interrupts"
-msgstr "割込みをモニターする"
+msgstr "監視する割り込み"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/tcpconns.lua:24
 msgid "Monitor local ports"
-msgstr "ローカルのポートをモニターする"
+msgstr "ローカルのポートを監視する"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/df.lua:25
 msgid "Monitor mount points"
-msgstr "マウントポイントをモニターする"
+msgstr "監視するマウント ポイント"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/processes.lua:19
 msgid "Monitor processes"
-msgstr "プロセスをモニターする"
+msgstr "監視するプロセス"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/tcpconns.lua:29
 msgid "Monitor remote ports"
-msgstr "リモートのポートをモニターする"
+msgstr "リモートのポートを監視する"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpufreq.lua:15
 msgid "More details about frequency usage and transitions"
@@ -503,7 +507,7 @@ msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/curl.lua:20
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:45
 msgid "Name of the rule"
@@ -512,7 +516,7 @@ msgstr "ルール名"
 #: applications/luci-app-statistics/luasrc/statistics/plugins/netlink.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/netlink.lua:7
 msgid "Netlink"
-msgstr "Netlink"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/netlink.lua:10
 msgid "Netlink Plugin Configuration"
@@ -524,11 +528,11 @@ msgstr "ネットワーク"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:5
 msgid "Network Plugin Configuration"
-msgstr "ネットワークプラグイン設定"
+msgstr "ネットワーク プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/controller/luci_statistics/luci_statistics.lua:24
 msgid "Network plugins"
-msgstr "ネットワークプラグイン"
+msgstr "ネットワーク プラグイン"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:81
 msgid "Network protocol"
@@ -550,7 +554,7 @@ msgstr "データ収集用スレッド数"
 #: applications/luci-app-statistics/luasrc/statistics/plugins/olsrd.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/olsrd.lua:7
 msgid "OLSRd"
-msgstr "OLSRd"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/olsrd.lua:5
 msgid "OLSRd Plugin Configuration"
@@ -558,12 +562,12 @@ msgstr "OLSRd プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:53
 msgid "Only create average RRAs"
-msgstr "平均値のRRAsのみ作成する"
+msgstr "平均値の RRA のみ作成する"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/openvpn.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/openvpn.lua:7
 msgid "OpenVPN"
-msgstr "OpenVPN"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/openvpn.lua:7
 msgid "OpenVPN Plugin Configuration"
@@ -571,7 +575,7 @@ msgstr "OpenVPN プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/openvpn.lua:41
 msgid "OpenVPN status files"
-msgstr "OpenVPN ステータスファイル"
+msgstr "OpenVPN ステータス ファイル"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:115
 msgid "Options"
@@ -587,12 +591,12 @@ msgstr "出力プラグイン"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/memory.lua:23
 msgid "Percent values"
-msgstr ""
+msgstr "パーセント値"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/ping.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/ping.lua:7
 msgid "Ping"
-msgstr "Ping"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/ping.lua:5
 msgid "Ping Plugin Configuration"
@@ -630,7 +634,7 @@ msgstr "Qdisc モニタリング"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:82
 msgid "RRD XFiles Factor"
-msgstr ""
+msgstr "RRD XFiles ファクター"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:44
 msgid "RRD heart beat interval"
@@ -638,11 +642,11 @@ msgstr "RRD ハートビート間隔"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:35
 msgid "RRD step interval"
-msgstr "RRD stepインターバル"
+msgstr "RRD 記録間隔"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/rrdtool.lua:7
 msgid "RRDTool"
-msgstr "RRDTool"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:5
 msgid "RRDTool Plugin Configuration"
@@ -650,15 +654,15 @@ msgstr "RRDTool プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpu.lua:17
 msgid "Report by CPU"
-msgstr ""
+msgstr "CPU 毎のレポート"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpu.lua:24
 msgid "Report by state"
-msgstr ""
+msgstr "ステート毎のレポート"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpu.lua:31
 msgid "Report in percent"
-msgstr ""
+msgstr "パーセントでのレポート"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:74
 msgid "Rows per RRA"
@@ -797,9 +801,9 @@ msgstr "pingパケットのTTL"
 msgid "Table"
 msgstr "テーブル"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/apcups.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/apcups.lua:7
 msgid "The APCUPS plugin collects statistics about the APC UPS."
-msgstr ""
+msgstr "APCUPS プラグインは、APC UPS に関する統計を収集します。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/nut.lua:5
 msgid "The NUT plugin reads information about Uninterruptible Power Supplies."
@@ -822,13 +826,13 @@ msgstr ""
 msgid ""
 "The conntrack plugin collects statistics about the number of tracked "
 "connections."
-msgstr "Conntrack プラグインは、追跡された接続の数についての統計を収集します。"
+msgstr "Conntrack プラグインは、追跡される接続数についての統計を収集します。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpu.lua:6
 msgid "The cpu plugin collects basic statistics about the processor usage."
 msgstr "CPU プラグインは、プロセッサー使用についての基本的な統計を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/csv.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/csv.lua:7
 msgid ""
 "The csv plugin stores collected data in csv file format for further "
 "processing by external programs."
@@ -836,7 +840,7 @@ msgstr ""
 "CSV プラグインは、外部プログラムがさらに利用するために、収集されたデータをCSV"
 "ファイル形式で保存します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/df.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/df.lua:7
 msgid ""
 "The df plugin collects statistics about the disk space usage on different "
 "devices, mount points or filesystem types."
@@ -844,7 +848,7 @@ msgstr ""
 "df プラグインは、個別のデバイスまたはマウントポイント、ファイルシステム形式の"
 "ディスク使用量についての統計を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/disk.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/disk.lua:7
 msgid ""
 "The disk plugin collects detailed usage statistics for selected partitions "
 "or whole disks."
@@ -852,7 +856,7 @@ msgstr ""
 "ディスク プラグインは、選択されたパーティションまたはディスク全体の詳細な使用"
 "統計を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/dns.lua:9
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/dns.lua:10
 msgid ""
 "The dns plugin collects detailed statistics about dns related traffic on "
 "selected interfaces."
@@ -860,7 +864,7 @@ msgstr ""
 "DNS プラグインは、選択されたインターフェースでのDNSに関連したトラフィックにつ"
 "いての詳細な統計を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/email.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/email.lua:7
 msgid ""
 "The email plugin creates a unix socket which can be used to transmit email-"
 "statistics to a running collectd daemon. This plugin is primarily intended "
@@ -877,7 +881,7 @@ msgid "The entropy plugin collects statistics about the available entropy."
 msgstr ""
 "エントロピー プラグインは、利用可能なエントロピーについての統計を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/exec.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/exec.lua:7
 msgid ""
 "The exec plugin starts external commands to read values from or to notify "
 "external processes when certain threshold values have been reached."
@@ -885,37 +889,36 @@ msgstr ""
 "Exec プラグインは、特定の閾値に到達したときに外部プロセスから値の読み込み、も"
 "しくは外部プロセスへ通知する外部コマンドを開始します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/interface.lua:9
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/interface.lua:10
 msgid ""
 "The interface plugin collects traffic statistics on selected interfaces."
 msgstr ""
-"インターフェースプラグインは、選択したインターフェースのトラフィックの統計情"
+"インターフェース プラグインは、選択したインターフェースのトラフィックの統計情"
 "報を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:19
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:20
 msgid ""
 "The iptables plugin will monitor selected firewall rules and collect "
 "information about processed bytes and packets per rule."
 msgstr ""
-"iptables プラグインは、選択されたファイアウォール規をモニターし、規則ごとの処"
-"理されたバイト数とパケット数についての情報を収集します。"
+"iptables プラグインは、選択されたファイアウォール ルールを監視し、規則ごとの"
+"処理されたバイト数とパケット数についての情報を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/irq.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/irq.lua:7
 msgid ""
 "The irq plugin will monitor the rate of issues per second for each selected "
 "interrupt. If no interrupt is selected then all interrupts are monitored."
 msgstr ""
-"IRQ プラグインは、選択された割り込みごとに1秒当たりの発行レートをモニターしま"
-"す。選択された割り込みが無い場合、すべての割り込みがモニターされます。"
+"IRQ プラグインは、選択された割り込みごとに1秒当たりの発行レートを監視します。"
+"選択された割り込みが無い場合、すべての割り込みが監視されます。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iwinfo.lua:8
 msgid ""
 "The iwinfo plugin collects statistics about wireless signal strength, noise "
 "and quality."
-msgstr ""
-"iwinfo プラグインは、無線信号強度、ノイズ、クオリティ情報を収集します。"
+msgstr "iwinfo プラグインは、無線信号強度、ノイズ、品質情報を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/load.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/load.lua:7
 msgid "The load plugin collects statistics about the general system load."
 msgstr "負荷プラグインは、システム負荷の統計情報を収集します。"
 
@@ -923,7 +926,7 @@ msgstr "負荷プラグインは、システム負荷の統計情報を収集し
 msgid "The memory plugin collects statistics about the memory usage."
 msgstr "メモリー プラグインは、メモリー使用についての統計を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/netlink.lua:11
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/netlink.lua:12
 msgid ""
 "The netlink plugin collects extended information like qdisc-, class- and "
 "filter-statistics for selected interfaces."
@@ -931,7 +934,7 @@ msgstr ""
 "Netlink プラグインは、選択されたインターフェースの qdisc- や class- 、filter-"
 "statistics のような拡張的な情報を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:7
 msgid ""
 "The network plugin provides network based communication between different "
 "collectd instances. Collectd can operate both in client and server mode. In "
@@ -944,7 +947,7 @@ msgstr ""
 "され、サーバーモードではローカルのインスタンスは他のホストからデータを受信し"
 "ます。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/ping.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/ping.lua:7
 msgid ""
 "The ping plugin will send icmp echo replies to selected hosts and measure "
 "the roundtrip time for each host."
@@ -952,7 +955,7 @@ msgstr ""
 "ping プラグインは、ICMP Echo Replyを選択されたホストに送信し、各ホストとの往"
 "復時間を計測します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/processes.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/processes.lua:7
 msgid ""
 "The processes plugin collects information like cpu time, page faults and "
 "memory usage of selected processes."
@@ -960,24 +963,24 @@ msgstr ""
 "プロセス プラグインは、選択されたプロセスのCPU時間やページフォルト、メモリー"
 "使用率などの情報を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/rrdtool.lua:7
 msgid ""
 "The rrdtool plugin stores the collected data in rrd database files, the "
 "foundation of the diagrams.<br /><br /><strong>Warning: Setting the wrong "
 "values will result in a very high memory consumption in the temporary "
 "directory. This can render the device unusable!</strong>"
 msgstr ""
-"rrdtool プラグインは、収集したデータをrrd データベースファイルに保存します。"
-"これが統計図の基礎です。<br /><br /><strong>警告: 間違った値を設定すると、一"
-"時的なディレクトリによってメモリー消費量が非常に高くなります。これはデバイス"
-"を使用不能にする可能性があります！</strong>"
+"rrdtool プラグインは、統計図の基礎となる収集したデータをrrd データベースファ"
+"イルに保存します。<br /><br /><strong>警告: 間違った値を設定すると、一時的な"
+"ディレクトリによってメモリー消費量が非常に多くなります。これはデバイスを使用"
+"不能にする可能性があります！</strong>"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/sensors.lua:65
 msgid ""
 "The sensors plugin uses the Linux Sensors framework to gather environmental "
 "statistics."
 msgstr ""
-"センサー プラグインは、環境統計の収集に Linux センサーフレームワークを使用し"
+"センサー プラグインは、環境統計の収集に Linux センサー フレームワークを使用し"
 "ます。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/splash_leases.lua:6
@@ -996,7 +999,7 @@ msgstr ""
 "\">Collectd</a>を、統計図のレンダリングに<a href=\"http://oss.oetiker.ch/"
 "rrdtool/\">RRDtool</a>を使用します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/tcpconns.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/tcpconns.lua:7
 msgid ""
 "The tcpconns plugin collects information about open tcp connections on "
 "selected ports."
@@ -1009,9 +1012,12 @@ msgid ""
 "The thermal plugin will monitor temperature of the system. Data is typically "
 "read from /sys/class/thermal/*/temp ( '*' denotes the thermal device to be "
 "read, e.g. thermal_zone1 )"
-msgstr "サーマル プラグインは、システムの温度をモニターします。"
+msgstr ""
+"サーマル プラグインは、システムの温度を監視します。データは主に /sys/class/"
+"thermal/*/temp から読み取られます（'*' は、例として \"thermal_zone1\" のよう"
+"な読み取られるデバイスを示します）"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/unixsock.lua:6
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/unixsock.lua:7
 msgid ""
 "The unixsock plugin creates a unix socket which can be used to read "
 "collected data from a running collectd instance."
@@ -1035,13 +1041,14 @@ msgstr "サーマル プラグイン設定"
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/contextswitch.lua:5
 msgid "This plugin collects statistics about the processor context switches."
 msgstr ""
+"このプラグインは、プロセッサー コンテキストスイッチに関する統計を収集します。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpufreq.lua:5
 msgid "This plugin collects statistics about the processor frequency scaling."
 msgstr ""
 "このプラグインは、プロセッサー周波数スケーリングについての統計を収集します。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:25
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:26
 msgid ""
 "This section defines on which interfaces collectd will wait for incoming "
 "connections."
@@ -1049,7 +1056,7 @@ msgstr ""
 "このセクションでは、collectdが着信接続を待ち受けるインターフェースを設定しま"
 "す。"
 
-#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:46
+#: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:47
 msgid ""
 "This section defines to which servers the locally collected data is sent to."
 msgstr ""
@@ -1058,13 +1065,13 @@ msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/collectd.lua:54
 msgid "Try to lookup fully qualified hostname"
-msgstr ""
+msgstr "完全修飾ドメイン名のルックアップを試行する"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/nut.lua:12
 #: applications/luci-app-statistics/luasrc/statistics/plugins/nut.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/nut.lua:6
 msgid "UPS"
-msgstr "UPS"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/nut.lua:4
 msgid "UPS Plugin Configuration"
@@ -1080,7 +1087,7 @@ msgstr ""
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/unixsock.lua:7
 msgid "UnixSock"
-msgstr "UnixSock"
+msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/unixsock.lua:5
 msgid "Unixsock Plugin Configuration"
@@ -1115,15 +1122,16 @@ msgstr "詳細モニタリング"
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpu.lua:25
 msgid "When set to true, reports per-state metric (system, user, idle)"
 msgstr ""
+"設定した場合、ステートごとのメトリックをレポートします。 (system, user, idle)"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/memory.lua:16
 msgid "When set to true, we request absolute values"
-msgstr ""
+msgstr "設定した場合、絶対値をリクエストします。"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/cpu.lua:32
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/memory.lua:24
 msgid "When set to true, we request percentage values"
-msgstr ""
+msgstr "設定した場合、パーセント値をリクエストします。"
 
 #: applications/luci-app-statistics/luasrc/statistics/plugins/iwinfo.lua:7
 #: applications/luci-app-statistics/luasrc/statistics/rrdtool/definitions/iwinfo.lua:7
@@ -1148,7 +1156,7 @@ msgstr ""
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/curl.lua:5
 msgid "cUrl Plugin Configuration"
-msgstr ""
+msgstr "cUrl プラグイン設定"
 
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/iptables.lua:109
 msgid "e.g. br-ff"
@@ -1177,9 +1185,3 @@ msgstr ""
 #: applications/luci-app-statistics/luasrc/model/cbi/luci_statistics/network.lua:45
 msgid "server interfaces"
 msgstr "サーバー インターフェース"
-
-#~ msgid "Collectd"
-#~ msgstr "Collectd"
-
-#~ msgid "System plugins"
-#~ msgstr "システムプラグイン"

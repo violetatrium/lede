@@ -31,7 +31,7 @@ Adding hardware support
 =======================
 
 1. Find the official release for the target hardware. Start here:
-   https://downloads.lede-project.org/releases/18.06.1/targets/
+   https://downloads.lede-project.org/releases/19.07.3/targets/
    For example, for "Archer C7 v2", go to "ar71xx" (this board TYPE), then to
    "generic" (board subtype), then download the firmware for the
    specific device "archer-c7-v2-squashfs-sysupgrade.bin" in this case.
@@ -98,12 +98,10 @@ Upgrading to a new release
    update the location of the feeds in the feeds downloader
    script ./local-feeds/update_local_feeds.sh and run it to
    download the updated feeds.
-   Note: the LEDE release build appear to be loading feeds form a branch
-         (currently 17.01) which means they could have changed after the
-         release was made, therefore if it is necessary to use the exact
-         versions of the feeds used for the release then the downloader
-         script has to use specific SHAs the releases were built from
-         (and I do not know how to get them)
+   Note: the LEDE release build was loading feeds form a branch
+         (for version 17.01) which means they could have changed after the
+         release was made. In the later releases the default feeds file
+         pulls specific SHAs. Use those SHAs in the update_local_feeds.sh
 
 4. Update the seed files for all the platforms (see "Add hardware support"
    bullet 3 above)

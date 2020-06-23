@@ -1,6 +1,7 @@
 'use strict';
+'require baseclass';
 
-var Validator = L.Class.extend({
+var Validator = baseclass.extend({
 	__name__: 'Validation',
 
 	__init__: function(field, type, optional, vfunc, validatorFactory) {
@@ -81,7 +82,7 @@ var Validator = L.Class.extend({
 
 });
 
-var ValidatorFactory = L.Class.extend({
+var ValidatorFactory = baseclass.extend({
 	__name__: 'ValidatorFactory',
 
 	create: function(field, type, optional, vfunc) {
@@ -221,7 +222,7 @@ var ValidatorFactory = L.Class.extend({
 
 	types: {
 		integer: function() {
-			return this.assert(this.factory.parseInteger(this.value) !== NaN, _('valid integer value'));
+			return this.assert(!isNaN(this.factory.parseInteger(this.value)), _('valid integer value'));
 		},
 
 		uinteger: function() {
@@ -229,7 +230,7 @@ var ValidatorFactory = L.Class.extend({
 		},
 
 		float: function() {
-			return this.assert(this.factory.parseDecimal(this.value) !== NaN, _('valid decimal value'));
+			return this.assert(!isNaN(this.factory.parseDecimal(this.value)), _('valid decimal value'));
 		},
 
 		ufloat: function() {

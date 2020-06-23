@@ -1,4 +1,7 @@
 'use strict';
+'require view';
+'require dom';
+'require poll';
 'require ui';
 'require rpc';
 'require uci';
@@ -66,14 +69,14 @@ function render_port_status(node, portstate) {
 	if (!node)
 		return null;
 
-	if (!portstate.link)
-		L.dom.content(node, [
+	if (!portstate || !portstate.link)
+		dom.content(node, [
 			E('img', { src: L.resource('icons/port_down.png') }),
 			E('br'),
 			_('no link')
 		]);
 	else
-		L.dom.content(node, [
+		dom.content(node, [
 			E('img', { src: L.resource('icons/port_up.png') }),
 			E('br'),
 			'%d'.format(portstate.speed) + _('baseT'),
@@ -112,7 +115,7 @@ var callSwconfigPortState = rpc.declare({
 	expect: { result: [] }
 });
 
-return L.view.extend({
+return view.extend({
 	load: function() {
 		return network.getSwitchTopologies().then(function(topologies) {
 			var tasks = [];
@@ -146,7 +149,7 @@ return L.view.extend({
 			if (!topology) {
 				ui.addNotification(null, _('Switch %q has an unknown topology - the VLAN settings might not be accurate.').replace(/%q/, switch_name));
 
-				topology = {
+				topologies[switch_name] = topology = {
 					features: {},
 					netdevs: {
 						5: 'eth0'
@@ -359,11 +362,11 @@ return L.view.extend({
 			}
 
 			port_opts.sort(function(a, b) {
-				return a.option < b.option;
+				return a.option > b.option;
 			});
 		}
 
-		L.Poll.add(L.bind(update_port_status, m, topologies));
+		poll.add(L.bind(update_port_status, m, topologies));
 
 		return m.render();
 	}
