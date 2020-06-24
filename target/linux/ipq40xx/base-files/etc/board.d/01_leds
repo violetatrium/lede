@@ -26,6 +26,7 @@ avm,fritzbox-4040)
 	ucidef_set_led_switch "lan" "LAN" "fritz4040:green:lan" "switch0" "0x1e"
 	;;
 avm,fritzbox-7530 |\
+glinet,gl-b1300-bridge |\
 glinet,gl-b1300)
 	ucidef_set_led_wlan "wlan" "WLAN" "${boardname}:green:wlan" "phy0tpt"
 	;;
@@ -54,10 +55,6 @@ qxwlan,e2600ac-c2)
 zyxel,nbg6617)
 	ucidef_set_led_wlan "wlan2g" "WLAN2G" "${boardname}:green:wlan2G" "phy0tpt"
 	ucidef_set_led_wlan "wlan5g" "WLAN5G" "${boardname}:green:wlan5G" "phy1tpt"
-	;;
-zyxel,wre6606)
-	ucidef_set_led_wlan "wlan2g" "WLAN2G" "${boardname}:green:wlan2g" "phy0tpt"
-	ucidef_set_led_wlan "wlan5g" "WLAN5G" "${boardname}:green:wlan5g" "phy1tpt"
 	;;
 zyxel,wre6606)
 	ucidef_set_led_wlan "wlan2g" "WLAN2G" "${boardname}:green:wlan2g" "phy0tpt"

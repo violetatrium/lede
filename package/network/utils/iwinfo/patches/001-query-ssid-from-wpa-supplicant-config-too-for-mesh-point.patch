@@ -1,0 +1,17 @@
+--- libiwinfo-2018-07-24-94b1366d/iwinfo_nl80211.c	2018-07-24 21:06:22.000000000 +0530
++++ new-libiwinfo-2018-07-24-94b1366d/iwinfo_nl80211.c	2019-03-13 21:38:56.982957406 +0530
+@@ -1115,6 +1116,14 @@ static int nl80211_get_ssid(const char *
+ 		nl80211_hostapd_query(ifname, "ssid", sb.ssid,
+ 		                      IWINFO_ESSID_MAX_SIZE + 1);
+ 
++        /* Before trying uci configuration through ubus,
++         * try to get the meshid through wpa_supplciant config.
++         * call to ubus seems to be creating some problems,
++         * especially making the calling process unrepsonsive to Ctrl+C
++         */
++	if (sb.ssid[0] == 0)
++		nl80211_wpactl_query(ifname, "ssid", sb.ssid,
++		                      IWINFO_ESSID_MAX_SIZE + 1);
+ 	/* failed, try to obtain Mesh ID */
+ 	if (sb.ssid[0] == 0)
+ 		iwinfo_ubus_query(res ? res : ifname, "mesh_id",

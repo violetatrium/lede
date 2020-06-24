@@ -276,13 +276,6 @@
 			};
 		};
 
-		i2c_pins: i2c {
-			i2c {
-				ralink,group = "i2c";
-				ralink,function = "i2c";
-			};
-		};
-
 		uartlite_pins: uartlite {
 			uart {
 				ralink,group = "uartlite";

@@ -24,16 +24,6 @@ platform_pre_upgrade() {
 	esac
 }
 
-platform_pre_upgrade() {
-	local board=$(board_name)
-
-	case "$board" in
-	mikrotik,rbm33g)
-		[ -z "$(rootfs_type)" ] && mtd erase firmware
-		;;
-	esac
-}
-
 platform_nand_pre_upgrade() {
 	local board=$(board_name)
 

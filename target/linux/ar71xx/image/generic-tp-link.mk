@@ -175,17 +175,6 @@ define Device/cpe510-520-v1
   MTDPARTS := spi0.0:128k(u-boot)ro,64k(partition-table)ro,64k(product-info)ro,1792k(kernel),5888k(rootfs),192k(config)ro,64k(ART)ro,7680k@0x40000(firmware)
   IMAGE_SIZE := 7680k
 endef
-
-define Device/cpe510-520-v1
-  $(Device/cpexxx)
-  DEVICE_TITLE := TP-LINK CPE510/520 v1
-  BOARDNAME := CPE510
-  TPLINK_BOARD_ID := CPE510
-  LOADER_FLASH_OFFS := 0x43000
-  COMPILE := loader-$(1).elf
-  COMPILE/loader-$(1).elf := loader-okli-compile
-  KERNEL := kernel-bin | lzma | uImage lzma -M 0x4f4b4c49 | loader-okli $(1) 12288
-endef
 TARGET_DEVICES += cpe510-520-v1
 
 define Device/cpe510-v2

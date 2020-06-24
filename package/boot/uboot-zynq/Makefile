@@ -62,6 +62,4 @@ endef
 
 Build/Exports:=$(Host/Exports)
 
-Build/Exports:=$(Host/Exports)
-
 $(eval $(call BuildPackage/U-Boot))
