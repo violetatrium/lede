@@ -16,7 +16,7 @@ archer_c7_v2
 You can set MINIM_DEFAULT_TARGET environment variable in the
 shell to the name of the target you want the script to pick
 automatically if nothing is specified on the command line.
-The agent repository should be accessible under ../unum-v2
+The agent repository should be accessible under ../unum-sdk
 or in the location pointed to by MINIM_UNUM_DIR environment
 variable.
 
@@ -69,7 +69,7 @@ Adding hardware support
    downloaded for the new hardware type to the cache and commit
    all the changes for the new hardware in a single commit.
 
-8. Go to the unum-v2 repository and make any changes required to make
+8. Go to the unum-sdk repository and make any changes required to make
    the Minim agent function properly for the new hardware type.
    Typically here's what you'll need to do: 
    - create a symlink for pulling in the approprite crash handler code under
@@ -85,7 +85,7 @@ Adding hardware support
 9. Add the hardware kind to the cloud server and make code changes
    in Minim cloud to treat the hardware kind config as UCI. There are
    more details on adding hardware kind to the cloud in README file
-   in unum-v2 repository.
+   in unum-sdk repository.
 
 10. Add the hardware kind to the BUILD_HARDWARE_IDS in lede_generic,
     lede_dev_generic or lede_dev_generic2 build jobs in Jenkins.
