@@ -11,10 +11,12 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "TARGET_NAME - hardware type to build the image for"
   echo "-d - make debug build of the agent"
   echo "-D - recompile the agent binary only, debug is ON, no new firmware"
-  echo "     (requires full build prior to the firts use and rebuilds unum"
+  echo "     (requires full build prior to the first use and rebuilds unum"
   echo "     agent for that prior build TARGET_NAME)"
   echo "-e - buld with -j1 to see all errors"
   echo "-A - recompile the agent binary only, debug is OFF, no new firmware"
+  echo "     (requires full build prior to the first use and rebuilds unum"
+  echo "     agent for that prior build TARGET_NAME)"
   echo "-h/--help - this help"
   echo "Available targets:"
   ls -1 | sed -e 's/\.diffconfig//;tx;d;:x'
@@ -59,6 +61,18 @@ esac
 done
 
 BUILD_TARGET=${1:-$MINIM_DEFAULT_TARGET}
+
+if [ "$AGENT_ONLY" == "1" ]; then
+  if [ ! -e .config ]; then
+    echo "Cannot find .config file"
+    exit 3
+  fi
+  BUILD_TARGET=$(cat .config | sed -n -e 's/CONFIG_VERSION_PRODUCT="\(.*\)"/\1/p')
+  BUILD_TARGET_HWREV=$(cat .config | sed -n -e 's/CONFIG_VERSION_HWREV="\(.*\)"/\1/p')
+  [ -z "$BUILD_TARGET_HWREV" ] || BUILD_TARGET=${BUILD_TARGET}_${BUILD_TARGET_HWREV}
+  echo "Using build target from .config: $BUILD_TARGET"
+fi
+
 if [ "$BUILD_TARGET" == "" ] || [ ! -e "$BUILD_TARGET.diffconfig" ]; then
   echo "Invalid build target, use -h or run one of those:"
   ls -1 | sed -e 's/\(.*\)\.diffconfig/export MINIM_DEFAULT_TARGET=\1/;tx;d;:x'
