@@ -17,7 +17,7 @@ define Package/unum
   URL:=http://www.minim.co
   MAINTAINER:=minim.co <support@minim.co>
   DEPENDS:=+libpthread +librt +libuci +jansson +libiwinfo \
-           +libcurl +libmbedtls
+           +libcurl +libmbedtls +libnl-tiny +zlib
   # Unable to enforce +@LIBCURL_MBEDTLS and have binary package dependencies
   # at the same time (will have to figure out later). The conditional 
   # dependencies like +!LIBCURL_MBEDTLS:libcurl aren't helping.
@@ -118,6 +118,11 @@ endef
 define Build/Configure
 endef
 
+TARGET_CPPFLAGS:= \
+	-I$(STAGING_DIR)/usr/include/libnl-tiny \
+	$(TARGET_CPPFLAGS) \
+	-DCONFIG_LIBNL20
+
 define Build/Compile
 	$(call Build/Compile/Default,\
 	  AGENT_VERSION=$(patsubst "%",%,$(AGENT_VERSION_NUMBER))\
@@ -179,4 +184,4 @@ define Package/unum/install
 	RELEASE_FEATURES='$(RELEASE_FEATURES)' envsubst < $(PKG_BUILD_DIR_FILES)/release_properties.json > $(1)$(AGENT_ETC_DIR)/release_properties.json
 endef
 
-$(eval $(call BuildPackage,unum))
+$(eval $(call BuildPackage,unum,zlib))
